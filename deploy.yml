@@ -12,5 +12,5 @@
     - { role: page, tags: ['page', 'web'] }
     - { role: lounge, tags: ['lounge', 'web'] }
     - { role: datadog-agent, tags: ['datadog-agent'] }
-    - { role: certbot, tags: ['certbot', 'web'] }
     - { role: backup-sophro, tags: ['backup-sophro'] }
+    - { role: certbot, tags: ['certbot', 'web'] }
