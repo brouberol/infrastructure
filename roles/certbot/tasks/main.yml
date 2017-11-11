@@ -6,6 +6,7 @@
     port: 443
     state: stopped
     timeout: "{{ certbot_waitfor_port_seconds }}"
+  when: certbot_create_certs
 
 - name: certs created
   command: certbot certonly --standalone -d {{ item }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --text
