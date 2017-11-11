@@ -36,8 +36,8 @@ datadog_checks:
   nginx:
     init_config:
     instances:
-     - nginx_status_url: https://balthazar-rouberol.com/basic_status
-     - nginx_status_url: https://blog.balthazar-rouberol.com/basic_status
+     - nginx_status_url: "https://{{ page_domain }}/basic_status"
+     - nginx_status_url: "https://{{ blog_domain }}/basic_status"
 
 
 # Git
