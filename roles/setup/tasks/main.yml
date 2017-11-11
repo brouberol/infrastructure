@@ -1,0 +1,47 @@
+- name: "Update and upgrade packages"
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: "Install packages"
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - htop
+    - python-pip
+    - vim
+
+- name: "Setup motd"
+  copy:
+    src: motd
+    dest: /etc/motd
+
+- name: "Setup profile"
+  copy:
+    src: profile
+    dest: "/home/{{ user }}/.profile"
+    owner: "{{ user }}"
+
+- name: 'Set hostname'
+  hostname:
+    name: "{{ hostname }}"
+
+- name: "Make hostname resolvable"
+  lineinfile:
+    path: /etc/hosts
+    regexp: '127.0.0.1 localhost'
+    line: '127.0.0.1 localhost gallifrey'
+    state: present
+
+- name: "Create user SSH directory"
+  file:
+    path: "{{ user_home }}/.ssh"
+    state: directory
+  become_user: "{{ user }}"
+
+- name: "Setup user authorized keys"
+  template:
+    src: authorized_keys.j2
+    dest: "{{ user_home }}/.ssh/authorized_keys"
+  become_user: "{{ user }}"

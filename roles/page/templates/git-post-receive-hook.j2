@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# {{ ansible_managed }}
+
+set -e
+
+PAGE_DIR={{ page_web_dir }}
+TMP_PAGE_CLONE=$HOME/page-tmp
+PAGE_GIT={{ page_repo }}
+PAGE=$TMP_PAGE_CLONE/index.html
+
+CURRENT_AGE=`python -c 'from datetime import date;print(date.today() - date(1990, 11, 4)).days / 365'`
+CURRENT_YEAR=`date +%Y`
+
+
+function cleanup {
+    rm -rf $TMP_PAGE_CLONE
+}
+
+trap cleanup EXIT
+
+function template_replace {
+    echo "Replacing '{{ '{{' }}$1{{ '}}' }}' by '$2'";
+    sed -i "s/{{ '{{' }}$1{{ '}}' }}/$2/" $PAGE;
+}
+
+function replace {
+    sed -i "s/$1/$2/" $PAGE;
+}
+
+git clone $PAGE_GIT $TMP_PAGE_CLONE
+
+# Replace placeholders by computed values
+template_replace age $CURRENT_AGE
+template_replace year $CURRENT_YEAR
+echo "Minifying CSS..."
+cssmin <$TMP_PAGE_CLONE/static/css/custom.css > $TMP_PAGE_CLONE/static/css/custom.min.css
+replace custom.css custom.min.css
+
+cp -rvu --preserve=mode,ownership $TMP_PAGE_CLONE/* $PAGE_DIR
+rm -rf $TMP_PAGE_CLONE
+echo "Temporary repository removed"
+

@@ -1,0 +1,17 @@
+[Unit]
+Description=The Lounge IRC client
+After=lounge.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/lounge start
+User={{ user }}
+Group={{ user }}
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+
+[Install]
+WantedBy=default.target
+

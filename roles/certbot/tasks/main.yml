@@ -1,0 +1,26 @@
+- include_tasks: Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: "Check whether port 443 is available to avoid that certbot fails and returns: 'Could not bind TCP port 443 because it is already in use by another process'"
+  wait_for:
+    port: 443
+    state: stopped
+    timeout: "{{ certbot_waitfor_port_seconds }}"
+
+- name: certs created
+  command: certbot certonly --standalone -d {{ item }} -m {{ certbot_mail_address }} --agree-tos --noninteractive --text
+  args:
+    creates: "{{ certbot_live_home }}/{{ item }}/fullchain.pem"
+  when: certbot_create_certs
+  with_items:
+    - "{{ certbot_list_of_certs_to_create }}"
+
+- name: renew certs every month
+  cron:
+    name: renewCertbotCerts
+    minute: "{{ certbot_renew_certs_minute }}"
+    hour: "{{ certbot_renew_certs_hour }}"
+    month: "{{ certbot_renew_certs_month }}"
+    weekday: "{{ certbot_renew_certs_weekday }}"
+    job: "{{ certbot_renew_certs_job }}"
+  when: certbot_renew_certs

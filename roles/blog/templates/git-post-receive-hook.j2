@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# {{ ansible_managed }}
+
+set -e
+
+BLOG_DIR={{ web_home }}/blog
+TMP_BLOG_CLONE=$HOME/blog-tmp
+BLOG_GIT={{ git_home }}/blog.git
+
+
+function cleanup {
+    rm -rf $TMP_BLOG_CLONE
+}
+
+trap cleanup EXIT
+
+git clone $BLOG_GIT $TMP_BLOG_CLONE
+cd $TMP_BLOG_CLONE
+make html
+cp -r output/* $BLOG_DIR
+cd ..
+rm -rf $TMP_BLOG_CLONE
+rm -rf $BLOG_DIR/.git
+

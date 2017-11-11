@@ -1,0 +1,11 @@
+- name: 'restart nginx service'
+  service:
+    name: nginx
+    state: restarted
+  listen: "restart nginx"
+
+- name: 'reload nginx service'
+  service:
+    name: nginx
+    state: reloaded
+  listen: "reload nginx"

@@ -1,0 +1,21 @@
+---
+- name: "Generate an SSH key"
+  user:
+    name: "{{ user }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_file: .ssh/id_rsa
+
+- name: "Create sophro backup directory"
+  file:
+    path: "/home/{{ user }}/sophro"
+    state: directory
+  become_user: "{{ user }}"
+
+- name: "Schedule sophro backups"
+  cron:
+    name: "backup sophro"
+    minute: "0"
+    hour: "0"
+    job: "rsync -r --delete br@51.254.120.74:/home/br/backups/ /home/{{ user }}/sophro"
+  become_user: "{{ user }}"

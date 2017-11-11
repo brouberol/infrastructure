@@ -1,0 +1,46 @@
+---
+- name: "Install python packages"
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - pelican
+    - markdown
+
+- name: "Create blog git bare repo"
+  command: "git init --bare {{ blog_repo }}"
+  args:
+    creates: "{{ blog_repo }}"
+  become_user: git
+
+- name: "Deploy git post receive hook"
+  template:
+    src: git-post-receive-hook.j2
+    dest: "{{ blog_repo }}/hooks/post-receive"
+    owner: "{{ git_user }}"
+    group: "{{ git_group }}"
+    mode: 0755
+  become_user: git
+
+- name: "Create blog www directory"
+  file:
+    path: "{{ blog_web_dir }}"
+    state: directory
+    owner: "{{ web_user }}"
+    group: "{{ git_group }}"
+    mode: 0775
+
+- name: "Copy blog sites-available nginx conf"
+  template:
+    src: blog.conf.j2
+    dest: /etc/nginx/sites-available/blog.conf
+    owner: root
+    group: root
+  notify: "reload nginx service"
+
+- name: "Link blog sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/blog.conf
+    dest: /etc/nginx/sites-enabled/blog.conf
+    state: link
+  notify: "reload nginx service"

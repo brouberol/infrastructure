@@ -1,0 +1,48 @@
+---
+- name: "Install nginx"
+  apt:
+    name: nginx
+    state: present
+
+- name: "Deploy nginx config file"
+  copy:
+    dest: /etc/nginx/nginx.conf
+    src: nginx.conf
+    owner: root
+    group: root
+  notify: "restart nginx service"
+
+- name: "Remove html dir"
+  file:
+    path: "{{ web_home }}/html"
+    state: absent
+
+- name: "Remove default config"
+  file:
+    path: "/etc/nginx/sites-{{ item }}/default"
+    state: absent
+  with_items:
+    - available
+    - enabled
+
+- name: "Set default config"
+  copy:
+    src: default.conf
+    dest: "/etc/nginx/sites-available/default.conf"
+
+- name: "Link default sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/default.conf
+    dest: /etc/nginx/sites-enabled/default.conf
+    state: link
+  notify: "reload nginx service"
+
+- name: "Create keybase file"
+  copy:
+    src: keybase.txt
+    dest: "{{ web_home }}/keybase.txt"
+
+- name: "Create ACME test directory"
+  file:
+    path: "{{ web_home }}{{ web_acme_challenge_location }}"
+    state: directory

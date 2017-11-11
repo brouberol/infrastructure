@@ -1,0 +1,67 @@
+==================================================================
+https://keybase.io/brouberol
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://balthazar-rouberol.com
+  * I am brouberol (https://keybase.io/brouberol) on keybase.
+  * I have a public key with fingerprint 2E29 FBDD 51F3 D3F6 74D1  9B3D 52BA BA41 74FC 6BD7
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "2e29fbdd51f3d3f674d19b3d52baba4174fc6bd7",
+            "host": "keybase.io",
+            "key_id": "52baba4174fc6bd7",
+            "kid": "0101c3309a1debf2f2abda33a4f54fd5737fd4f46f2205167967c9a43e82d5daa5b10a",
+            "uid": "65e64bd63cb9268b52d0392b9f949819",
+            "username": "brouberol"
+        },
+        "service": {
+            "hostname": "balthazar-rouberol.com",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1432125328,
+    "expire_in": 157680000,
+    "prev": "d1cac944caf624e05dffc686178c3419b1a159ade9892dee16db37eaa4aca155",
+    "seqno": 4,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+owFtkl1IVEEUx1dNKzXoA4tKqG5IRWo79879LCp7WYoUsQ8pFJm5M6M33b3r3btr
+JamEhaJmpL1oaPQQgQT1stRSL0oUGtKH5EOmCBpKSRhE0Qc0V/KteRnmnP//N3PO
+nOtrUnzJSSWJRIH7u3o8aWQe+06VNd6uF7BNLghGvVBNlzZmhSqpE3askCsYgkhF
+nWFCZMAkIjFFhQToWCKyiBFGEKiQmQomqpArVNkRz8ExGEVovmXzGD9UWIRH/6Ov
+Xkr4gR+YkuTXESAUM5GJCBMkSQgyGTIiq5LKCGRQYaLol4Gi6opq6ghKVBOJTBCS
+MfAjjosu4RSZKhATRTKxLioalkXil3QR60yHugZ0TxihTggFKVdjx45i6tg1wqVc
+gYdjlkm9HnilLEtQjVuFLiInb1mbb9pBjgk7tmub3GoIVa4bNjyEeyHseeoorvhH
+q8BWiPCOckOMOhHLDgkG4ErTtTw8gJIIRFkStVyBng9bDq2wPIWsKpqfL+8aGuNI
+Akxk6hCaiCkipH6ZMN5ITQGqZkqQfwlAQNYRobqmi4RSoBAsqRQhiEyekQWvvtqQ
+LRiQPxNVcmRmxKoMITfqUOFSemtS9gpfUrIvLTXZmwpf+uq1y6MyMrfyT/b+eJmv
+ebL06MmioPqyr33sznDt3gPf2bMvgdHC729L4k9Wbfx2v1FKLF5uen9P/dlSPzBX
++2KgMBBtiD3ffze17mDxjS1vehtbV3Rudncfedo6VHMrn7annwy8zvk1m9fW0vXV
+Sm4ObHg43r0wudjW0p8537njndJ1Nti7uGFwV+H2ruNG6VQoYyw2euLntfnHV+rL
+ozM9vesn8t44QwE0aBY3pH1OuXjzQe3Vhf7sYzAjTif2zH7q+BEeLTgzljb9ZXz7
+Od/pjtOxR4cypqdyppuHixoST4YyP2qJYEd8Zmd0U2XW73VTRuPh8Q89fbZR3vRs
+MI3VvdrXvVXdVpq19i8=
+=QeBi
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/brouberol
+
+==================================================================
+

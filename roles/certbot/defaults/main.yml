@@ -1,0 +1,13 @@
+certbot_create_certs: false
+
+certbot_renew_certs: false
+certbot_renew_certs_minute: 12,45
+certbot_renew_certs_hour: 8
+certbot_renew_certs_month: '*/1'
+certbot_renew_certs_weekday: 1
+certbot_renew_certs_job: /usr/bin/certbot renew
+
+certbot_waitfor_port_seconds: 3
+
+certbot_list_of_certs_to_create:
+  - "{{ ansible_fqdn }}"

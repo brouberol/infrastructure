@@ -1,0 +1,31 @@
+---
+- name: "Create git group"
+  group:
+    name: git
+    state: present
+
+- name: "Create git user"
+  user:
+    name: git
+    group: git
+    state: present
+    createhome: yes
+    shell: /bin/bash
+    home: /home/git
+
+- name: "Install git"
+  apt:
+    name: git
+    state: present
+
+- name: "Create Git SSH directory"
+  file:
+    path: "{{ git_home }}/.ssh"
+    state: directory
+  become_user: "{{ git_user }}"
+
+- name: "Setup git authorized keys"
+  template:
+    src: authorized_keys.j2
+    dest: "{{ git_home }}/.ssh/authorized_keys"
+  become_user: "{{ git_user }}"
