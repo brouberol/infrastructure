@@ -12,6 +12,10 @@
     - python-pip
     - vim
 
+- pip:
+    name: pip
+    state: latest
+
 - name: "Setup motd"
   copy:
     src: motd
