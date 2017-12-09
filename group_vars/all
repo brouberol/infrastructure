@@ -1,5 +1,6 @@
 hostname: gallifrey
-user: ubuntu
+user: br
+group: br
 user_home: "/home/{{ user }}"
 user_ssh_authorized_keys:
   - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDExt7OIPFmxdXLRM/axRHSzNXH5daEkpiJw1HvpWMPk3ssc+OpYc+T8snbWYoB3B8fvQYogh5XacpIowZ7OnwzCw6TwfWCIPdTVePcfRj0gAAzWZYvU6mXSN7XIbQoYQ8Ry2wcDVtx+9bpdcM7TlxhjG5jArd9FWQX+qmUQIOCVQyAgBYLD3gCuEUSfHajmFDvAAh2b1eWvsk3qM4R6FF+qUemLdgJ+QmtdJnGow/G5OAgiJte0VtB2mqxsQ3SX3ZSAcCJU0Q30+1zSlOMGQjwwB6UxU1y5Z1pxdDHo92aavmSwxuUGZ9JzuAkOFOZmkd0Ls5UC2c2aaHzpTyh02zCGoNKWZG95DbrS5yo/x7OBqs9/ldMcQuCFe5/m8SxE6QDFU2B1h6B1GNijMbH02ZABzj6Snpv4KFffA/gVBI/ptcgQ0SDKyOO2mFYWKf7ZQiNYyJPWyM5f9hIZXb+fkX0l4LeP9FLzJdSyE2D/i/p4vRCfHwRtA9LnrJu/LiCLUNIAPmtWEqOJJZSo/JsM6fIw53r5mYjao/ry9FeB3QoVIJ3aW7xtM+f9mmAGIoiGoKUvIxZ1eogGY436DCYywuglH+rWTJxQ91WMrvFWLw+6npFRvsDz/VK113Tz46xjEkuvCXPM46R4eEEAZUtRvxq0AtX1JzZ3whQcxerjikdAw== b@balthazar-Latitude-E6430"
@@ -68,4 +69,4 @@ page_domain: balthazar-rouberol.com
 lounge_domain: irc.balthazar-rouberol.com
 lounge_host: localhost
 lounge_port: 9000
-lounge_home: /home/ubuntu/.lounge
+lounge_home: "/home/{{ user }}/.lounge"

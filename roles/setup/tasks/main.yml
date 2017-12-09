@@ -35,17 +35,5 @@
   lineinfile:
     path: /etc/hosts
     regexp: '127.0.0.1 localhost'
-    line: '127.0.0.1 localhost gallifrey'
+    line: "127.0.0.1 localhost {{ hostname }}"
     state: present
-
-- name: "Create user SSH directory"
-  file:
-    path: "{{ user_home }}/.ssh"
-    state: directory
-  become_user: "{{ user }}"
-
-- name: "Setup user authorized keys"
-  template:
-    src: authorized_keys.j2
-    dest: "{{ user_home }}/.ssh/authorized_keys"
-  become_user: "{{ user }}"
