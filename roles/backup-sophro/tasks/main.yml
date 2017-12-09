@@ -1,10 +1,4 @@
 ---
-- name: "Generate an SSH key"
-  user:
-    name: "{{ user }}"
-    generate_ssh_key: yes
-    ssh_key_bits: 4096
-    ssh_key_file: .ssh/id_rsa
 
 - name: "Create sophro backup directory"
   file:

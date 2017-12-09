@@ -12,6 +12,15 @@
     - python-pip
     - vim
 
+- name: "Remove un-needed packages"
+  apt:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - snap
+    - lvm2
+    - lxcfs
+
 - pip:
     name: pip
     state: latest
@@ -24,7 +33,7 @@
 - name: "Setup profile"
   copy:
     src: profile
-    dest: "/home/{{ user }}/.profile"
+    dest: "{{ user_home }}/.profile"
     owner: "{{ user }}"
 
 - name: 'Set hostname'

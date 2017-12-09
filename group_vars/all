@@ -40,9 +40,8 @@ datadog_checks:
      - nginx_status_url: "https://{{ page_domain }}/basic_status"
      - nginx_status_url: "https://{{ blog_domain }}/basic_status"
 
-
 # Git
-git_home: /home/git
+git_home: "/home/{{ git_user }}"
 git_user: git
 git_group: git
 git_ssh_authorized_keys: "{{ user_ssh_authorized_keys }}"
