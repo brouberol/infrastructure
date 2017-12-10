@@ -23,5 +23,6 @@
     hour: "{{ certbot_renew_certs_hour }}"
     month: "{{ certbot_renew_certs_month }}"
     weekday: "{{ certbot_renew_certs_weekday }}"
+    day: "{{ certbot_renew_certs_day }}"
     job: "{{ certbot_renew_certs_job }}"
   when: certbot_renew_certs
