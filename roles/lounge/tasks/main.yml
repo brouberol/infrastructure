@@ -48,7 +48,7 @@
 - name: "Copy lounge user config"
   template:
     src: balto.json.j2
-    dest: "{{ lounge_home }}/users/balto.js"
+    dest: "{{ lounge_home }}/users/balto.json"
   become_user: "{{ user }}"
 
 - name: "Copy lounge sites-available nginx conf"
