@@ -66,7 +66,7 @@ page_web_dir: "{{ web_home }}/page"
 page_domain: balthazar-rouberol.com
 
 # lounge
-lounge_domain: irc.balthazar-rouberol.com
+lounge_domain: "irc.{{ page_domain }}"
 lounge_host: localhost
 lounge_port: 9000
 lounge_home: "/home/{{ user }}/.lounge"
