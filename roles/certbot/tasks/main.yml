@@ -26,3 +26,8 @@
     day: "{{ certbot_renew_certs_day }}"
     job: "{{ certbot_renew_certs_job }}"
   when: certbot_renew_certs
+
+- name: "Remove default certbot cron job"
+  file:
+    path: /etc/cron.d/certbot
+    state: absent
