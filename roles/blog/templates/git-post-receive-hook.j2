@@ -11,16 +11,31 @@ BLOG_GIT={{ git_home }}/blog.git
 
 function cleanup {
     rm -rf $TMP_BLOG_CLONE
+    rm -rf $BLOG_DIR/.git
 }
 
 trap cleanup EXIT
 
+function replace {
+    sed -i s/$1/$2/g $3
+}
+
 git clone $BLOG_GIT $TMP_BLOG_CLONE
 cd $TMP_BLOG_CLONE
+
+# Minify all CSS files and replace plain CSS files by their
+# minify versions in the theme template
 git clone https://github.com/getpelican/pelican-plugins
+for file in $(ls -1 $CSS_DIR); do
+    minified_file="$(basename "$file" .css).min.css"
+    cssmin <$TMP_BLOG_CLONE/$CSS_DIR/$file > $TMP_BLOG_CLONE/$CSS_DIR/$minified_file
+    replace $file $minified_file themes/pelican-hyde/templates/base.html
+done
+
+# Make and deploy
 make html
 cp -r output/* $BLOG_DIR
-cd ..
-rm -rf $TMP_BLOG_CLONE
-rm -rf $BLOG_DIR/.git
 
+# Cleanup
+cd ..
+cleanup
