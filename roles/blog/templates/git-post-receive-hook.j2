@@ -17,6 +17,7 @@ trap cleanup EXIT
 
 git clone $BLOG_GIT $TMP_BLOG_CLONE
 cd $TMP_BLOG_CLONE
+git clone https://github.com/getpelican/pelican-plugins
 make html
 cp -r output/* $BLOG_DIR
 cd ..
