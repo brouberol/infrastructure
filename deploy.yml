@@ -14,3 +14,18 @@
     - { role: datadog-agent, tags: ['datadog-agent'] }
     - { role: backup-sophro, tags: ['backup-sophro'] }
     - { role: certbot, tags: ['certbot', 'web'] }
+
+  post_tasks:
+    - include_vars:
+        file: roles/datadog-agent/vars/main.yml
+
+    - name: "Send datadog event"
+      datadog_event:
+        api_key: "{{ datadog_api_key }}"
+        app_key: "{{ datadog_app_key }}"
+        alert_type: success
+        aggregation_key: ansible-deploy
+        title: "Successful deployment"
+        text: "The deployment playpook ran successfully"
+      delegate_to: localhost
+      become: no
