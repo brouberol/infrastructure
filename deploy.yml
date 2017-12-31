@@ -26,6 +26,6 @@
         alert_type: success
         aggregation_key: ansible-deploy
         title: "Successful deployment"
-        text: "The deployment playpook ran successfully"
+        text: "The deployment playbook ran successfully"
       delegate_to: localhost
       become: no
