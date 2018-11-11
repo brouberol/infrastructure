@@ -22,10 +22,12 @@
   file:
     path: "{{ git_home }}/.ssh"
     state: directory
-  become_user: "{{ git_user }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
 
 - name: "Setup git authorized keys"
   template:
     src: authorized_keys.j2
     dest: "{{ git_home }}/.ssh/authorized_keys"
-  become_user: "{{ git_user }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"

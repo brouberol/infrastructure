@@ -8,7 +8,6 @@
   command: "git init --bare {{ page_repo }}"
   args:
     creates: "{{ page_repo }}"
-  become_user: git
 
 - name: "Deploy git post receive hook"
   template:
@@ -17,7 +16,6 @@
     owner: "{{ git_user }}"
     group: "{{ git_group }}"
     mode: 0755
-  become_user: git
 
 - name: "Create page www directory"
   file:
