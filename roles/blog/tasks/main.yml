@@ -12,6 +12,12 @@
   args:
     creates: "{{ blog_repo }}"
 
+- name: "Chance user/group of the blog git repo"
+  file:
+    path: "{{ blog_repo }}"
+    owner: "{{ git_user }}"
+    group: "{{ git_group }}"
+
 - name: "Deploy git post receive hook"
   template:
     src: git-post-receive-hook.j2

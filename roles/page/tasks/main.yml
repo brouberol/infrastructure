@@ -9,6 +9,12 @@
   args:
     creates: "{{ page_repo }}"
 
+- name: "Chance user/group of the page git repo"
+  file:
+    path: "{{ page_repo }}"
+    owner: "{{ git_user }}"
+    group: "{{ git_group }}"
+
 - name: "Deploy git post receive hook"
   template:
     src: git-post-receive-hook.j2

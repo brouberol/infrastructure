@@ -29,5 +29,5 @@
   template:
     src: authorized_keys.j2
     dest: "{{ git_home }}/.ssh/authorized_keys"
-    owner: "{{ user }}"
-    group: "{{ group }}"
+    owner: "{{ git_user }}"
+    group: "{{ git_group }}"
