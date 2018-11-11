@@ -1,0 +1,50 @@
+---
+
+- iptables:
+    chain: "{{ item }}"
+    policy: ACCEPT
+  with_items:
+    - INPUT
+    - OUTPUT
+
+- iptables:
+    chain: FORWARD
+    policy: DROP
+
+- iptables:
+    chain: INPUT
+    ctstate: ESTABLISHED,RELATED
+    jump: ACCEPT
+    comment: ansible managed
+
+- iptables:
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+    comment: ansible managed
+
+- iptables:
+    chain: INPUT
+    protocol: icmp
+    match: icmp
+    icmp_type: 8
+    jump: ACCEPT
+    comment: ansible managed
+
+- iptables:
+    chain: INPUT
+    protocol: tcp
+    in_interface: "{{ ansible_default_ipv4['alias'] }}"
+    destination_port: "{{ item }}"
+    source: 0.0.0.0/0
+    jump: ACCEPT
+    comment: ansible managed
+  with_items:
+    - 22
+    - 80
+    - 443
+
+- iptables:
+    chain: INPUT
+    jump: DROP
+    comment: ansible managed
