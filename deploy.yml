@@ -14,6 +14,7 @@
     - { role: datadog-agent, tags: ['datadog-agent'] }
     - { role: backup-sophro, tags: ['backup-sophro'] }
     - { role: certbot, tags: ['certbot', 'web'] }
+    - { role: security, tags: ['security'] }
 
   post_tasks:
     - include_vars:

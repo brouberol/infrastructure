@@ -1,29 +1,34 @@
 ---
 
-- iptables:
+- name: "Set default ACCEPT policies"
+  iptables:
     chain: "{{ item }}"
     policy: ACCEPT
   with_items:
     - INPUT
     - OUTPUT
 
-- iptables:
+- name: "Set default DROP policies"
+  iptables:
     chain: FORWARD
     policy: DROP
 
-- iptables:
+- name: "Accept related traffic"
+  iptables:
     chain: INPUT
     ctstate: ESTABLISHED,RELATED
     jump: ACCEPT
     comment: ansible managed
 
-- iptables:
+- name: "Accept local traffic"
+  iptables:
     chain: INPUT
     in_interface: lo
     jump: ACCEPT
     comment: ansible managed
 
-- iptables:
+- name: "Accept ICMP"
+  iptables:
     chain: INPUT
     protocol: icmp
     match: icmp
@@ -31,7 +36,8 @@
     jump: ACCEPT
     comment: ansible managed
 
-- iptables:
+- name: "Accept input TCP traffic on select ports"
+  iptables:
     chain: INPUT
     protocol: tcp
     in_interface: "{{ ansible_default_ipv4['alias'] }}"
@@ -44,7 +50,29 @@
     - 80
     - 443
 
-- iptables:
+- name: "Drop traffic on all the other TCP ports"
+  iptables:
     chain: INPUT
     jump: DROP
     comment: ansible managed
+
+- name: "Prevent paswordless ssh root login"
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: 'PermitRootLogin without-password'
+    state: absent
+
+- name: "Enforce root login with password"
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: 'PermitRootLogin prohibit-password'
+    state: present
+    insertafter: 'LoginGraceTime 120'
+
+- name: "Only authorize select users to ssh"
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: "AllowUsers {{ user }} {{ git_user }}"
+    state: present
+  notify:
+    - restart ssh
