@@ -1,0 +1,9 @@
+---
+- name: "systemctl daemon-reload"
+  command: systemctl daemon-reload
+
+- name: "start myip"
+  service:
+    name: myip
+    state: started
+    enabled: yes

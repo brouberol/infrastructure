@@ -1,0 +1,17 @@
+[Unit]
+Description=Web service displaying requester's IP
+After=multi-user.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/myip -listen-addr localhost:{{ myip_port }} -proxy-header X-Forwarded-For
+User={{ user }}
+Group={{ user }}
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+
+[Install]
+WantedBy=default.target
+

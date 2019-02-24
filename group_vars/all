@@ -71,3 +71,7 @@ lounge_domain: "irc.{{ page_domain }}"
 lounge_host: localhost
 lounge_port: 9000
 lounge_home: "/home/{{ user }}/.lounge"
+
+# myip
+myip_domain: ip.balthazar-rouberol.com
+myip_port: 8000

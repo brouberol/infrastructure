@@ -15,6 +15,7 @@
     - { role: backup-sophro, tags: ['backup-sophro'] }
     - { role: certbot, tags: ['certbot', 'web'] }
     - { role: security, tags: ['security'] }
+    - { role: myip, tags: ['myip'] }
 
   post_tasks:
     - include_vars:

@@ -1,0 +1,29 @@
+---
+- name: "Install myip"
+  get_url:
+    url: https://github.com/brouberol/myip/releases/download/0.1.0/myip
+    dest: /usr/local/bin/myip
+    mode: 0771
+
+- name: "Create systemd service for myip"
+  template:
+    src: myip-unit.conf.j2
+    dest: /lib/systemd/system/myip.service
+  notify:
+    - systemctl daemon-reload
+    - start myip
+
+- name: "Copy myip sites-available nginx conf"
+  template:
+    src: myip.conf.j2
+    dest: /etc/nginx/sites-available/myip.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link myip sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/myip.conf
+    dest: /etc/nginx/sites-enabled/myip.conf
+    state: link
+  notify: "reload nginx"
