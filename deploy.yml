@@ -17,6 +17,7 @@
     - { role: certbot, tags: ['certbot', 'web'] }
     - { role: security, tags: ['security'] }
     - { role: myip, tags: ['myip'] }
+    - { role: fathom, tags: ['fathom'] }
 
   post_tasks:
     - include_vars:

@@ -20,6 +20,7 @@ certbot_list_of_certs_to_create:
   - balthazar-rouberol.com
   - blog.balthazar-rouberol.com
   - irc.balthazar-rouberol.com
+  - stats.balthazar-rouberol.com
 
 # Datadog
 datadog_agent6: true
@@ -75,6 +76,13 @@ lounge_home: "/home/{{ user }}/.lounge"
 # myip
 myip_domain: ip.balthazar-rouberol.com
 myip_port: 8000
+
+# fathom
+
+fathom_domain: stats.balthazar-rouberol.com
+fathom_port: 8080
+fathom_home: "{{ user_home }}/fathom"
+fathom_version: "1.2.1"
 
 # systemd
 user_systemd_dir: "{{ user_home }}/.config/systemd/user"
