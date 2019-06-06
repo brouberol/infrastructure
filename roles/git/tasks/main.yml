@@ -22,8 +22,8 @@
   file:
     path: "{{ git_home }}/.ssh"
     state: directory
-    owner: "{{ user }}"
-    group: "{{ group }}"
+    owner: "git"
+    group: "git"
 
 - name: "Setup git authorized keys"
   template:
