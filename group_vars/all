@@ -39,6 +39,8 @@ datadog_checks:
         search_string: ['nginx']
       - name: lounge
         search_string: ['node']
+      - name: fathom
+        search_string: ['fathom']
   nginx:
     init_config:
     instances:
