@@ -46,6 +46,7 @@ datadog_checks:
     instances:
      - nginx_status_url: "https://{{ page_domain }}/basic_status"
      - nginx_status_url: "https://{{ blog_domain }}/basic_status"
+     - nginx_status_url: "https://{{ fathom_domain }}/basic_status"
 
 # Git
 git_home: "/home/{{ git_user }}"
