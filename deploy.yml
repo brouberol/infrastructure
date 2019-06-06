@@ -6,6 +6,7 @@
 
   roles:
     - { role: setup, tags: ['setup'] }
+    - { role: setup-user-systemd, tags: ['setup-user-systemd'] }
     - { role: git, tags: ['git'] }
     - { role: nginx, tags: ['nginx', 'web'] }
     - { role: blog, tags: ['blog', 'web'] }

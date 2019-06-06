@@ -1,9 +1,12 @@
 ---
-- name: "systemctl daemon-reload"
-  command: systemctl daemon-reload
-
 - name: "start myip"
+  become: yes
+  become_user: "{{ user }}"
   service:
     name: myip
     state: started
     enabled: yes
+    user: yes
+    daemon_reload: yes
+  environment:
+    XDG_RUNTIME_DIR: "/run/user/1001"

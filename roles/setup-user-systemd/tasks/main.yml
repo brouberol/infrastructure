@@ -1,0 +1,12 @@
+- name: "Install user dbus session"
+  apt:
+    name: "dbus-user-session"
+    state: present
+
+- name: "Create user systemd service directory"
+  file:
+    state: directory
+    path: "{{ user_systemd_dir }}"
+
+- name: "Allow {{ user }} to run lingering systemd services"
+  command: "loginctl enable-linger {{ user }}"

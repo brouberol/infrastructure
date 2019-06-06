@@ -5,8 +5,7 @@ After=lounge.service
 [Service]
 Type=simple
 ExecStart=/usr/local/bin/lounge start
-User={{ user }}
-Group={{ user }}
+NoNewPrivileges=true
 Restart=on-failure
 RestartSec=5
 StartLimitInterval=60s

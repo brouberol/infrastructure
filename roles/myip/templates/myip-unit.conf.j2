@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+
 [Unit]
 Description=Web service displaying requester's IP
 After=multi-user.service
@@ -5,8 +7,7 @@ After=multi-user.service
 [Service]
 Type=simple
 ExecStart=/usr/local/bin/myip -listen-addr localhost:{{ myip_port }} -proxy-header X-Forwarded-For
-User={{ user }}
-Group={{ user }}
+NoNewPrivileges=true
 Restart=on-failure
 RestartSec=5
 StartLimitInterval=60s

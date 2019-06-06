@@ -75,3 +75,6 @@ lounge_home: "/home/{{ user }}/.lounge"
 # myip
 myip_domain: ip.balthazar-rouberol.com
 myip_port: 8000
+
+# systemd
+user_systemd_dir: "{{ user_home }}/.config/systemd/user"

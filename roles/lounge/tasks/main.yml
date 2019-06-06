@@ -22,9 +22,8 @@
 - name: "Create systemd service for lounge"
   template:
     src: lounge-unit.conf.j2
-    dest: /lib/systemd/system/lounge.service
+    dest: "{{ user_systemd_dir }}/lounge.service"
   notify:
-    - systemctl daemon-reload
     - start lounge
 
 - name: "Create lounge config dir"
