@@ -9,4 +9,4 @@
     user: yes
     daemon_reload: yes
   environment:
-    XDG_RUNTIME_DIR: "/run/user/1001"
+    XDG_RUNTIME_DIR: "{{ user_xdg_runtime_dir }}"

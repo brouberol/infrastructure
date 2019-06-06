@@ -6,6 +6,7 @@
 - name: "Create user"
   user:
     name: "{{ user }}"
+    uid: "{{ user_uid }}"
     groups: "{{ group }},sudo"
     append: yes
     state: present
