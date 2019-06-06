@@ -19,10 +19,10 @@ certbot_renew_certs_day: '*'
 certbot_renew_certs_month: '*/1'
 certbot_renew_certs_weekday: '*'
 certbot_list_of_certs_to_create:
-  - balthazar-rouberol.com
-  - blog.balthazar-rouberol.com
-  - irc.balthazar-rouberol.com
-  - stats.balthazar-rouberol.com
+  - "{{ page_domain }}"
+  - "blog.{{ page_domain }}"
+  - "irc.{{ page_domain }}"
+  - "stats.{{ page_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -76,12 +76,12 @@ lounge_port: 9000
 lounge_home: "/home/{{ user }}/.lounge"
 
 # myip
-myip_domain: ip.balthazar-rouberol.com
+myip_domain: "ip.{{ page_domain }}"
 myip_port: 8000
 
 # fathom
 
-fathom_domain: stats.balthazar-rouberol.com
+fathom_domain: "stats.{{ page_domain }}"
 fathom_port: 8080
 fathom_home: "{{ user_home }}/fathom"
 fathom_version: "1.2.1"
