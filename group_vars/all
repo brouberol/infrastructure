@@ -1,4 +1,7 @@
+# misc
 hostname: gallifrey
+
+# User
 user: br
 group: br
 user_uid: 1001
@@ -54,7 +57,6 @@ git_user: git
 git_group: git
 git_ssh_authorized_keys: "{{ user_ssh_authorized_keys }}"
 
-
 # Web
 web_home: /var/www
 web_user: www-data
@@ -83,7 +85,6 @@ myip_domain: "ip.{{ page_domain }}"
 myip_port: 8000
 
 # fathom
-
 fathom_domain: "stats.{{ page_domain }}"
 fathom_port: 8080
 fathom_home: "{{ user_home }}/fathom"
