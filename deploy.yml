@@ -7,17 +7,17 @@
   roles:
     - { role: setup, tags: ['setup'] }
     - { role: setup-user-systemd, tags: ['setup-user-systemd'] }
+    - { role: security, tags: ['security'] }
     - { role: git, tags: ['git'] }
-    - { role: nginx, tags: ['nginx', 'web'] }
-    - { role: blog, tags: ['blog', 'web'] }
-    - { role: page, tags: ['page', 'web'] }
-    - { role: lounge, tags: ['lounge', 'web'] }
     - { role: datadog-agent, tags: ['datadog-agent'] }
     - { role: backup-sophro, tags: ['backup-sophro'] }
+    - { role: nginx, tags: ['nginx', 'web'] }
     - { role: certbot, tags: ['certbot', 'web'] }
-    - { role: security, tags: ['security'] }
+    - { role: page, tags: ['page', 'web'] }
+    - { role: blog, tags: ['blog', 'web'] }
     - { role: myip, tags: ['myip'] }
     - { role: fathom, tags: ['fathom'] }
+    - { role: lounge, tags: ['lounge', 'web'] }
 
   post_tasks:
     - include_vars:
