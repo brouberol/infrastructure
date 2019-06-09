@@ -11,6 +11,15 @@
     - htop
     - python-pip
     - vim
+    - docker.io
+
+- name: "Add user to the docker group"
+  user:
+    name: "{{ user }}"
+    uid: "{{ user_uid }}"
+    groups: "{{ group }},sudo,docker"
+    append: yes
+    state: present
 
 - name: "Remove un-needed packages"
   apt:
@@ -22,8 +31,11 @@
     - lxcfs
 
 - pip:
-    name: pip
+    name: "{{ item }}"
     state: latest
+  with_items:
+    - pip
+    - docker-py
 
 - name: "Setup motd"
   copy:
