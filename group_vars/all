@@ -23,9 +23,9 @@ certbot_renew_certs_month: '*/1'
 certbot_renew_certs_weekday: '*'
 certbot_list_of_certs_to_create:
   - "{{ page_domain }}"
-  - "blog.{{ page_domain }}"
-  - "irc.{{ page_domain }}"
-  - "stats.{{ page_domain }}"
+  - "{{ blog_domain }}"
+  - "{{ lounge_domain }}"
+  - "{{ fathom_domain }}"
 
 # Datadog
 datadog_agent6: true
