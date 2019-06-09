@@ -1,3 +1,9 @@
+variable "root_domain" {
+  description = "root domain"
+  type = "string"
+  default = "balthazar-rouberol.com"
+}
+
 variable "subdomains" {
   description = "The balthazar-rouberol.com subdomains we CNAME to the main domain"
   type = list(string)
