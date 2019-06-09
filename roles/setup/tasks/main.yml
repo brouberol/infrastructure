@@ -36,6 +36,7 @@
   with_items:
     - pip
     - docker-py
+    - passlib
 
 - name: "Setup motd"
   copy:

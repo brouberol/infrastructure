@@ -18,6 +18,7 @@
     - { role: myip, tags: ['myip'] }
     - { role: fathom, tags: ['fathom'] }
     - { role: lounge, tags: ['lounge', 'web'] }
+    - { role: kresus, tags: ['kresus', 'web'] }
 
   post_tasks:
     - include_vars:

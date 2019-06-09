@@ -26,6 +26,7 @@ certbot_list_of_certs_to_create:
   - "{{ blog_domain }}"
   - "{{ lounge_domain }}"
   - "{{ fathom_domain }}"
+  - "{{ kresus_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -92,3 +93,11 @@ fathom_version: "1.2.1"
 
 # systemd
 user_systemd_dir: "{{ user_home }}/.config/systemd/user"
+
+# kresus
+kresus_home: "{{ user_home }}/kresus"
+kresus_data_dir: "{{ kresus_home }}/data"
+kresus_tag: 0.14.0
+kresus_host: 127.0.0.1
+kresus_port: 9876
+kresus_domain: "bank.{{ page_domain }}"

@@ -1,0 +1,48 @@
+- name: "Create kresus main directory"
+  file:
+    path: "{{ kresus_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Create kresus data directory"
+  file:
+    path: "{{ kresus_data_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Run the kresus container"
+  docker_container:
+    name: kresus
+    image: "bnjbvr/kresus:{{ kresus_tag }}"
+    state: started
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ kresus_data_dir }}:/home/user/data:rw"
+    env:
+      LOCAL_USER_ID: "{{ user_uid }}"
+    published_ports:
+      - "{{ kresus_host }}:{{ kresus_port }}:{{ kresus_port }}"
+
+- name: "Create kresus htpasswd file"
+  htpasswd:
+    path: /etc/nginx/conf/kresus.htpasswd
+    state: present
+    username: "{{ kresus_username }}"
+    password: "{{ kresus_password }}"
+
+- name: "Copy kresus sites-available nginx conf"
+  template:
+    src: kresus.conf.j2
+    dest: /etc/nginx/sites-available/kresus.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link kresus sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/kresus.conf
+    dest: /etc/nginx/sites-enabled/kresus.conf
+    state: link
+  notify: "reload nginx"
