@@ -1,8 +1,6 @@
 # misc
 hostname: gallifrey
 
-user: br
-
 # certbot
 certbot_list_of_certs_to_create:
   - "{{ page_domain }}"

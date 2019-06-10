@@ -2,6 +2,7 @@
 main_domain: balthazar-rouberol.com
 
 # User
+user: br
 group: br
 user_uid: 1001
 user_home: "/home/{{ user }}"

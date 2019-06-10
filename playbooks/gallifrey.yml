@@ -3,8 +3,6 @@
   user: "{{ user }}"
   become: yes
   become_method: sudo
-  vars_files:
-  - ../common/vars/main.yml
 
   roles:
   - { role: setup, tags: ['setup'] }
@@ -22,9 +20,6 @@
   - { role: lounge, tags: ['lounge', 'web'] }
 
   post_tasks:
-  - include_vars:
-      file: roles/datadog-agent/vars/main.yml
-
   - name: "Send datadog event"
     datadog_event:
       api_key: "{{ datadog_api_key }}"
