@@ -32,6 +32,7 @@
     dest: "{{ kresus_dir }}"
     clone: yes
     update: no
+    version: "{{ kresus_tag }}"
   become: yes
   become_user: "{{ kresus_user }}"
 
