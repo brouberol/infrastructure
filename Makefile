@@ -1,4 +1,4 @@
-.PHONY: help
+.PHONY: clean help
 .DEFAULT_GOAL := help
 
 PLAYBOOKS := playbooks
@@ -20,3 +20,6 @@ terraform-apply-domains-balthazar-rouberol:  ## Terraform the balthazar-rouberol
 
 help:
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-42s\033[0m %s\n", $$1, $$2}'
+
+clean:  ## Remove useless files
+	@find -name "*.retry" -or -name "*.tfstate.backup" -delete
