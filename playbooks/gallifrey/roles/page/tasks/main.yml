@@ -56,3 +56,8 @@
     dest: /etc/nginx/sites-enabled/page.conf
     state: link
   notify: "reload nginx"
+
+- name: "Create keybase file"
+  copy:
+    src: keybase.txt
+    dest: "{{ web_home }}/keybase.txt"
