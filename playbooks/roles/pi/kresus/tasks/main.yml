@@ -26,6 +26,13 @@
     fstype: tmpfs
     opts: "size=32M,uid={{ kresus_user }},gid=users"
 
+- name: "Cron the tmps directory backup to support reboots"
+  cron:
+    name: "backup kresus tmpfs dir"
+    minute: "*/5"
+    user: kresus
+    job: "/usr/bin/rsync -ar {{ kresus_tmpfs_mount }}/ {{ kresus_user_home }}/.kresus/"
+
 - name: "Clone the kresus directory"
   git:
     repo: 'https://framagit.org/kresusapp/kresus/'
