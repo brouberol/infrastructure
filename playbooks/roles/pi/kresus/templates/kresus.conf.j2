@@ -1,0 +1,41 @@
+# {{ ansible_managed }}
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root {{ kresus_dir }}/build/client;
+
+        # Add index.php to the list if you are using PHP
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+            # Only proxy the API calls
+            location /api {
+                    proxy_pass             http://{{ kresus_host }}:{{ kresus_port }};
+                    proxy_set_header       Host $host;
+                    proxy_set_header Proxy "";
+
+                    # Longer timeouts on my (slow) Raspberry Pi
+                    proxy_connect_timeout       300;
+                    proxy_send_timeout          300;
+                    proxy_read_timeout          300;
+                    send_timeout                300;
+            }
+
+            deny all;
+            allow 192.168.0.0/24;
+        }
+
+        # HTTP Authentication
+        auth_basic "Restricted";
+        auth_basic_user_file conf/kresus.htpasswd;
+
+        # Security headers
+        add_header x-xss-protection "1; mode=block";
+        add_header x-frame-options "DENY";
+        add_header X-Content-Type-Options "nosniff";
+        add_header Content-Security-Policy "default-src 'self'; child-src 'none'; object-src 'none'; img-src 'self' data:;";
+        add_header Referrer-Policy "no-referrer";

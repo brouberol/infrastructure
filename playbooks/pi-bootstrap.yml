@@ -1,0 +1,7 @@
+---
+- hosts: pi
+  user: pi
+  become: yes
+  become_method: sudo
+  roles:
+  - first-deploy

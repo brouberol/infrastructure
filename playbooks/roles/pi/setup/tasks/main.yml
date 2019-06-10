@@ -1,0 +1,57 @@
+- name: "Update and upgrade packages"
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: "Install packages"
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - htop
+    - python-pip
+    - vim
+
+- name: "Remove unwanted packages"
+  apt:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - lighttpd
+
+- pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - pip
+    - passlib
+    - setuptools
+
+- name: "Setup motd"
+  copy:
+    src: motd
+    dest: /etc/motd
+
+- name: "Setup profile"
+  copy:
+    src: profile
+    dest: "{{ user_home }}/.profile"
+    owner: "{{ user }}"
+
+- name: 'Set hostname'
+  hostname:
+    name: "{{ hostname }}"
+
+- name: "Make hostname resolvable"
+  lineinfile:
+    path: /etc/hosts
+    regexp: '127.0.0.1 localhost'
+    line: "127.0.0.1 localhost {{ hostname }}"
+    state: present
+
+- name: "Create /opt directory"
+  file:
+    path: "{{ opt_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"

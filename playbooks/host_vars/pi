@@ -1,0 +1,35 @@
+# misc
+hostname: retropie
+
+# kresus
+kresus_user: kresus
+kresus_user_home: "/home/{{ kresus_user }}"
+kresus_dir: "{{ kresus_user_home }}/kresus"
+kresus_data_dir: "{{ kresus_user_home }}/data"
+kresus_tag: 0.14.0
+kresus_host: 127.0.0.1
+kresus_port: 9876
+
+# weboob
+weboob_dir: "{{ user_home }}/weboob"
+
+# node
+node_version: 10.16.0
+
+# certbot
+certbot_list_of_certs_to_create:
+  - "{{ kresus_domain }}"
+
+# Datadog
+datadog_agent6: true
+datadog_config:
+  log_level: INFO
+  tags: "name:{{ hostname }}, role:web"
+datadog_checks:
+  process:
+    init_config:
+    instances:
+      - name: ssh
+        search_string: ['ssh', 'sshd']
+      - name: nginx
+        search_string: ['nginx']

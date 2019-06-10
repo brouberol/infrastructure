@@ -1,0 +1,60 @@
+- name: "Create kresus user"
+  user:
+    name: "{{ kresus_user }}"
+    state: present
+    shell: /bin/false
+    createhome: yes
+    home: "{{ kresus_user_home }}"
+
+- name: "Create kresus data directory"
+  file:
+    path: "{{ kresus_data_dir }}"
+    state: directory
+    owner: "{{ kresus_user }}"
+
+- name: "Clone the kresus directory"
+  git:
+    repo: 'https://framagit.org/kresusapp/kresus/'
+    dest: "{{ kresus_dir }}"
+    clone: yes
+    update: no
+
+- name: "Install npm dependencies"
+  npm:
+    path: "{{ kresus_dir }}"
+
+- name: "Make kresus production files"
+  environment:
+    NODE_ENV: production
+  make:
+    chdir: "{{ kresus_dir }}"
+    target: build
+
+- name: "Create kresus htpasswd file"
+  htpasswd:
+    path: /etc/nginx/conf/kresus.htpasswd
+    state: present
+    username: "{{ kresus_username }}"
+    password: "{{ kresus_password }}"
+
+- name: "Define kresus systemd service file"
+  template:
+    src: kresus-unit.conf.j2
+    dest: "/etc/systemd/system/kresus.service"
+  notify:
+    - start kresus
+
+- name: "Copy kresus sites-available nginx conf"
+  template:
+    src: kresus.conf.j2
+    dest: /etc/nginx/sites-available/kresus.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link kresus sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/kresus.conf
+    dest: /etc/nginx/sites-enabled/kresus.conf
+    state: link
+  notify: "reload nginx"

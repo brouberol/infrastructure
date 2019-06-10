@@ -1,0 +1,12 @@
+---
+- hosts: pi
+  user: "{{ user }}"
+  become: yes
+  become_method: sudo
+
+  roles:
+  - { role: setup, tags: ['setup'] }
+  - { role: nginx, tags: ['nginx', 'web'] }
+  - { role: node, tags: ['node'] }
+  - { role: weboob, tags: ['weboob'] }
+  - { role: kresus, tags: ['kresus'] }
