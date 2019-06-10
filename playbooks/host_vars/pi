@@ -6,7 +6,7 @@ kresus_user: kresus
 kresus_user_home: "/home/{{ kresus_user }}"
 kresus_dir: "{{ kresus_user_home }}/kresus"
 kresus_data_dir: "{{ kresus_user_home }}/data"
-kresus_tag: 0.14.0
+kresus_tmpfs_mount: "{{ kresus_user_home }}/kresus_vram"
 kresus_host: 127.0.0.1
 kresus_port: 9876
 

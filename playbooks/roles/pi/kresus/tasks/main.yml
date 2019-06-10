@@ -12,23 +12,45 @@
     state: directory
     owner: "{{ kresus_user }}"
 
+- name: "Create kesus tmpfs mount point"
+  file:
+    path: "{{ kresus_tmpfs_mount }}"
+    state: directory
+    owner: "{{ kresus_user }}"
+
+- name: "Mount the kresus tmpfs directory"
+  mount:
+    path: "{{ kresus_tmpfs_mount }}"
+    src: tmpfs
+    state: mounted
+    fstype: tmpfs
+    opts: "size=32M,uid={{ kresus_user }},gid=users"
+
 - name: "Clone the kresus directory"
   git:
     repo: 'https://framagit.org/kresusapp/kresus/'
     dest: "{{ kresus_dir }}"
     clone: yes
     update: no
+  become: yes
+  become_user: "{{ kresus_user }}"
 
 - name: "Install npm dependencies"
   npm:
     path: "{{ kresus_dir }}"
+  become: yes
+  become_user: "{{ kresus_user }}"
 
 - name: "Make kresus production files"
-  environment:
-    NODE_ENV: production
   make:
     chdir: "{{ kresus_dir }}"
     target: build
+  environment:
+    NODE_ENV: production
+  become: yes
+  become_user: "{{ kresus_user }}"
+  ignore_errors: yes
+  creates: "/home/kresus/kresus/bin/kresus.js"
 
 - name: "Create kresus htpasswd file"
   htpasswd:

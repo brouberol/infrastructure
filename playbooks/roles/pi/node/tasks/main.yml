@@ -16,3 +16,14 @@
     src: "{{ opt_dir }}/node-v{{ node_version }}-linux-{{ ansible_architecture }}/bin/npm"
     dest: /usr/local/bin/npm
     state: link
+
+- name: "Install yarn"
+  npm:
+    name: yarn
+    global: yes
+
+- name: "Link the yarn binary into the path"
+  file:
+    src: "{{ opt_dir }}/node-v{{ node_version }}-linux-{{ ansible_architecture }}/bin/yarn"
+    dest: /usr/local/bin/yarn
+    state: link

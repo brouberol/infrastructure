@@ -20,6 +20,7 @@
   - wget
   - python-imaging
   - python-lxml
+  - python-requests
 
 - name: "Clone the weboob repository"
   git:

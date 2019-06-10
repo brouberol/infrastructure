@@ -1,8 +1,7 @@
 # {{ ansible_managed }}
 
 server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+        listen 80;
 
         root {{ kresus_dir }}/build/client;
 
@@ -25,8 +24,8 @@ server {
                     send_timeout                300;
             }
 
-            deny all;
             allow 192.168.0.0/24;
+            deny all;
         }
 
         # HTTP Authentication
