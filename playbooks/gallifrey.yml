@@ -20,6 +20,9 @@
   - { role: lounge, tags: ['lounge', 'web'] }
 
   post_tasks:
+  - include_vars:
+    file: roles/common/datadog-agent/vars/main.yml
+
   - name: "Send datadog event"
     datadog_event:
       api_key: "{{ datadog_api_key }}"

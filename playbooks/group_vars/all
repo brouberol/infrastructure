@@ -1,6 +1,9 @@
 # Domains
 main_domain: balthazar-rouberol.com
 
+# misc
+opt_dir: /opt
+
 # User
 user: br
 group: br

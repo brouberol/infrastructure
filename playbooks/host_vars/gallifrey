@@ -12,7 +12,7 @@ certbot_list_of_certs_to_create:
 datadog_agent6: true
 datadog_config:
   log_level: INFO
-  tags: "role:gallifrey, role:web"
+  tags: "name:{{ hostname }}, role:web"
 datadog_checks:
   process:
     init_config:
