@@ -7,32 +7,31 @@
   - ../common/vars/main.yml
 
   roles:
-    - { role: setup, tags: ['setup'] }
-    - { role: setup-user-systemd, tags: ['setup-user-systemd'] }
-    - { role: security, tags: ['security'] }
-    - { role: git, tags: ['git'] }
-    - { role: datadog-agent, tags: ['datadog-agent'] }
-    - { role: backup-sophro, tags: ['backup-sophro'] }
-    - { role: nginx, tags: ['nginx', 'web'] }
-    - { role: certbot, tags: ['certbot', 'web'] }
-    - { role: page, tags: ['page', 'web'] }
-    - { role: blog, tags: ['blog', 'web'] }
-    - { role: myip, tags: ['myip'] }
-    - { role: fathom, tags: ['fathom'] }
-    - { role: lounge, tags: ['lounge', 'web'] }
-    - { role: kresus, tags: ['kresus', 'web'] }
+  - { role: setup, tags: ['setup'] }
+  - { role: setup-user-systemd, tags: ['setup-user-systemd'] }
+  - { role: security, tags: ['security'] }
+  - { role: git, tags: ['git'] }
+  - { role: datadog-agent, tags: ['datadog-agent'] }
+  - { role: backup-sophro, tags: ['backup-sophro'] }
+  - { role: nginx, tags: ['nginx', 'web'] }
+  - { role: certbot, tags: ['certbot', 'web'] }
+  - { role: page, tags: ['page', 'web'] }
+  - { role: blog, tags: ['blog', 'web'] }
+  - { role: myip, tags: ['myip'] }
+  - { role: fathom, tags: ['fathom'] }
+  - { role: lounge, tags: ['lounge', 'web'] }
 
   post_tasks:
-    - include_vars:
-        file: roles/datadog-agent/vars/main.yml
+  - include_vars:
+      file: roles/datadog-agent/vars/main.yml
 
-    - name: "Send datadog event"
-      datadog_event:
-        api_key: "{{ datadog_api_key }}"
-        app_key: "{{ datadog_app_key }}"
-        alert_type: success
-        aggregation_key: ansible-deploy
-        title: "Successful deployment"
-        text: "The deployment playbook ran successfully"
-      delegate_to: localhost
-      become: no
+  - name: "Send datadog event"
+    datadog_event:
+      api_key: "{{ datadog_api_key }}"
+      app_key: "{{ datadog_app_key }}"
+      alert_type: success
+      aggregation_key: ansible-deploy
+      title: "Successful deployment"
+      text: "The deployment playbook ran successfully"
+    delegate_to: localhost
+    become: no
