@@ -22,7 +22,7 @@
 
   post_tasks:
   - include_vars:
-    file: roles/common/datadog-agent/vars/main.yml
+      file: roles/common/datadog-agent/vars/main.yml
 
   - name: "Send datadog event"
     datadog_event:
