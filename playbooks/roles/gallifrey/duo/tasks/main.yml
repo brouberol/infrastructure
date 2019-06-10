@@ -1,0 +1,68 @@
+- name: "Add duo apt repository"
+  apt_repository:
+    repo: "deb http://pkg.duosecurity.com/Ubuntu {{ ansible_distribution_release }} main"
+    state: present
+    filename: duosecurity
+
+- name: "Install duo apt-key"
+  apt_key:
+    url: https://duo.com/APT-GPG-KEY-DUO
+    state: present
+
+- name: "Install duo package"
+  apt:
+    update_cache: yes
+    name: duo-unix
+    state: present
+
+- name: "Create /lib/security directory"
+  file:
+    path: /lib/security
+    state: directory
+    owner: root
+    group: root
+
+- name: "Setup a pam_duo.so symlink"
+  file:
+    src: /lib64/security/pam_duo.so
+    dest: /lib/security/pam_duo.so
+    state: link
+
+- name: "Render duo configuration file"
+  template:
+    src: pam_duo.conf.j2
+    dest: /etc/duo/pam_duo.conf
+
+- name: "Allow keyboard-interactive ssh auth method"
+  lineinfile:
+    regexp: "^AuthenticationMethods"
+    line: "AuthenticationMethods publickey,keyboard-interactive"
+    dest: /etc/ssh/sshd_config
+  notifies:
+    - restart ssh
+
+- name: "Enable ssh ChallengeResponseAuthentication"
+  lineinfile:
+    regexp: "^ChallengeResponseAuthentication"
+    line: "ChallengeResponseAuthentication yes"
+    dest: /etc/ssh/sshd_config
+  notifies:
+    - restart ssh
+
+- name: "Setup PAM ssh for duo"
+  lineinfile:
+    regexp: "@include common-auth"
+    line: |
+      # @include common-auth
+      auth  [success=1 default=ignore] /lib64/security/pam_duo.so
+      auth  requisite pam_deny.so
+      auth  required pam_permit.so
+    dest: /etc/pam.d/sshd
+
+- name: "Setup PAM common-auth for duo"
+  lineinfile:
+    regexp: "^auth  [success=1 default=ignore]      pam_unix.so nullok_secure"
+    line: |
+      auth  requisite pam_unix.so nullok_secure
+      auth  [success=1 default=ignore] pam_duo.so
+    dest: /etc/pam.d/common-auth

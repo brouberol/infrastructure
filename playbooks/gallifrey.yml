@@ -8,6 +8,7 @@
   - { role: setup, tags: ['setup'] }
   - { role: setup-user-systemd, tags: ['setup-user-systemd'] }
   - { role: security, tags: ['security'] }
+  - { role: duo, tags: ['duo'] }
   - { role: git, tags: ['git'] }
   - { role: datadog-agent, tags: ['datadog-agent'] }
   - { role: backup-sophro, tags: ['backup-sophro'] }
