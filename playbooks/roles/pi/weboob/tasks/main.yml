@@ -21,6 +21,7 @@
   - python-imaging
   - python-lxml
   - python-requests
+  - python-unidecode
 
 - name: "Clone the weboob repository"
   git:
@@ -32,6 +33,5 @@
 - name: "Install weboob from source"
   pip:
     chdir: "{{ weboob_dir }}"
-    extra_args: --user
     name: .
 
