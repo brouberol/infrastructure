@@ -3,6 +3,8 @@
   user: "{{ user }}"
   become: yes
   become_method: sudo
+  vars_files:
+  - ../common/vars/main.yml
 
   roles:
     - { role: setup, tags: ['setup'] }

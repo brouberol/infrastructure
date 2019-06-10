@@ -3,6 +3,7 @@
   user: ubuntu
   become: yes
   become_method: sudo
-
+  vars_files:
+  - ../common/vars/main.yml
   roles:
     - first-deploy
