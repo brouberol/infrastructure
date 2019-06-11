@@ -34,10 +34,10 @@ ControlMaster auto
 ControlPath ~/.ssh/cm/control:%h:%p:%r
 
 Host pi
-HostName <IP>
+HostName pi.balthazar-rouberol.com
 
 Host gallifrey
-HostName <IP>
+HostName balthazar-rouberol.com
 ```
 
 and list the hosts in `/etc/ansible/hosts`:
