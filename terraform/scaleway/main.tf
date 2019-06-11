@@ -1,5 +1,13 @@
+module "global_vars" {
+  source = "../global_vars"
+}
+
 provider "scaleway" {
   region = "par1"
+}
+
+resource "scaleway_ssh_key" "ssh_key" {
+    key = "${module.global_vars.ssh_key}"
 }
 
 resource "scaleway_server" "gallifrey" {
