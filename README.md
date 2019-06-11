@@ -2,7 +2,13 @@ This project defines my personal infrastucture as a set of terraform manifests a
 
 ## Terraforming the cloud resources
 
-The terraform resources are organized by cloud provider (OVH, AWS, Scaleway, etc). To plan the terraforming of the resources of a given cloud provider (in that example, Scaleway), run
+The terraform resources are organized by cloud provider (OVH, AWS, Scaleway, etc). To initialize each environment, run
+
+```console
+$ make terraform-init
+```
+
+To plan the terraforming of the resources of a given cloud provider (in that example, Scaleway), run
 
 ```console
 $ make terraform-scaleway-plan

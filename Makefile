@@ -17,6 +17,16 @@ terraform-%-plan:  ## Plan all terraform changes under the target directory %
 terraform-%-apply:  ## Apply all terraform changes under the target directory %
 	@cd terraform/$* && terraform apply
 
+terraform-init:  ## Initialize all terraform environments
+	@cd terraform && \
+	for dir in $$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
+		cd $$dir && \
+		echo "[+] Initializing $$dir" && \
+		terraform init ; \
+		cd .. && \
+		echo -e "\n"; \
+	done
+
 help:
 	@grep -E '^[%a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-22s\033[0m %s\n", $$1, $$2}'
 
