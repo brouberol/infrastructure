@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "balthazar-rouberol-tfstate"
+    key    = "infra/aws.tfstate"
+    region = "eu-west-3"
+  }
+}
+
 provider "aws" {
   region = "us-east-2"
 }

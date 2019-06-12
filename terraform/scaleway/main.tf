@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "balthazar-rouberol-tfstate"
+    key    = "infra/scaleway.tfstate"
+    region = "eu-west-3"
+  }
+}
+
 module "global_vars" {
   source = "../global_vars"
 }

@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "balthazar-rouberol-tfstate"
+    key    = "infra/ovh.tfstate"
+    region = "eu-west-3"
+  }
+}
+
 provider "ovh" {
   endpoint = "ovh-eu"
 }
