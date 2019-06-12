@@ -17,12 +17,32 @@ terraform-%-plan:  ## Plan all terraform changes under the target directory %
 terraform-%-apply:  ## Apply all terraform changes under the target directory %
 	@cd terraform/$* && terraform apply
 
-terraform-init:  ## Initialize all terraform environments
+terraform-init:  ## Initialize all terraform workspaces
 	@cd terraform && \
 	for dir in $$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
 		cd $$dir && \
 		echo "[+] Initializing $$dir" && \
 		terraform init ; \
+		cd .. && \
+		echo -e "\n"; \
+	done
+
+terraform-plan:  ## Plan all terraform workspaces
+	@cd terraform && \
+	for dir in $$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
+		cd $$dir && \
+		echo "[+] Planning $$dir" && \
+		terraform plan ; \
+		cd .. && \
+		echo -e "\n"; \
+	done
+
+terraform-apply:  ## Apply all terraform workspaces
+	@cd terraform && \
+	for dir in $$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
+		cd $$dir && \
+		echo "[+] Applying $$dir" && \
+		terraform apply ; \
 		cd .. && \
 		echo -e "\n"; \
 	done
