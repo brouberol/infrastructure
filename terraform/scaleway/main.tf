@@ -7,7 +7,8 @@ provider "scaleway" {
 }
 
 resource "scaleway_ssh_key" "ssh_key" {
-    key = "${module.global_vars.ssh_key}"
+    key = "${element(module.global_vars.ssh_keys, count.index)}"
+    count = "${length(module.global_vars.ssh_keys)}"
 }
 
 resource "scaleway_server" "gallifrey" {
