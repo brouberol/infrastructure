@@ -12,9 +12,9 @@ resource "scaleway_ssh_key" "ssh_key" {
 }
 
 resource "scaleway_server" "gallifrey" {
-  name  = "gallifrey"
-  image = "c564be4f-2dac-4b1b-a239-3f3a441700ed"
-  type  = "START1-XS"
+  name  = "${module.global_vars.gallifrey_scaleway_server_name}"
+  image = "${module.global_vars.gallifrey_scaleway_image_id}"
+  type  = "${module.global_vars.gallifrey_scaleway_server_type}"
   enable_ipv6 = false
   tags = []
 }
