@@ -7,7 +7,7 @@ module "global_vars" {
 }
 
 provider "scaleway" {
-  region = "par1"
+  region = "${module.global_vars.scaleway_region}"
 }
 
 resource "scaleway_ssh_key" "ssh_key" {
