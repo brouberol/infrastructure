@@ -56,18 +56,32 @@
     jump: DROP
     comment: ansible managed
 
-- name: "Prevent paswordless ssh root login"
+- name: "Prevent ssh root login"
   lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: 'PermitRootLogin without-password'
-    state: absent
-
-- name: "Enforce root login with password"
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    line: 'PermitRootLogin prohibit-password'
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin no'
     state: present
-    insertafter: 'LoginGraceTime 120'
+  notify:
+    - restart ssh
+
+- name: "Prevent X11 forwarding"
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^X11Forwarding'
+    line: 'X11Forwarding no'
+    state: present
+  notify:
+    - restart ssh
+
+- name: "Prevent TCP forwarding"
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^AllowTcpForwarding'
+    line: 'AllowTcpForwarding no'
+    state: present
+  notify:
+    - restart ssh
 
 - name: "Only authorize select users to ssh"
   lineinfile:

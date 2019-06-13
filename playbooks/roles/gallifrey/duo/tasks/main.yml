@@ -21,6 +21,7 @@
     state: directory
     owner: root
     group: root
+    mode: 0750
 
 - name: "Setup a pam_duo.so symlink"
   file:
