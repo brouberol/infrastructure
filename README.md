@@ -8,6 +8,13 @@ The terraform resources are organized by cloud provider (OVH, AWS, Scaleway, etc
 $ make terraform-init
 ```
 
+To plan or apply all terraform resources from all workspaces, run
+
+```console
+$ make terraform-plan
+$ make terraform-apply
+```
+
 To plan the terraforming of the resources of a given cloud provider (in that example, Scaleway), run
 
 ```console

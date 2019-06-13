@@ -1,4 +1,4 @@
-.PHONY: clean help terraform-plan-% terraform-apply-% playbook-% playbook-%-bootstrap
+.PHONY: clean help terraform-plan-% terraform-apply-% playbook-% playbook-%-bootstrap terraform-init terraform-plan terraform-apply
 .DEFAULT_GOAL := help
 
 PLAYBOOKS := playbooks
