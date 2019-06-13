@@ -3,7 +3,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-2"
+  region = "${module.global_vars.aws_region}"
 }
 
 provider "aws" {
