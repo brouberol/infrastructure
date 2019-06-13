@@ -8,7 +8,7 @@ provider "aws" {
 
 provider "aws" {
   alias  = "euwest"
-  region = "eu-west-3"
+  region = "${module.global_vars.blog_s3_bucket_region}"
 }
 
 module "global_vars" {
