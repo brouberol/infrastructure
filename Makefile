@@ -22,7 +22,9 @@ terraform-init:  ## Initialize all terraform workspaces
 	for dir in $$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
 		cd $$dir && \
 		echo "[+] Initializing $$dir" && \
-		terraform init ; \
+		terraform init \
+			-backend-config=../config.hcl \
+			-backend-config="key=infra/$$dir.tfstate" && \
 		cd .. && \
 		echo -e "\n"; \
 	done
