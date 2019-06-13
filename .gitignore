@@ -3,3 +3,5 @@
 .terraform
 terraform.tfstate*
 crash.log
+
+terraform/global_vars/main.tf
