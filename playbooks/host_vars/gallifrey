@@ -69,7 +69,7 @@ fathom_version: "1.2.1"
 
 # wallabag
 wallabag_home: "{{ user_home }}/wallabag"
-wallabag_version: 2.3.8
+wallabag_version: latest
 wallabag_host: 127.0.0.1
 wallabag_port: 8003
 wallabag_domain: "wallabag.{{ main_domain }}"

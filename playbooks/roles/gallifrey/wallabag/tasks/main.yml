@@ -8,7 +8,7 @@
 - name: "Start the wallabag container"
   docker_container:
     name: wallabag
-    image: "wallabag/wallabag:{{ wallabag _version }}"
+    image: "wallabag/wallabag:{{ wallabag_version }}"
     state: started
     published_ports:
       - "{{ wallabag_host }}:{{ wallabag_port }}:80"
