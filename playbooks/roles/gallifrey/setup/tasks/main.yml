@@ -21,6 +21,14 @@
     append: yes
     state: present
 
+- name: "Regularly cleanup un-used images and stopped containers"
+  cron:
+    name: "docker cleanup"
+    hour: "*/12"
+    minute: 0
+    job: "echo y | docker system prune"
+  become: "{{ user }}"
+
 - name: "Remove un-needed packages"
   apt:
     name: "{{ item }}"
