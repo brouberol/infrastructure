@@ -1,0 +1,35 @@
+- name: "Create wallabag directory"
+  file:
+    path: "{{ wallabag_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Start the wallabag container"
+  docker_container:
+    name: wallabag
+    image: wallabag/wallabag
+    state: started
+    published_ports:
+      - "{{ wallabag_host }}:{{ wallabag_port }}:80"
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ wallabag_home }}/data:/var/www/wallabag/data"
+      - "{{ wallabag_home }}/images:/var/www/wallabag/web/assets/images"
+    env:
+      SYMFONY__ENV__DOMAIN_NAME: "https://{{ wallabag_domain }}"
+
+- name: "Copy wallabag sites-available nginx conf"
+  template:
+    src: wallabag.conf.j2
+    dest: /etc/nginx/sites-available/wallabag.conf
+    owner: root
+    group: root
+  notify: "reload nginx service"
+
+- name: "Link wallabag sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/wallabag.conf
+    dest: /etc/nginx/sites-enabled/wallabag.conf
+    state: link
+  notify: "reload nginx service"

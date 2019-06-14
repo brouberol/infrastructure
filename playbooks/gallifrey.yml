@@ -19,6 +19,7 @@
   - { role: myip, tags: ['myip'] }
   - { role: fathom, tags: ['fathom'] }
   - { role: lounge, tags: ['lounge', 'web'] }
+  - { role: wallabag, tags: ['wallabag', 'web'] }
 
   post_tasks:
   - include_vars:

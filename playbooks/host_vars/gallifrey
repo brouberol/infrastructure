@@ -7,6 +7,7 @@ certbot_list_of_certs_to_create:
   - "{{ blog_domain }}"
   - "{{ lounge_domain }}"
   - "{{ fathom_domain }}"
+  - "{{ wallabag_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -30,7 +31,9 @@ datadog_checks:
     instances:
      - nginx_status_url: "https://{{ page_domain }}/basic_status"
      - nginx_status_url: "https://{{ blog_domain }}/basic_status"
+     - nginx_status_url: "https://{{ lounge_domain }}/basic_status"
      - nginx_status_url: "https://{{ fathom_domain }}/basic_status"
+     - nginx_status_url: "https://{{ wallabag_domain }}/basic_status"
 
 # Git
 git_home: "/home/{{ git_user }}"
@@ -63,3 +66,10 @@ fathom_domain: "stats.{{ main_domain }}"
 fathom_port: 8080
 fathom_home: "{{ user_home }}/fathom"
 fathom_version: "1.2.1"
+
+# wallabag
+wallabag_home: "{{ user_home }}/wallabag"
+wallabag_version: 2.3.8
+wallabag_host: 127.0.0.1
+wallabag_port: 8003
+wallabag_domain: "wallabag.{{ main_domain }}"
