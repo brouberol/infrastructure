@@ -11,7 +11,6 @@
   - { role: duo, tags: ['duo'] }
   - { role: git, tags: ['git'] }
   - { role: datadog-agent, tags: ['datadog-agent'] }
-  - { role: backup-sophro, tags: ['backup-sophro'] }
   - { role: nginx, tags: ['nginx', 'web'] }
   - { role: certbot, tags: ['certbot', 'web'] }
   - { role: page, tags: ['page', 'web'] }
@@ -20,6 +19,7 @@
   - { role: fathom, tags: ['fathom'] }
   - { role: lounge, tags: ['lounge', 'web'] }
   - { role: wallabag, tags: ['wallabag', 'web'] }
+  - { role: backups, tags: ['backups'] }
 
   post_tasks:
   - include_vars:

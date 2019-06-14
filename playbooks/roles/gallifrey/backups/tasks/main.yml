@@ -1,0 +1,21 @@
+- name: "Create sophro backup directory"
+  file:
+    path: "/home/{{ user }}/backups/sophro"
+    state: directory
+  become_user: "{{ user }}"
+
+- name: "Schedule sophro backups"
+  cron:
+    name: "backup sophro"
+    minute: "0"
+    hour: "0"
+    job: "rsync -r --delete br@51.254.120.74:/home/br/backups/ /home/{{ user }}/backups/sophro"
+  become_user: "{{ user }}"
+
+- name: "Schedule the backup of the wallabag database"
+  cron:
+    name: "backup wallabag db"
+    minute: "0"
+    hour: "0"
+    job: "rsync -r --delete /home/{{ user }}/wallabag/data/db/wallabag.sqlite {{ user }}@{{ home_domain }}:/home/{{ user }}/backups/wallabag/wallabag.sqlite"
+  become_user: "{{ user }}"
