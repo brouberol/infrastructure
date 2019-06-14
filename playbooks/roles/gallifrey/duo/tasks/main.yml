@@ -52,7 +52,7 @@
 
 - name: "Setup PAM ssh for duo"
   lineinfile:
-    regexp: "@include common-auth"
+    regexp: "^@include common-auth"
     line: |
       # @include common-auth
       auth  [success=1 default=ignore] /lib64/security/pam_duo.so
