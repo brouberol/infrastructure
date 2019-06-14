@@ -1,0 +1,14 @@
+- name: "Create wallabag backup directory"
+  file:
+    path: "/home/{{ user }}/wallabag"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Schedule the backup of the wallabag database"
+  cron:
+    name: "backup wallabag db"
+    minute: "0"
+    hour: "0"
+    job: "rsync -r --delete {{ user }}@{{ main_domain }}:/home/{{ user }}/wallabag/data/db/wallabag.sqlite /home/{{ user }}/wallabag"
+  become_user: "{{ user }}"
