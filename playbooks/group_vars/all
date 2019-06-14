@@ -1,5 +1,6 @@
 # Domains
 main_domain: balthazar-rouberol.com
+home_domain: "home.{{ main_domain }}"
 
 # misc
 opt_dir: /opt

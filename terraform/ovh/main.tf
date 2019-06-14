@@ -46,3 +46,11 @@ resource "ovh_domain_zone_record" "private_subdomains" {
     count = "${length(module.global_vars.private_subdomains)}"
     depends_on = [ovh_domain_zone_record.rpi]
 }
+
+resource "ovh_domain_zone_record" "home" {
+    zone = "${module.global_vars.root_domain}"
+    subdomain = "${module.global_vars.home_subdomain}"
+    fieldtype = "A"
+    ttl = "0"
+    target = "${module.global_vars.home_local_ip}"
+}

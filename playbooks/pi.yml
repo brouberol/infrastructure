@@ -10,4 +10,4 @@
   - { role: node, tags: ['node'] }
   - { role: weboob, tags: ['weboob'] }
   - { role: kresus, tags: ['kresus'] }
-  - { role: backup-wallabag, tags: ['bakcups'] }
+  - { role: backups, tags: ['backups'] }
