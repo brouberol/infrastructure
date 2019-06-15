@@ -19,6 +19,7 @@
   - { role: fathom, tags: ['fathom'] }
   - { role: lounge, tags: ['lounge', 'web'] }
   - { role: wallabag, tags: ['wallabag', 'web'] }
+  - { role: radicale, tags: ['radicale', 'web'] }
   - { role: backups, tags: ['backups'] }
 
   post_tasks:

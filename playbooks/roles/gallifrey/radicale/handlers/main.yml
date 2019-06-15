@@ -1,0 +1,12 @@
+---
+- name: "start radicale"
+  become: yes
+  become_user: "{{ user }}"
+  service:
+    name: radicale
+    state: started
+    enabled: yes
+    user: yes
+    daemon_reload: yes
+  environment:
+    XDG_RUNTIME_DIR: "{{ user_xdg_runtime_dir }}"

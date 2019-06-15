@@ -1,0 +1,57 @@
+- name: "Create radicale directory"
+  file:
+    path: "{{ radicale_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Install radicale"
+  pip:
+    name: "radicale[bcrypt]"
+    state: present
+    executable: pip3
+
+- name: "Create radicale config directory"
+  file:
+    path: /etc/radicale
+    state: directory
+
+- name: "Configure radicale account"
+  htpasswd:
+    path: /etc/radicale/users.htpasswd
+    state: present
+    username: "{{ radicale_username }}"
+    password: "{{ radicale_password }}"
+    crypt_scheme: bcrypt
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0640
+
+- name: "Render radicale config file"
+  template:
+    src: config.j2
+    dest: /etc/radicale/config
+  notify:
+    - start radicale
+
+- name: "Create systemd service for radicale"
+  template:
+    src: radicale-unit.conf.j2
+    dest: "{{ user_systemd_dir }}/radicale.service"
+  notify:
+    - start radicale
+
+- name: "Copy radicale sites-available nginx conf"
+  template:
+    src: radicale.conf.j2
+    dest: /etc/nginx/sites-available/radicale.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link radicale sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/radicale.conf
+    dest: /etc/nginx/sites-enabled/radicale.conf
+    state: link
+  notify: "reload nginx"

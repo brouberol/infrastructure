@@ -73,3 +73,9 @@ wallabag_version: latest
 wallabag_host: 127.0.0.1
 wallabag_port: 8003
 wallabag_domain: "wallabag.{{ main_domain }}"
+
+# radicale
+radicale_host: 127.0.0.1
+radicale_port: 8004
+radicale_domain: "caldav.{{ main_domain }}"
+radicale_home: "{{ user_home }}/radicale"
