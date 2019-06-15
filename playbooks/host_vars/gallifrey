@@ -54,16 +54,16 @@ page_domain: "{{ main_domain }}"
 # lounge
 lounge_domain: "irc.{{ main_domain }}"
 lounge_host: localhost
-lounge_port: 9000
+lounge_port: 8000
 lounge_home: "/home/{{ user }}/.lounge"
 
 # myip
 myip_domain: "ip.{{ main_domain }}"
-myip_port: 8000
+myip_port: 8001
 
 # fathom
 fathom_domain: "stats.{{ main_domain }}"
-fathom_port: 8080
+fathom_port: 8002
 fathom_home: "{{ user_home }}/fathom"
 fathom_version: "1.2.1"
 
