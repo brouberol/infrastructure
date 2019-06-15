@@ -1,0 +1,8 @@
+- name: "Create wallabag backup directory"
+  file:
+    path: "/home/{{ user }}/backups/{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items:
+    - wallabag
