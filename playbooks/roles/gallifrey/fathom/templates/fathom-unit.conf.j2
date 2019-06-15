@@ -1,18 +1,4 @@
-# {{ ansible_managed }}
-
-[Unit]
-Description=Web analytics
-After=multi-user.service
-
-[Service]
+{% from "macros/systemd_user_service.j2" import systemd_user_service with context %}
+{{ systemd_user_service("Web analytics") }}
 WorkingDirectory={{ fathom_home }}
-NoNewPrivileges=true
-Type=simple
 ExecStart={{ fathom_home }}/fathom server
-Restart=on-failure
-RestartSec=5
-StartLimitInterval=60s
-StartLimitBurst=3
-
-[Install]
-WantedBy=default.target

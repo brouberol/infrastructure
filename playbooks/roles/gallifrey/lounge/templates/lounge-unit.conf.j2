@@ -1,16 +1,3 @@
-[Unit]
-Description=The Lounge IRC client
-After=lounge.service
-
-[Service]
-Type=simple
+{% from "macros/systemd_user_service.j2" import systemd_user_service with context %}
+{{ systemd_user_service("IRC client") }}
 ExecStart=/usr/local/bin/lounge start
-NoNewPrivileges=true
-Restart=on-failure
-RestartSec=5
-StartLimitInterval=60s
-StartLimitBurst=3
-
-[Install]
-WantedBy=default.target
-

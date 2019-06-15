@@ -1,18 +1,3 @@
-# {{ ansible_managed }}
-
-[Unit]
-Description=Web service displaying requester's IP
-After=multi-user.service
-
-[Service]
-Type=simple
+{% from "macros/systemd_user_service.j2" import systemd_user_service with context %}
+{{ systemd_user_service("Web service displaying requester's IP") }}
 ExecStart=/usr/local/bin/myip -listen-addr localhost:{{ myip_port }} -proxy-header X-Forwarded-For
-NoNewPrivileges=true
-Restart=on-failure
-RestartSec=5
-StartLimitInterval=60s
-StartLimitBurst=3
-
-[Install]
-WantedBy=default.target
-

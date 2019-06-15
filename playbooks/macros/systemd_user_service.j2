@@ -1,0 +1,17 @@
+{% macro systemd_user_service(description) %}
+# {{ ansible_managed }}
+[Install]
+WantedBy=default.target
+
+[Unit]
+Description={{ description }}
+After=multi-user.service
+
+[Service]
+Type=simple
+NoNewPrivileges=true
+Restart=on-failure
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+{% endmacro %}

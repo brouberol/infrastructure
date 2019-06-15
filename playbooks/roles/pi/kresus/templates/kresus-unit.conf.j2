@@ -1,10 +1,5 @@
-# {{ ansible_managed }}
-
-[Unit]
-Description=Personal finance manager
-After=network.target
-
-[Service]
+{% from "macros/systemd_service.j2" import systemd_service with context %}
+{{ systemd_service("Personal finance manager") }}
 WorkingDirectory={{ kresus_dir }}
 User={{ kresus_user }}
 Environment=NODE_ENV=production
@@ -13,12 +8,6 @@ Environment=KRESUS_WEBOOB_DIR={{ weboob_dir }}
 Environment=KRESUS_DIR={{ kresus_tmpfs_mount }}
 ExecStartPre=/usr/bin/rsync -ar {{ kresus_user_home }}/.kresus/ {{ kresus_tmpfs_mount }}
 ExecStart=/usr/local/bin/node bin/kresus.js
-Type=simple
-Restart=always
 StandardOutput=journal
 StandardError=inherit
 SyslogIdentifier=kresus
-NoNewPrivileges=true
-
-[Install]
-WantedBy=multi-user.target
