@@ -16,7 +16,37 @@
     path: /etc/radicale
     state: directory
 
-- name: "Configure radicale account"
+- name: "Render radicale config file"
+  template:
+    src: config.j2
+    dest: /etc/radicale/config
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  notify:
+    - start radicale
+
+- name: "Copy radicale additional config files"
+  copy:
+    src: "{{ item }}.conf"
+    dest: "/etc/radicale/{{ item }}.conf"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items:
+    - permissions
+    - logging
+
+- name: "Configure radicale admin account"
+  htpasswd:
+    path: /etc/radicale/users.htpasswd
+    state: present
+    username: "{{ radicale_admin_username }}"
+    password: "{{ radicale_admin_password }}"
+    crypt_scheme: bcrypt
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: 0640
+
+- name: "Configure radicale user account"
   htpasswd:
     path: /etc/radicale/users.htpasswd
     state: present
@@ -26,13 +56,6 @@
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: 0640
-
-- name: "Render radicale config file"
-  template:
-    src: config.j2
-    dest: /etc/radicale/config
-  notify:
-    - start radicale
 
 - name: "Create systemd service for radicale"
   template:

@@ -15,3 +15,10 @@ max_connections = 20
 max_content_length = 100000000
 # 30 seconds
 timeout = 30
+
+[rights]
+type = from_file
+file = /etc/radicale/permissions.conf
+
+[logging]
+config = /etc/radicale/logging.conf

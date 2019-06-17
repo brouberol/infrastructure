@@ -1,4 +1,4 @@
 {% from "macros/systemd_user_service.j2" import systemd_user_service with context %}
 {{ systemd_user_service("CalDAV server") }}
 WorkingDirectory={{ radicale_home }}
-ExecStart=/usr/bin/env python3 -m radicale
+ExecStart=/usr/bin/env python3 -m radicale --config /etc/radicale/config
