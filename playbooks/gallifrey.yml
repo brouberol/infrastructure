@@ -15,11 +15,11 @@
   - { role: certbot, tags: ['certbot', 'web'] }
   - { role: page, tags: ['page', 'web'] }
   - { role: blog, tags: ['blog', 'web'] }
-  - { role: myip, tags: ['myip'] }
-  - { role: fathom, tags: ['fathom'] }
-  - { role: lounge, tags: ['lounge', 'web'] }
-  - { role: wallabag, tags: ['wallabag', 'web'] }
-  - { role: radicale, tags: ['radicale', 'web'] }
+  - { role: myip, tags: ['myip', 'services'] }
+  - { role: fathom, tags: ['fathom', 'services'] }
+  - { role: lounge, tags: ['lounge', 'web', 'services'] }
+  - { role: wallabag, tags: ['wallabag', 'web', 'services'] }
+  - { role: radicale, tags: ['radicale', 'web', 'services'] }
   - { role: backups, tags: ['backups'] }
 
   post_tasks:
