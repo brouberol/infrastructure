@@ -8,6 +8,7 @@ certbot_list_of_certs_to_create:
   - "{{ lounge_domain }}"
   - "{{ fathom_domain }}"
   - "{{ wallabag_domain }}"
+  - "{{ radicale_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -23,9 +24,13 @@ datadog_checks:
       - name: nginx
         search_string: ['nginx']
       - name: lounge
-        search_string: ['node']
+        search_string: ['/usr/local/lib/node_modules/thelounge/index.js']
+        exact_match: false
       - name: fathom
         search_string: ['fathom']
+      - name: radicale
+        search_string: ['python3 -m radicale']
+        exact_match: false
   nginx:
     init_config:
     instances:
@@ -34,6 +39,7 @@ datadog_checks:
      - nginx_status_url: "https://{{ lounge_domain }}/basic_status"
      - nginx_status_url: "https://{{ fathom_domain }}/basic_status"
      - nginx_status_url: "https://{{ wallabag_domain }}/basic_status"
+     - nginx_status_url: "https://{{ radicale_domain }}/basic_status"
 
 # Git
 git_home: "/home/{{ git_user }}"
