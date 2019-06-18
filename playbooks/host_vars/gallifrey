@@ -52,6 +52,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ page_domain }}"
       disable_ssl_validation: false
+      min_collection_interval: 3600
     - url: "https://{{ blog_domain }}"
       name: "https://{{ blog_domain }}"
       check_certificate_expiration: true
@@ -60,6 +61,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ blog_domain }}"
       disable_ssl_validation: false
+      min_collection_interval: 3600
     - url: "https://{{ lounge_domain }}"
       name: "https://{{ lounge_domain }}"
       check_certificate_expiration: true
@@ -68,6 +70,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ lounge_domain }}"
       disable_ssl_validation: false
+      min_collection_interval: 3600
     - url: "https://{{ fathom_domain }}"
       name: "https://{{ fathom_domain }}"
       check_certificate_expiration: true
@@ -76,6 +79,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ fathom_domain }}"
       disable_ssl_validation: false
+      min_collection_interval: 3600
     - url: "https://{{ wallabag_domain }}"
       name: "https://{{ wallabag_domain }}"
       check_certificate_expiration: true
@@ -84,6 +88,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ wallabag_domain }}"
       disable_ssl_validation: false
+      min_collection_interval: 3600
     - url: "https://{{ radicale_domain }}"
       name: "https://{{ radicale_domain }}"
       check_certificate_expiration: true
@@ -92,6 +97,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ radicale_domain }}"
       disable_ssl_validation: false
+      min_collection_interval: 3600
 
 # Git
 git_home: "/home/{{ git_user }}"
