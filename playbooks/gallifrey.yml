@@ -10,7 +10,8 @@
   - { role: security, tags: ['security'] }
   - { role: duo, tags: ['duo'] }
   - { role: git, tags: ['git'] }
-  - { role: datadog-agent, tags: ['datadog-agent'] }
+  - { role: datadog-agent, tags: ['datadog-agent', 'datadog'] }
+  - { role: datadogpy, tags: ['datadogpy', 'datadog'] }
   - { role: nginx, tags: ['nginx', 'web'] }
   - { role: certbot, tags: ['certbot', 'web'] }
   - { role: page, tags: ['page', 'web'] }

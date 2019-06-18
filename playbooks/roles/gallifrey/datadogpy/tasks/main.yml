@@ -1,0 +1,9 @@
+- name: "Install the datadog python library"
+  pip:
+    name: datadog
+    state: latest
+
+- name: "Render the dogrc config file"
+  template:
+    src: dogrc.j2
+    dest: "{{ user_home }}/.dogrc"
