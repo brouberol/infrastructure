@@ -12,10 +12,10 @@ playbook-%-bootstrap:  ## Bootstrap an instance. Replace '%' by the instance pla
 	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* ansible-playbook $*-bootstrap.yml $(ANSIBLE_OPTS)
 
 terraform-%-plan:  ## Plan all terraform changes under the target directory %
-	@cd terraform/$* && terraform plan
+	@cd terraform && source ./env.sh && cd $* && terraform plan
 
 terraform-%-apply:  ## Apply all terraform changes under the target directory %
-	@cd terraform/$* && terraform apply
+	@cd terraform && source ./env.sh && cd $* && terraform apply
 
 terraform-init:  ## Initialize all terraform workspaces
 	@cd terraform && \
@@ -31,6 +31,7 @@ terraform-init:  ## Initialize all terraform workspaces
 
 terraform-plan:  ## Plan all terraform workspaces
 	@cd terraform && \
+	source ./env.sh && \
 	for dir in $$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
 		cd $$dir && \
 		echo "[+] Planning $$dir" && \
@@ -41,6 +42,7 @@ terraform-plan:  ## Plan all terraform workspaces
 
 terraform-apply:  ## Apply all terraform workspaces
 	@cd terraform && \
+	source ./env.sh && \
 	for dir in $$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
 		cd $$dir && \
 		echo "[+] Applying $$dir" && \
