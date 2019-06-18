@@ -32,7 +32,7 @@ resource "datadog_monitor" "gallifrey_services" {
   count = "${length(module.global_vars.datadog_gallifrey_monitored_processes)}"
 }
 
-resource "datadog_monitor" "gallifrey_nginx_can_connect" {
+resource "datadog_monitor" "nginx_can_connect" {
   name = "Web service is down"
   type = "service check"
   message = "@slack-notifications"
@@ -50,7 +50,7 @@ resource "datadog_monitor" "gallifrey_nginx_can_connect" {
   timeout_h    = 60
   include_tags = true
 
-  tags = ["host:gallifrey", "role:web"]
+  tags = ["role:web"]
 }
 
 resource "datadog_monitor" "ssl_certificates_expiration" {
