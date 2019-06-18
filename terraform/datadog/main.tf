@@ -53,6 +53,27 @@ resource "datadog_monitor" "gallifrey_nginx_can_connect" {
   tags = ["host:gallifrey", "role:web"]
 }
 
+resource "datadog_monitor" "ssl_certificates_expiration" {
+  name = "SSL certificate is close to expiry"
+  type = "service check"
+  message = "@slack-notifications"
+  query = "\"http.ssl_cert\".over(\"*\").by(\"host\",\"instance\").last(4).count_by_status()"
+
+  thresholds = {
+    ok       = 3
+    critical = 3
+  }
+
+  notify_no_data    = false
+  renotify_interval = 360
+
+  notify_audit = false
+  timeout_h    = 60
+  include_tags = true
+
+  tags = ["role:web"]
+}
+
 
 resource "datadog_monitor" "hosts_up" {
   name = "Host is down"
