@@ -39,7 +39,7 @@
     regexp: "^AuthenticationMethods"
     line: "AuthenticationMethods publickey,keyboard-interactive"
     dest: /etc/ssh/sshd_config
-  notifies:
+  notify:
     - restart ssh
 
 - name: "Enable ssh ChallengeResponseAuthentication"
@@ -47,7 +47,7 @@
     regexp: "^ChallengeResponseAuthentication"
     line: "ChallengeResponseAuthentication yes"
     dest: /etc/ssh/sshd_config
-  notifies:
+  notify:
     - restart ssh
 
 - name: "Setup PAM ssh for duo"
