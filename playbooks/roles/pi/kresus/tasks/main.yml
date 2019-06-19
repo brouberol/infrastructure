@@ -58,7 +58,8 @@
   become: yes
   become_user: "{{ kresus_user }}"
   ignore_errors: yes
-  creates: "/home/kresus/kresus/bin/kresus.js"
+  args:
+    creates: "/home/kresus/kresus/bin/kresus.js"
 
 - name: "Create kresus htpasswd file"
   htpasswd:
