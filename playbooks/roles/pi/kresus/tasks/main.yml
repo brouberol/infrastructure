@@ -50,16 +50,15 @@
   become_user: "{{ kresus_user }}"
 
 - name: "Make kresus production files"
-  make:
+  command: "make build"
+  args:
     chdir: "{{ kresus_dir }}"
-    target: build
+    creates: "/home/kresus/kresus/bin/kresus.js"
   environment:
     NODE_ENV: production
   become: yes
   become_user: "{{ kresus_user }}"
   ignore_errors: yes
-  args:
-    creates: "/home/kresus/kresus/bin/kresus.js"
 
 - name: "Create kresus htpasswd file"
   htpasswd:
