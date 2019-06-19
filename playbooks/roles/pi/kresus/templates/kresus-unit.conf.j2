@@ -1,5 +1,5 @@
-{% from "macros/systemd_service.j2" import systemd_service with context %}
-{{ systemd_service("Personal finance manager") }}
+{% from "macros/systemd_user_service.j2" import systemd_user_service with context %}
+{{ systemd_user_service("Personal finance manager") }}
 WorkingDirectory={{ kresus_dir }}
 User={{ kresus_user }}
 Environment=NODE_ENV=production
