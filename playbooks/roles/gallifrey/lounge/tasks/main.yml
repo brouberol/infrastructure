@@ -30,24 +30,28 @@
   file:
     name: "{{ lounge_home }}"
     state: directory
+  become: yes
   become_user: "{{ user }}"
 
 - name: "Create lounge user dir"
   file:
     name: "{{ lounge_home }}/users"
     state: directory
+  become: yes
   become_user: "{{ user }}"
 
 - name: "Copy lounge config file"
   template:
     src: lounge-config.js.j2
     dest: "{{ lounge_home }}/config.js"
+  become: yes
   become_user: "{{ user }}"
 
 - name: "Copy lounge user config"
   template:
     src: balto.json.j2
     dest: "{{ lounge_home }}/users/balto.json"
+  become: yes
   become_user: "{{ user }}"
 
 - name: "Copy lounge sites-available nginx conf"

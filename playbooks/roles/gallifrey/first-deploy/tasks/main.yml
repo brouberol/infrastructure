@@ -17,10 +17,11 @@
     ssh_key_bits: 4096
     ssh_key_file: .ssh/id_rsa
 
-- lineinfile:
+- name: "Add the user to the sudoers"
+  lineinfile:
     path: /etc/sudoers
     state: present
-    regexp: '^%br ALL=\(ALL\) NOPASSWD: ALL$'
+    regexp: '^%{{ user }} ALL=\(ALL\) NOPASSWD: ALL$'
     line: "%{{ user }} ALL=(ALL) NOPASSWD: ALL"
 
 - name: "Setup user authorized keys"

@@ -29,6 +29,7 @@
     dest: "{{ weboob_dir }}"
     clone: yes
     update: no
+    version: "1.5"
 
 - name: "Install weboob from source"
   pip:

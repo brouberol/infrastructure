@@ -28,6 +28,7 @@
   template:
     src: authorized_keys.j2
     dest: "{{ user_home }}/.ssh/authorized_keys"
+  become: yes
   become_user: "{{ user }}"
 
 - name: "Only authorize select users to ssh"

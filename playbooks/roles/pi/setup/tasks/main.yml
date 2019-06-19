@@ -19,7 +19,8 @@
   with_items:
     - lighttpd
 
-- pip:
+- name: "Install python packages"
+  pip:
     name: "{{ item }}"
     state: latest
   with_items:
@@ -60,4 +61,5 @@
   template:
     src: authorized_keys.j2
     dest: "{{ user_home }}/.ssh/authorized_keys"
+  become: yes
   become_user: "{{ user }}"

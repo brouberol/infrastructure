@@ -10,3 +10,5 @@
 
 - name: "Allow {{ user }} to run lingering systemd services"
   command: "loginctl enable-linger {{ user }}"
+  args:
+    creates: "/var/lib/systemd/linger/{{ user }}"

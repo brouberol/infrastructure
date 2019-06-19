@@ -1,7 +1,8 @@
 - name: "Install the datadog python library"
   pip:
     name: datadog
-    state: latest
+    state: present
+    version: "0.29.3"
 
 - name: "Render the dogrc config file"
   template:
