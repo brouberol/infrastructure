@@ -34,7 +34,7 @@ resource "datadog_monitor" "gallifrey_services" {
 }
 
 resource "datadog_monitor" "nginx_can_connect" {
-  name = "Web service is down"
+  name = "Web service nginx config is running"
   type = "service check"
   message = "@slack-notifications"
   query = "\"nginx.can_connect\".over(\"*\").by(\"host\",\"port\", \"server\").last(4).count_by_status()"
@@ -42,6 +42,26 @@ resource "datadog_monitor" "nginx_can_connect" {
   thresholds = {
     ok       = 3
     critical = 3
+  }
+
+  notify_no_data    = false
+  renotify_interval = 360
+
+  notify_audit = false
+  timeout_h    = 60
+  include_tags = true
+
+  tags = ["role:web"]
+}
+
+resource "datadog_monitor" "http_can_connect" {
+  name = "Web service is down"
+  type = "metric alert"
+  message = "@slack-notifications"
+  query = "avg(last_4h):avg:network.http.can_connect{*} by {instance,host} < 1"
+
+  thresholds = {
+    critical = 1
   }
 
   notify_no_data    = false
