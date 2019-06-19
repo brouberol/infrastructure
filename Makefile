@@ -11,6 +11,10 @@ playbook-%:  ## Configure an instance. Replace '%' by the instance playbook you 
 playbook-%-bootstrap:  ## Bootstrap an instance. Replace '%' by the instance playbook you want to run
 	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* ansible-playbook $*-bootstrap.yml $(ANSIBLE_OPTS)
 
+playbook-lint:  ## Lint role directories and playbook files
+	@cd $(PLAYBOOKS) && \
+	echo $$( find roles/ -mindepth 2 -maxdepth 2 -type d && find . -maxdepth 1 -name "*.yml") | xargs ansible-lint
+
 terraform-%-plan:  ## Plan all terraform changes under the target directory %
 	@cd terraform && source ./env.sh && cd $* && terraform plan
 

@@ -1,0 +1,8 @@
+exclude_paths:
+ - roles/common/datadog-agent
+ - roles/common/certbot
+parseable: true
+quiet: true
+rulesdir: []
+use_default_rules: true
+verbosity: 1
