@@ -127,6 +127,7 @@ myip_port: 8001
 
 # fathom
 fathom_domain: "stats.{{ main_domain }}"
+fathom_host: 127.0.0.1
 fathom_port: 8002
 fathom_home: "{{ user_home }}/fathom"
 fathom_version: "1.2.1"

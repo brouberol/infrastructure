@@ -12,6 +12,13 @@
     remote_src: yes
     creates: "{{ fathom_home }}/fathom"
 
+- name: "Render fathom config file"
+  template:
+    src: fathom-conf.j2
+    dest: "{{ fathom_home }}/fathom.conf"
+  notify:
+    - start fathom
+
 - name: "Define fathom systemd service file"
   template:
     src: fathom-unit.conf.j2
@@ -23,7 +30,7 @@
 
 - name: "Copy fathom sites-available nginx conf"
   template:
-    src: fathom.conf.j2
+    src: fathom-nginx.conf.j2
     dest: /etc/nginx/sites-available/fathom.conf
     owner: root
     group: root

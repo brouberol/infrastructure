@@ -1,4 +1,4 @@
 {% from "macros/systemd_user_service.j2" import systemd_user_service with context %}
 {{ systemd_user_service("Web analytics") }}
 WorkingDirectory={{ fathom_home }}
-ExecStart={{ fathom_home }}/fathom server
+ExecStart={{ fathom_home }}/fathom --config={{ fathom_home }}/fathom.conf server
