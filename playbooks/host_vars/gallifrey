@@ -98,6 +98,9 @@ datadog_checks:
       ssl_server_name: "{{ radicale_domain }}"
       disable_ssl_validation: false
       min_collection_interval: 3600
+    - url: "http://{{ myip_domain }}"
+      name: "{{ myip_domain }}"
+      min_collection_interval: 3600
 
 # Git
 git_home: "/home/{{ git_user }}"
