@@ -5,28 +5,25 @@
 
 - name: "Install packages"
   apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
+    name:
     - htop
     - python-pip
     - vim
+    state: present
 
 - name: "Remove unwanted packages"
   apt:
-    name: "{{ item }}"
-    state: absent
-  with_items:
+    name:
     - lighttpd
+    state: absent
 
 - name: "Install python packages"
   pip:
-    name: "{{ item }}"
-    state: latest
-  with_items:
+    name:
     - pip
     - passlib
     - setuptools
+    state: latest
 
 - name: "Setup motd"
   copy:

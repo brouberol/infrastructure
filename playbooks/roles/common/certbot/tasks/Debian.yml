@@ -9,8 +9,7 @@
 
 - name: certbot installed
   apt:
-    name: "{{ item }}"
-    state: latest
-  with_items:
+    name:
     - certbot
     - python-certbot-nginx
+    state: latest

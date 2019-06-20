@@ -1,27 +1,26 @@
 - name: "Install weboob dependencies"
   apt:
-    name: "{{ item }}"
+    name:
+    - git
+    - python-dev
+    - libffi-dev
+    - libxml2-dev
+    - libxslt-dev
+    - libyaml-dev
+    - libtiff-dev
+    - libjpeg-dev
+    - zlib1g-dev
+    - libfreetype6-dev
+    - libwebp-dev
+    - build-essential
+    - gcc
+    - g++
+    - wget
+    - python-imaging
+    - python-lxml
+    - python-requests
+    - python-unidecode
     state: present
-  with_items:
-  - git
-  - python-dev
-  - libffi-dev
-  - libxml2-dev
-  - libxslt-dev
-  - libyaml-dev
-  - libtiff-dev
-  - libjpeg-dev
-  - zlib1g-dev
-  - libfreetype6-dev
-  - libwebp-dev
-  - build-essential
-  - gcc
-  - g++
-  - wget
-  - python-imaging
-  - python-lxml
-  - python-requests
-  - python-unidecode
 
 - name: "Clone the weboob repository"
   git:

@@ -1,11 +1,10 @@
 ---
 - name: "Install python packages"
   pip:
-    name: "{{ item }}"
-    state: present
-  with_items:
+    name:
     - pelican
     - markdown
+    state: present
 
 - name: "Create blog git bare repo"
   command: "git init --bare {{ blog_repo }}"
