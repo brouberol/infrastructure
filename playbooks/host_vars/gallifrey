@@ -11,6 +11,7 @@ certbot_list_of_certs_to_create:
   - "{{ radicale_domain }}"
 
 # Datadog
+_datadog_http_check_interval: 1800
 datadog_agent6: true
 datadog_config:
   log_level: INFO
@@ -52,7 +53,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ page_domain }}"
       disable_ssl_validation: false
-      min_collection_interval: 3600
+      min_collection_interval: "{{ _datadog_http_check_interval }}"
     - url: "https://{{ blog_domain }}"
       name: "{{ blog_domain }}"
       check_certificate_expiration: true
@@ -61,7 +62,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ blog_domain }}"
       disable_ssl_validation: false
-      min_collection_interval: 3600
+      min_collection_interval: "{{ _datadog_http_check_interval }}"
     - url: "https://{{ lounge_domain }}"
       name: "{{ lounge_domain }}"
       check_certificate_expiration: true
@@ -70,7 +71,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ lounge_domain }}"
       disable_ssl_validation: false
-      min_collection_interval: 3600
+      min_collection_interval: "{{ _datadog_http_check_interval }}"
     - url: "https://{{ fathom_domain }}"
       name: "{{ fathom_domain }}"
       check_certificate_expiration: true
@@ -79,7 +80,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ fathom_domain }}"
       disable_ssl_validation: false
-      min_collection_interval: 3600
+      min_collection_interval: "{{ _datadog_http_check_interval }}"
     - url: "https://{{ wallabag_domain }}"
       name: "{{ wallabag_domain }}"
       check_certificate_expiration: true
@@ -88,7 +89,7 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ wallabag_domain }}"
       disable_ssl_validation: false
-      min_collection_interval: 3600
+      min_collection_interval: "{{ _datadog_http_check_interval }}"
     - url: "https://{{ radicale_domain }}"
       name: "{{ radicale_domain }}"
       check_certificate_expiration: true
@@ -97,10 +98,10 @@ datadog_checks:
       check_hostname: true
       ssl_server_name: "{{ radicale_domain }}"
       disable_ssl_validation: false
-      min_collection_interval: 3600
+      min_collection_interval: "{{ _datadog_http_check_interval }}"
     - url: "http://{{ myip_domain }}"
       name: "{{ myip_domain }}"
-      min_collection_interval: 3600
+      min_collection_interval: "{{ _datadog_http_check_interval }}"
 
 # Git
 git_home: "/home/{{ git_user }}"
