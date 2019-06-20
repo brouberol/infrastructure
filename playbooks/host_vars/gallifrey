@@ -24,7 +24,7 @@ datadog_checks:
       - name: nginx
         search_string: ['nginx']
       - name: lounge
-        search_string: ['/usr/local/lib/node_modules/thelounge/index.js']
+        search_string: ['/usr/local/bin/lounge start']
         exact_match: false
       - name: fathom
         search_string: ['fathom']
