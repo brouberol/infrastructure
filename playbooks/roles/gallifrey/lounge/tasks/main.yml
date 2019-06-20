@@ -46,6 +46,8 @@
     dest: "{{ lounge_home }}/config.js"
   become: yes
   become_user: "{{ user }}"
+  notify:
+    - start lounge
 
 - name: "Copy lounge user config"
   template:
@@ -53,6 +55,8 @@
     dest: "{{ lounge_home }}/users/balto.json"
   become: yes
   become_user: "{{ user }}"
+  notify:
+    - start lounge
 
 - name: "Copy lounge sites-available nginx conf"
   template:
