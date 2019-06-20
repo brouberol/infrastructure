@@ -58,7 +58,7 @@ resource "datadog_monitor" "http_can_connect" {
   name = "Web service is down"
   type = "metric alert"
   message = "@slack-notifications"
-  query = "avg(last_4h):avg:network.http.can_connect{*} by {instance,host} < 1"
+  query = "avg(last_2h):avg:network.http.can_connect{*} by {instance,host} < 1"
 
   thresholds = {
     critical = 1
