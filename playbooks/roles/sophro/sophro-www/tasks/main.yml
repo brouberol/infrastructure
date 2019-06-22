@@ -23,17 +23,32 @@
     - php-fpm.conf
   notify: start php5-fpm
 
-# - name: "Create the MySQL database"
-#   mysql_db:
-#     name: "{{ sophro_www_mysql_db }}"
-#     state: present
+- name: "Change the root mysql password"
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ sophro_www_mysql_root_password }}"
+    check_implicit_admin: yes
+    login_user: root
+    login_password: "{{ sophro_www_mysql_root_old_password }}"
+    state: present
+  ignore_errors: yes
 
-# - name: "Create the MySQL user"
-#   mysql_db:
-#     name: "{{ sophro_www_mysql_user }}"
-#     host: localhost
-#     password: "{{ sophro_www_mysql_password }}"
-#     priv: '{{ sophro_www_mysql_db }}.*:ALL'
+- name: "Create the MySQL database"
+  mysql_db:
+    name: "{{ sophro_www_mysql_db }}"
+    state: present
+    login_user: root
+    login_password: "{{ sophro_www_mysql_root_password }}"
+
+- name: "Create the MySQL user"
+  mysql_user:
+    name: "{{ sophro_www_mysql_user }}"
+    host: localhost
+    password: "{{ sophro_www_mysql_password }}"
+    priv: '{{ sophro_www_mysql_db }}.*:ALL'
+    login_user: root
+    login_password: "{{ sophro_www_mysql_root_password }}"
 
 - name: "Create the root scripts directory"
   file:
