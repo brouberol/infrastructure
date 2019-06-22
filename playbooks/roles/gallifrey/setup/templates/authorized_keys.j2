@@ -2,3 +2,6 @@
 {% for ssh_key in user_ssh_authorized_keys %}
 {{ ssh_key }}
 {% endfor %}
+{% for ssh_key in extra_ssh_authorized_keys %}
+{{ ssh_key }}
+{% endfor %}
