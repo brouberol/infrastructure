@@ -55,3 +55,10 @@ resource "ovh_domain_zone_record" "home" {
     ttl = "0"
     target = "${module.global_vars.home_local_ip}"
 }
+
+resource "ovh_domain_zone_record" "sophro_domain" {
+    zone = "${module.global_vars.sophro_domain}"
+    fieldtype = "A"
+    ttl = "0"
+    target = "${module.global_vars.sophro_domain_ip}"
+}

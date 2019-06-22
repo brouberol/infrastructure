@@ -1,0 +1,43 @@
+# misc
+hostname: sophro
+
+# certbot:
+sophro_domain: sophrologie-chalon.com
+certbot_list_of_certs_to_create:
+- "{{ sophro_domain }}"
+
+# sophro_www
+sophro_www_home: /var/www/sophrologie-chalon
+
+# Datadog
+_datadog_http_check_interval: 1800
+datadog_agent6: true
+datadog_config:
+  log_level: INFO
+  tags: "name:{{ hostname }}, role:web"
+datadog_checks:
+  process:
+    init_config:
+    instances:
+      - name: ssh
+        search_string: ['ssh', 'sshd']
+      - name: nginx
+        search_string: ['nginx']
+      - name: mysql
+        search_string: ['mysqld']
+  nginx:
+    init_config:
+    instances:
+     - nginx_status_url: "https://{{ sophro_domain }}/basic_status"
+  http_check:
+    init_config:
+    instances:
+    - url: "https://{{ sophro_domain }}"
+      name: "{{ sophro_domain }}"
+      check_certificate_expiration: true
+      days_warning: 14
+      days_critical: 7
+      check_hostname: true
+      ssl_server_name: "{{ sophro_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: 1800

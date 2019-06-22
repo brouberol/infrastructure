@@ -1,0 +1,55 @@
+server {
+    listen 443 default;
+
+    ssl_certificate /etc/letsencrypt/live/{{ sophro_domain }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ sophro_domain }}/privkey.pem;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+    ssl on;
+
+    # Return no information to the client and close the connection
+    return 444;
+}
+
+
+# Rerite all URLs containing www to the "{{ sophro_domain }}" server
+server {
+    listen       80;
+    listen       443;
+    server_name  www.{{ sophro_domain }};
+    return       301 $scheme://{{ sophro_domain }}$request_uri;
+}
+
+server {
+    listen 80;
+    listen 443;
+    server_name {{ sophro_domain }};
+    root {{ sophro_www_home }};
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "1; mode=block";
+
+    index index.php;
+
+    include global/restrictions.conf;
+
+    # Only include one of the files below.
+    include global/wordpress.conf;
+
+    # Letsencrypt challange
+    location /.well-known/acme-challenge/ {
+        root /var/www;
+        allow all;
+        try_files $uri $uri/ =404;
+    }
+
+    location /basic_status {
+        stub_status on;
+    }
+
+    location / {
+       try_files $uri $uri/ /index.php?$args;
+
+    }
+}

@@ -1,0 +1,37 @@
+- name: "Create user group"
+  group:
+    name: "{{ group }}"
+    state: present
+
+- name: "Create user"
+  user:
+    name: "{{ user }}"
+    uid: "{{ user_uid }}"
+    groups: "{{ group }},sudo"
+    append: yes
+    state: present
+    shell: /bin/bash
+    createhome: yes
+    home: "{{ user_home }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_file: .ssh/id_rsa
+
+- name: "Add the user to the sudoers"
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%{{ user }} ALL=\(ALL\) NOPASSWD: ALL$'
+    line: "%{{ user }} ALL=(ALL) NOPASSWD: ALL"
+
+- name: "Setup user authorized keys"
+  template:
+    src: authorized_keys.j2
+    dest: "{{ user_home }}/.ssh/authorized_keys"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Remove any ssh authorized_keys"
+  file:
+    path: /home/ubuntu/.ssh/authorized_keys
+    state: absent

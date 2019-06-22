@@ -1,0 +1,7 @@
+---
+- name: "start php-fpm5"
+  service:
+    name: php-fpm5
+    state: started
+    enabled: yes
+    daemon_reload: yes
