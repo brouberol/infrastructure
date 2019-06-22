@@ -7,6 +7,7 @@ extra_ssh_authorized_keys:
 sophro_domain: sophrologie-chalon.com
 certbot_list_of_certs_to_create:
 - "{{ sophro_domain }}"
+certbot_renew_certs_job: /usr/local/bin/certbot --nginx renew
 
 # sophro_www
 sophro_www_home: /var/www/sophrologie-chalon
