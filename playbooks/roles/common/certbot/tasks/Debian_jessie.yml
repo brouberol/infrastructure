@@ -1,0 +1,13 @@
+- name: "Download certbot-auto"
+  get_url:
+    url: https://dl.eff.org/certbot-auto
+    dest: /usr/local/bin/certbot-auto
+    owner: root
+    group: root
+    mode: 0755
+
+- name: install certbot-nginx
+  pip:
+    name:
+    - certbot-nginx
+    state: latest
