@@ -86,7 +86,7 @@
 - name: "Only authorize select users to ssh"
   lineinfile:
     path: /etc/ssh/sshd_config
-    line: "AllowUsers {{ user }} {{ git_user }}"
+    line: "AllowUsers {{ user_ssh_authorized | join(' ')}}"
     state: present
   notify:
     - restart ssh
