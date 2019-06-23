@@ -134,3 +134,20 @@ resource "datadog_monitor" "hosts_disk_usage" {
   timeout_h    = 60
   include_tags = true
 }
+
+resource "datadog_monitor" "backups" {
+  name = "Backup failed"
+  type = "event alert"
+  message = "@slack-notifications"
+  query = "events('sources:apps priority:all status:error \"Backup\"').rollup('count').last('5m') > 0"
+
+  notify_no_data    = false
+  renotify_interval = 0
+  require_full_window = false
+
+  notify_audit = false
+  timeout_h    = 0
+  include_tags = true
+
+  tags = ["role:backup"]
+}
