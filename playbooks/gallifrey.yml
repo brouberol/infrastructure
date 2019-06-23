@@ -6,6 +6,7 @@
 
   roles:
   - { role: setup, tags: ['setup'] }
+  - { role: docker, tags: ['docker'] }
   - { role: setup-user-systemd, tags: ['setup-user-systemd'] }
   - { role: security, tags: ['security'] }
   - { role: duo, tags: ['duo'] }

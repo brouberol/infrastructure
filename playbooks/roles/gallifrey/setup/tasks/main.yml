@@ -11,28 +11,7 @@
     - python3
     - python3-pip
     - vim
-    - docker.io
     state: present
-
-- name: "Add user to the docker group"
-  user:
-    name: "{{ user }}"
-    uid: "{{ user_uid }}"
-    groups: "{{ group }},sudo,docker"
-    append: yes
-    state: present
-
-- name: "Regularly cleanup un-used images and stopped containers"
-  cron:
-    name: "docker cleanup"
-    hour: "*/12"
-    minute: 0
-    job: >
-      dogwrap -n "Cleanup docker images and containers"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
-      "echo y | docker system prune"
-  become: "{{ user }}"
 
 - name: "Remove un-needed packages"
   apt:
