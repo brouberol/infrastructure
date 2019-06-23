@@ -6,6 +6,9 @@
 
   roles:
   - { role: setup, tags: ['setup'] }
+  - { role: datadog-agent-pi, tags: ['datadog-agent', 'datadog'] }
+  - { role: datadog-agent, tags: ['datadog-agent', 'datadog'] }
+  - { role: datadogpy, tags: ['datadogpy', 'datadog'] }
   - { role: nginx, tags: ['nginx', 'web'] }
   - { role: node, tags: ['node'] }
   - { role: weboob, tags: ['weboob'] }

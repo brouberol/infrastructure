@@ -1,0 +1,7 @@
+---
+- name: "start datadog-agent"
+  service:
+    name: datadog-agent
+    state: started
+    enabled: yes
+    daemon_reload: yes

@@ -1,6 +1,6 @@
 ---
 - include: pkg-debian.yml
-  when: ansible_os_family == "Debian"
+  when: ansible_os_family == "Debian" and ansible_lsb['id'] != 'Raspbian'
 
 - include: pkg-redhat.yml
   when: ansible_os_family == "RedHat"

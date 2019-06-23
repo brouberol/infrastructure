@@ -1,0 +1,3 @@
+{% from "macros/systemd_user_service.j2" import systemd_user_service with context %}
+{{ systemd_user_service("Datadog agent") }}
+ExecStart=/root/.datadog-agent/bin/agent

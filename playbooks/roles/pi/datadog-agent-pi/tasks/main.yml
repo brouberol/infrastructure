@@ -1,0 +1,42 @@
+- name: "Install sysstat"
+  apt:
+    name:
+      - sysstat
+    state: present
+
+- name: "Install the agent"
+  command: "curl -L https://raw.githubusercontent.com/DataDog/dd-agent/master/packaging/datadog-agent/source/setup_agent.sh"
+  args:
+    creates: /root/.datadog-agent/bin/agent
+  environment:
+    DD_API_KEY: "{{ datadog_api_key }}"
+
+- name: "Run datadog-agent with systemd"
+  template:
+    src: datadog-agent-unit.conf.j2
+    dest: /etc/systemd/system/datadog-agent.service
+  notify: "start datadog-agent"
+
+- name: "Create user group"
+  group:
+    name: "dd-agent"
+    state: present
+
+- name: "Create user"
+  user:
+    name: "dd-agent"
+    groups: "dd-agent,sudo"
+    append: yes
+    state: present
+    shell: /bin/false
+
+- name: "Create datadog config directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: dd-agent
+    group: dd-agent
+  with_items:
+    - /etc/datadog-agent
+    - /etc/datadog-agent/conf.d
+    - /etc/datadog-agent/checks.d
