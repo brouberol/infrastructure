@@ -1,3 +1,8 @@
+- name: Ensure libssl-dev is installed
+  apt:
+    name: libssl-dev
+    state: present
+
 - name: "Download certbot-auto"
   get_url:
     url: https://dl.eff.org/certbot-auto
