@@ -120,7 +120,26 @@ resource "datadog_monitor" "hosts_disk_usage" {
   name = "Disk is filling up"
   type = "metric alert"
   message = "@slack-notifications"
-  query = "avg(last_4h):avg:system.disk.in_use{*} by {host,device} > 0.85"
+  query = "avg(last_4h):avg:system.disk.in_use{!host:${module.global_vars.pi_server_name}} by {host,device} > 0.85"
+
+  thresholds = {
+    warning  = 0.80
+    critical = 0.85
+  }
+
+  notify_no_data    = true
+  renotify_interval = 360
+
+  notify_audit = false
+  timeout_h    = 60
+  include_tags = true
+}
+
+resource "datadog_monitor" "pi_disk_usage" {
+  name = "Pi disk is filling up"
+  type = "metric alert"
+  message = "@slack-notifications"
+  query = "avg(last_4h):avg:system.disk.in_use{host:${module.global_vars.pi_server_name},device:/dev/mmcblk0p1} > 0.85"
 
   thresholds = {
     warning  = 0.80
