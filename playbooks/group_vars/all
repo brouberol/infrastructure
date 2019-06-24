@@ -35,3 +35,8 @@ web_datadog_agent_nginx_check_location: /basic_status
 
 # systemd
 user_systemd_dir: "{{ user_home }}/.config/systemd/user"
+
+# datadog
+datadog_http_check_days_warning: 14
+datadog_http_check_days_critical: 7
+datadog_http_check_min_collection_interval: 1800

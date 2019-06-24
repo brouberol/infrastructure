@@ -38,9 +38,9 @@ datadog_checks:
     - url: "https://{{ sophro_domain }}"
       name: "{{ sophro_domain }}"
       check_certificate_expiration: true
-      days_warning: 14
-      days_critical: 7
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
       check_hostname: true
       ssl_server_name: "{{ sophro_domain }}"
       disable_ssl_validation: false
-      min_collection_interval: 1800
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
