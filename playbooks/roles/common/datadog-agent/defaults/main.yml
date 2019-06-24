@@ -1,6 +1,6 @@
 ---
 datadog_enabled: yes
-
+datdaog_config_dir: /etc/datadog-agent
 # default datadog.conf options
 datadog_config: {}
 
