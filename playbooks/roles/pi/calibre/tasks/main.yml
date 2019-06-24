@@ -1,0 +1,39 @@
+- name: Create the calibre library directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ calibre_home }}"
+    - "{{ calibre_home }}/config"
+    - "{{ calibre_home }}/books"
+
+- name: Run the calibre container
+  docker_container:
+    name: calibre-web
+    image: "{{ calibre_image }}:{{ calibre_version }}"
+    state: started
+    env:
+      PUID: "{{ user_uid | string}}"
+      PGID: "100"
+      TZ: "Europe/Paris"
+    published_ports:
+      - "{{ calibre_host }}:{{ calibre_port }}:8083"
+    volumes:
+      - "{{ calibre_home }}/config:/config:rw"
+      - "{{ calibre_home }}/books:/books:rw"
+    restart_policy: unless-stopped
+
+- name: "Copy calibre sites-available nginx conf"
+  template:
+    src: calibre-nginx.conf.j2
+    dest: /etc/nginx/sites-available/calibre.conf
+    owner: root
+    group: root
+  notify: "reload nginx service"
+
+- name: "Link calibre sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/calibre.conf
+    dest: /etc/nginx/sites-enabled/calibre.conf
+    state: link
+  notify: "reload nginx service"

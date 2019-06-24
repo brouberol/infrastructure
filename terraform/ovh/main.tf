@@ -62,3 +62,14 @@ resource "ovh_domain_zone_record" "sophro_domain" {
     ttl = "0"
     target = "${module.global_vars.sophro_domain_ip}"
 }
+
+resource "ovh_domain_zone_record" "home_subdomains" {
+    zone = "${module.global_vars.root_domain}"
+    subdomain = "${element(module.global_vars.home_subdomains, count.index)}"
+    fieldtype = "CNAME"
+    ttl = "0"
+    target = "${module.global_vars.home_subdomain}.${module.global_vars.root_domain}."
+
+    count = "${length(module.global_vars.home_subdomains)}"
+    depends_on = [ovh_domain_zone_record.home]
+}
