@@ -1,9 +1,12 @@
-- name: "Create sophro backup directory"
+- name: "Create backup directories"
   file:
-    path: "/home/{{ user }}/backups/sophro"
+    path: "/home/{{ user }}/backups/{{ item }}"
     state: directory
   become: yes
   become_user: "{{ user }}"
+  with_items:
+    - sophro
+    - calibre
 
 - name: "Schedule sophro backups"
   cron:
@@ -27,6 +30,33 @@
       dogwrap -n "Backup wallabag db"
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
-      "rsync -r --delete {{ user_home }}/wallabag/data/db/wallabag.sqlite {{ user }}@{{ home_domain }}:{{ user_home }}/backups/wallabag/wallabag.sqlite"
+      "rsync -r {{ user_home }}/wallabag/data/db/wallabag.sqlite {{ user }}@{{ home_domain }}:{{ user_home }}/backups/wallabag/wallabag.sqlite"
+  become: yes
+  become_user: "{{ user }}"
+
+- name: "Schedule the backup of the calibre metadata database"
+  cron:
+    name: "backup calibre db"
+    minute: "0"
+    hour: "0"
+    job: >
+      dogwrap -n "Backup calibre metadata db"
+      --submit_mode all
+      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      "rsync -r {{ user }}@{{ home_domain }}:{{ user_home }}/calibre/books/metadata.db {{ user_home }}/backups/calibre/metadata.db"
+  become: yes
+  become_user: "{{ user }}"
+
+
+- name: "Schedule the backup of the calibre app database"
+  cron:
+    name: "backup calibre app db"
+    minute: "0"
+    hour: "0"
+    job: >
+      dogwrap -n "Backup calibre db"
+      --submit_mode all
+      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      "rsync -r {{ user }}@{{ home_domain }}:{{ user_home }}/calibre/config/app.db {{ user_home }}/backups/calibre/app.db"
   become: yes
   become_user: "{{ user }}"
