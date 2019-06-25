@@ -12,6 +12,7 @@ certbot_list_of_certs_to_create:
   - "{{ fathom_domain }}"
   - "{{ wallabag_domain }}"
   - "{{ radicale_domain }}"
+  - "{{ pastebin_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -43,6 +44,7 @@ datadog_checks:
      - nginx_status_url: "https://{{ fathom_domain }}/basic_status"
      - nginx_status_url: "https://{{ wallabag_domain }}/basic_status"
      - nginx_status_url: "https://{{ radicale_domain }}/basic_status"
+     - nginx_status_url: "https://{{ pastebin_domain }}/basic_status"
 
   http_check:
     init_config:
@@ -101,6 +103,15 @@ datadog_checks:
       ssl_server_name: "{{ radicale_domain }}"
       disable_ssl_validation: false
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+    - url: "https://{{ pastebin_domain }}"
+      name: "{{ pastebin_domain }}"
+      check_certificate_expiration: true
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
+      check_hostname: true
+      ssl_server_name: "{{ pastebin_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
     - url: "http://{{ myip_domain }}"
       name: "{{ myip_domain }}"
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
@@ -150,3 +161,10 @@ radicale_host: 127.0.0.1
 radicale_port: 8004
 radicale_domain: "caldav.{{ main_domain }}"
 radicale_home: "{{ user_home }}/radicale"
+
+# pastebin
+pastebin_host: 127.0.0.1
+pastebin_port: 8005
+pastebin_version: 1.0.2
+pastebin_home: "{{ user_home }}/pastebin"
+pastebin_domain: "bin.{{ main_domain }}"

@@ -23,6 +23,7 @@
   - { role: wallabag, tags: ['wallabag', 'web', 'services'] }
   - { role: radicale, tags: ['radicale', 'web', 'services'] }
   - { role: backups, tags: ['backups'] }
+  - { role: pastebin, tags: ['pastebin'] }
 
   post_tasks:
   - include_vars:
