@@ -1,6 +1,19 @@
 This project defines my personal infrastucture as a set of terraform manifests and ansible playbooks.
 
+The main idea is to centralize all configuration, whether they apply to instances or cloud services, and make it easy to add new services, secure and monitor them properly.
+
 ## Terraforming the cloud resources
+
+### Credentials setup
+
+The first step is to create API keys for every single terraform provider being used, and add them to local config files:
+
+- [aws](https://www.terraform.io/docs/providers/aws/index.html)
+- [scaleway](https://www.terraform.io/docs/providers/aws/index.html#shared-credentials-file)
+- [ovh](https://www.terraform.io/docs/providers/ovh/index.html#configuration-of-the-provider)
+- [datadog](https://www.terraform.io/docs/providers/datadog/index.html#argument-reference) (the Datadog provider does not yet support parsing the `~/.dogrc` configuration file, meaning I had to [hack](https://github.com/brouberol/infrastructure/blob/master/terraform/env.sh#L1) something together)
+
+### Creating cloud resources
 
 The terraform resources are organized by cloud provider (OVH, AWS, Scaleway, etc). To initialize each environment, run
 
