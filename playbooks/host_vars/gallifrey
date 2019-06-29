@@ -126,6 +126,7 @@ datadog_checks:
       ssl_server_name: "{{ isso_domain }}"
       disable_ssl_validation: false
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      http_response_status_code: "(1|2|3|4)\\d\\d"
 
 # Git
 git_home: "/home/{{ git_user }}"
