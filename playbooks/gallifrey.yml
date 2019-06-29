@@ -24,6 +24,7 @@
   - { role: radicale, tags: ['radicale', 'web', 'services'] }
   - { role: backups, tags: ['backups'] }
   - { role: pastebin, tags: ['pastebin'] }
+  - { role: isso, tags: ['isso'] }
 
   post_tasks:
   - include_vars:

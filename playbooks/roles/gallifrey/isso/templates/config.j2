@@ -1,0 +1,21 @@
+[general]
+dbpath = /db/comments.db
+host =
+    http://localhost:8000/  # used for local blog rendering on laptop
+    https://{{ blog_domain }}/
+gravatar = true
+
+[server]
+listen = http://0.0.0.0:{{ isso_docker_port }}/
+
+[guard]
+enabled = true
+ratelimit = 2
+direct-reply = 10
+reply-to-self = true
+require-author = true
+require-email = true
+
+[admin]
+enabled = true
+password = {{ isso_admin_password }}

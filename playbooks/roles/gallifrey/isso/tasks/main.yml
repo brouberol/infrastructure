@@ -1,0 +1,50 @@
+- name: Create the isso directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items:
+  - "{{ isso_home }}"
+  - "{{ isso_home }}/config"
+  - "{{ isso_home }}/db"
+
+- name: Render isso config file
+  template:
+    src: config.j2
+    dest: "{{ isso_home }}/config/isso.conf"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  register: isso_config
+
+- name: Run the isso container
+  docker_container:
+    name: isso
+    image: "wonderfall/isso"
+    state: started
+    published_ports:
+      - "{{ isso_host }}:{{ isso_port }}:{{ isso_docker_port }}"
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ isso_home }}/config:/config"
+      - "{{ isso_home }}/db:/db"
+    env:
+      UID: "{{ user_uid | string }}"
+      GID: "{{ user_gid | string }}"
+      ISSO_SETTINGS: "/config/isso.conf"
+      CONFIG_CHECKSUM: "{{ isso_config.checksum }}"
+
+- name: "Copy isso sites-available nginx conf"
+  template:
+    src: isso.conf.j2
+    dest: /etc/nginx/sites-available/isso.conf
+    owner: root
+    group: root
+  notify: "reload nginx service"
+
+- name: "Link isso sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/isso.conf
+    dest: /etc/nginx/sites-enabled/isso.conf
+    state: link
+  notify: "reload nginx service"

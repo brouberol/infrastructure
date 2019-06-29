@@ -13,6 +13,7 @@ certbot_list_of_certs_to_create:
   - "{{ wallabag_domain }}"
   - "{{ radicale_domain }}"
   - "{{ pastebin_domain }}"
+  - "{{ isso_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -45,6 +46,7 @@ datadog_checks:
      - nginx_status_url: "https://{{ wallabag_domain }}/basic_status"
      - nginx_status_url: "https://{{ radicale_domain }}/basic_status"
      - nginx_status_url: "https://{{ pastebin_domain }}/basic_status"
+     - nginx_status_url: "https://{{ isso_domain }}/basic_status"
 
   http_check:
     init_config:
@@ -115,6 +117,15 @@ datadog_checks:
     - url: "http://{{ myip_domain }}"
       name: "{{ myip_domain }}"
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+    - url: "https://{{ isso_domain }}"
+      name: "{{ isso_domain }}"
+      check_certificate_expiration: true
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
+      check_hostname: true
+      ssl_server_name: "{{ isso_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
 
 # Git
 git_home: "/home/{{ git_user }}"
@@ -168,3 +179,10 @@ pastebin_port: 8005
 pastebin_version: 1.0.2
 pastebin_home: "{{ user_home }}/pastebin"
 pastebin_domain: "bin.{{ main_domain }}"
+
+# isso
+isso_host: 127.0.0.1
+isso_docker_port: 8080
+isso_port: 8006
+isso_home: "{{ user_home }}/isso"
+isso_domain: "comments.{{ main_domain }}"

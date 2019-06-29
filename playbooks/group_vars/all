@@ -9,6 +9,7 @@ opt_dir: /opt
 user: br
 group: br
 user_uid: 1001
+user_gid: 1002
 user_home: "/home/{{ user }}"
 user_xdg_runtime_dir: "/run/user/{{ user_uid }}"
 user_ssh_authorized_keys: "{{ lookup('file', '../misc/ssh_keys').split('\n')}}"
