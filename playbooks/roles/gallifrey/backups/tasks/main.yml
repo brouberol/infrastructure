@@ -70,6 +70,6 @@
       dogwrap -n "Backup isso db"
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
-      "rsync -r {{ isso_home }}/db/app.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/isso/app.db"
+      "rsync -r {{ isso_home }}/db/comments.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/isso/comments.db"
   become: yes
   become_user: "{{ user }}"
