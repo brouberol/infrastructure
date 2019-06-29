@@ -1,4 +1,4 @@
-- name: "Create wallabag backup directory"
+- name: "Create backup directories"
   file:
     path: "/home/{{ user }}/backups/{{ item }}"
     state: directory
@@ -6,3 +6,4 @@
     group: "{{ group }}"
   with_items:
     - wallabag
+    - isso

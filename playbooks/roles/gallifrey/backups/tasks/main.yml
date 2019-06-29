@@ -60,3 +60,16 @@
       "rsync -r {{ user }}@{{ home_domain }}:{{ user_home }}/calibre/config/app.db {{ user_home }}/backups/calibre/app.db"
   become: yes
   become_user: "{{ user }}"
+
+- name: "Schedule the backup of the isso database"
+  cron:
+    name: "backup isso db"
+    minute: "0"
+    hour: "0"
+    job: >
+      dogwrap -n "Backup isso db"
+      --submit_mode all
+      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      "rsync -r {{ isso_home }}/db/app.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/isso/app.db"
+  become: yes
+  become_user: "{{ user }}"
