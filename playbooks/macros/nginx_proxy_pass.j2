@@ -1,4 +1,4 @@
-{% macro nginx_proxy_pass(domain, port) %}
+{% macro nginx_proxy_pass(domain, port, extra_opts={}) %}
 server {
     listen 80;
     server_name {{ domain }};
@@ -13,6 +13,9 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
     ssl_session_cache shared:SSL:10m;
     ssl_prefer_server_ciphers on;
+    {% for opt_name, opt_value in extra_opts.items() %}
+    {{ opt_name }} {{ opt_value }};
+    {% endfor %}
 
     # Letsencrypt challenge
     location {{ web_acme_challenge_location }} {
