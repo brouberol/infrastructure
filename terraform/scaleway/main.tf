@@ -23,3 +23,10 @@ resource "scaleway_server" "gallifrey" {
   enable_ipv6 = false
   tags = []
 }
+
+resource "scaleway_security_group" "default_sg" {
+  name = "Default security group"
+  description             = "Auto generated security group."
+  enable_default_security = false
+  stateful = false
+}
