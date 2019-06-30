@@ -207,3 +207,6 @@ calibre_version: latest
 calibre_host: 127.0.0.1
 calibre_port: 8007
 calibre_domain: "library.{{ main_domain }}"
+
+# slack
+slack_home: "{{ user_home }}/sclack"

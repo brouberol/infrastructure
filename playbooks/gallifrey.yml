@@ -26,6 +26,7 @@
   - { role: pastebin, tags: ['pastebin'] }
   - { role: isso, tags: ['isso'] }
   - { role: calibre, tags: ['calibre'] }
+  - { role: slack, tags: ['slack'] }
 
   post_tasks:
   - include_vars:
