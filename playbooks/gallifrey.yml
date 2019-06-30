@@ -25,6 +25,7 @@
   - { role: backups, tags: ['backups'] }
   - { role: pastebin, tags: ['pastebin'] }
   - { role: isso, tags: ['isso'] }
+  - { role: calibre, tags: ['calibre'] }
 
   post_tasks:
   - include_vars:

@@ -13,8 +13,9 @@
     image: "{{ calibre_image }}:{{ calibre_version }}"
     state: started
     env:
-      PUID: "{{ user_uid | string}}"
-      PGID: "100"
+      PUID: "{{ user_uid | string }}"
+      PGID: "{{ user_gid | string }}"
+      DOCKER_MODS: linuxserver/calibre-web:calibre
       TZ: "Europe/Paris"
     published_ports:
       - "{{ calibre_host }}:{{ calibre_port }}:8083"

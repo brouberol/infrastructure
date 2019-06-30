@@ -21,7 +21,6 @@ node_version: 10.16.0
 # certbot
 certbot_list_of_certs_to_create:
   - "{{ kresus_domain }}"
-  - "{{ calibre_domain }}"
 
 # Datadog
 datadog_config_dir: /root/.datadog-agent/agent
@@ -45,24 +44,6 @@ datadog_checks:
       name: "{{ kresus_domain }}"
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
       timeout: 5
-    - url: "https://{{ calibre_domain }}"
-      name: "{{ calibre_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ calibre_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-      timeout: 5
 
 extra_ssh_authorized_keys:
 - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC41PtAkD8FKqMdcGSYie0k8PHOGPoXuMKFgrsSreen13uhGiBfLK+ihIbIR+VdS8FCNcIkqqnuq3gE8OwCME5XRji7TpoLkD1YdFyxJcNTMNCiwhaEmMPF1MfKSPiQeUG+ygazzc/iVGWnj5X6/hinCNqqRIyZ6hTS7osYZyEJqRpE6uVetyLk9BQWLt8FR0F+CCNx79ewdn416kAh3kRyCwcN5nvOCps2m9ECg4mFD83LK9P8Drqo5CTBe8iD2MS4sfRr4qg5C5ELD5cuy4EvImHcKqRfpKZX+pMUP2Fj6qPbAiujAWPhJsnPsxCGeMIdikSbrYdaKPhM7C8f4VKvB/dRTir1jRl8MZihdD/C603CH5ekBFXrV+7SUD+5P9s8FQTojRzqHeWyd1LWjfQAJ0ariaF1dczMU7mTnWcg+mXnhh6jL4KgT7soaYtyQhnTADHWlkctyhJsDuE73K6F5bbHPMn7gMiAzxJ2rfiJsqayAB0iNTQepl7X2MpzhsUk4QRNmX20sMLXQSBlUtx1ubTV/BNWKAaCM4X56eFAm7e01iqEBjLFgUXBhSOqp75ajENC/ObLhUBlANFquoPzv8DaACO0TUaovqX/KWvNNRoXtq3hapi3qGrDtzPNSMvQ1VR2KBBzcFWnlOxePoxClEI57+4vWmuQimb/8Hd7Sw== ansible-generated on gallifrey"
-
-# calibre
-calibre_home: "{{ user_home }}/calibre"
-calibre_image: linuxserver/calibre-web
-calibre_version: arm32v7-latest
-calibre_host: 127.0.0.1
-calibre_port: 8000
-calibre_domain: "library.{{ main_domain }}"

@@ -14,6 +14,7 @@ certbot_list_of_certs_to_create:
   - "{{ radicale_domain }}"
   - "{{ pastebin_domain }}"
   - "{{ isso_domain }}"
+  - "{{ calibre_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -47,6 +48,7 @@ datadog_checks:
      - nginx_status_url: "https://{{ radicale_domain }}/basic_status"
      - nginx_status_url: "https://{{ pastebin_domain }}/basic_status"
      - nginx_status_url: "https://{{ isso_domain }}/basic_status"
+     - nginx_status_url: "https://{{ calibre_domain }}/basic_status"
 
   http_check:
     init_config:
@@ -127,6 +129,16 @@ datadog_checks:
       disable_ssl_validation: false
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
       http_response_status_code: "(1|2|3|4)\\d\\d"
+    - url: "https://{{ calibre_domain }}"
+      name: "{{ calibre_domain }}"
+      check_certificate_expiration: true
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
+      check_hostname: true
+      ssl_server_name: "{{ calibre_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      timeout: 5
 
 # Git
 git_home: "/home/{{ git_user }}"
@@ -187,3 +199,11 @@ isso_docker_port: 8080
 isso_port: 8006
 isso_home: "{{ user_home }}/isso"
 isso_domain: "comments.{{ main_domain }}"
+
+# calibre
+calibre_home: "{{ user_home }}/calibre"
+calibre_image: linuxserver/calibre-web
+calibre_version: latest
+calibre_host: 127.0.0.1
+calibre_port: 8007
+calibre_domain: "library.{{ main_domain }}"

@@ -6,7 +6,6 @@
   become_user: "{{ user }}"
   with_items:
     - sophro
-    - calibre
 
 - name: "Schedule sophro backups"
   cron:
@@ -43,7 +42,7 @@
       dogwrap -n "Backup calibre metadata db"
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
-      "rsync -r {{ user }}@{{ home_domain }}:{{ user_home }}/calibre/books/metadata.db {{ user_home }}/backups/calibre/metadata.db"
+      "rsync -r {{ user_home }}/calibre/books/metadata.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/calibre/metadata.db"
   become: yes
   become_user: "{{ user }}"
 
@@ -57,7 +56,7 @@
       dogwrap -n "Backup calibre db"
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
-      "rsync -r {{ user }}@{{ home_domain }}:{{ user_home }}/calibre/config/app.db {{ user_home }}/backups/calibre/app.db"
+      "rsync -r {{ user_home }}/calibre/config/app.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/calibre/app.db"
   become: yes
   become_user: "{{ user }}"
 
