@@ -24,6 +24,27 @@ resource "scaleway_server" "gallifrey" {
   tags = []
 }
 
+resource "scaleway_ip" "gallifrey_ip" {
+  server = "${scaleway_server.gallifrey.id}"
+}
+
+resource "scaleway_ip_reverse_dns" "gallifrey" {
+  ip = "${scaleway_ip.gallifrey_ip.id}"
+  reverse = "${module.global_vars.root_domain}"
+}
+
+resource "scaleway_volume" "gallifrey_snap" {
+  name       = "snapshot_gallifrey_0_2019-06-30_17-29"
+  size_in_gb = 25
+  type       = "l_ssd"
+}
+
+resource "scaleway_volume" "gallifrey_data" {
+  name       = "Volume-1"
+  size_in_gb = 15
+  type       = "l_ssd"
+}
+
 resource "scaleway_security_group" "default_sg" {
   name = "Default security group"
   description             = "Auto generated security group."
