@@ -19,13 +19,6 @@ user_ssh_authorized:
 
 # Certbot
 certbot_mail_address: br@imap.cc
-certbot_create_certs: false
-certbot_renew_certs: true
-certbot_renew_certs_minute: 0
-certbot_renew_certs_hour: 0
-certbot_renew_certs_day: '*'
-certbot_renew_certs_month: '*/1'
-certbot_renew_certs_weekday: '*'
 
 # Web
 web_home: /var/www

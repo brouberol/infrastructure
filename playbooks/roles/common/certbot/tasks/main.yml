@@ -19,15 +19,18 @@
   with_items:
     - "{{ certbot_list_of_certs_to_create }}"
 
-- name: renew certs every month
+- name: renew certs
   cron:
     name: renewCertbotCerts
+    user: root
     minute: "{{ certbot_renew_certs_minute }}"
     hour: "{{ certbot_renew_certs_hour }}"
     month: "{{ certbot_renew_certs_month }}"
     weekday: "{{ certbot_renew_certs_weekday }}"
     day: "{{ certbot_renew_certs_day }}"
     job: "{{ certbot_renew_certs_job }}"
+    state: present
+    disabled: no
   when: certbot_renew_certs
 
 - name: "Remove default certbot cron job"
