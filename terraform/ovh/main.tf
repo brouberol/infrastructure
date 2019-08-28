@@ -73,3 +73,15 @@ resource "ovh_domain_zone_record" "home_subdomains" {
     count = "${length(module.global_vars.home_subdomains)}"
     depends_on = [ovh_domain_zone_record.home]
 }
+
+
+resource "ovh_domain_zone_record" "grand_cedre_subdomain" {
+    zone = "${module.global_vars.sophro_domain}"
+    subdomain = "grand-cedre"
+    fieldtype = "CNAME"
+    ttl = "0"
+    target = "${module.global_vars.root_domain}."
+
+    depends_on = [ovh_domain_zone_record.root_domain]
+
+}
