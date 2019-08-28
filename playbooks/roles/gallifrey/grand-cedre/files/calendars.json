@@ -1,0 +1,74 @@
+[
+  {
+    "kind": "calendar#calendarListEntry",
+    "etag": "\"1560538009861000\"",
+    "id": "d21gjle06elip5645cq3dhv4eg@group.calendar.google.com",
+    "summary": "Salle collective - Grand C\u00e8dre",
+    "location": "Chalon",
+    "timeZone": "Europe/Paris",
+    "colorId": "24",
+    "backgroundColor": "#a47ae2",
+    "foregroundColor": "#000000",
+    "selected": true,
+    "accessRole": "owner",
+    "defaultReminders": [],
+    "metadata": {
+      "individual": false
+    },
+    "conferenceProperties": {
+      "allowedConferenceSolutionTypes": [
+        "eventHangout"
+      ]
+    }
+  },
+  {
+    "kind": "calendar#calendarListEntry",
+    "etag": "\"1561129256560000\"",
+    "id": "k5eccut1d1lea5dm7msm076s14@group.calendar.google.com",
+    "summary": "Cabinet bleu - Grand C\u00e8dre",
+    "timeZone": "Europe/Paris",
+    "colorId": "16",
+    "backgroundColor": "#4986e7",
+    "foregroundColor": "#000000",
+    "selected": true,
+    "accessRole": "owner",
+    "metadata": {
+      "individual": true
+    },
+    "defaultReminders": [],
+    "notificationSettings": {
+      "notifications": [
+        {
+          "type": "eventCancellation",
+          "method": "email"
+        }
+      ]
+    },
+    "conferenceProperties": {
+      "allowedConferenceSolutionTypes": [
+        "eventHangout"
+      ]
+    }
+  },
+  {
+    "kind": "calendar#calendarListEntry",
+    "etag": "\"1561135357260000\"",
+    "id": "qfumhi50j6ou6urde6k613t4ls@group.calendar.google.com",
+    "summary": "Cabinet jaune - Grand C\u00e8dre",
+    "timeZone": "Europe/Paris",
+    "colorId": "6",
+    "backgroundColor": "#ffad46",
+    "foregroundColor": "#000000",
+    "selected": true,
+    "accessRole": "owner",
+    "defaultReminders": [],
+    "metadata": {
+      "individual": true
+    },
+    "conferenceProperties": {
+      "allowedConferenceSolutionTypes": [
+        "eventHangout"
+      ]
+    }
+  }
+]

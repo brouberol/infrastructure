@@ -27,6 +27,7 @@
   - { role: isso, tags: ['isso'] }
   - { role: calibre, tags: ['calibre'] }
   - { role: slack, tags: ['slack'] }
+  - { role: grand-cedre, tags: ['grand-cedre'] }
 
   post_tasks:
   - include_vars:

@@ -15,6 +15,7 @@ certbot_list_of_certs_to_create:
   - "{{ pastebin_domain }}"
   - "{{ isso_domain }}"
   - "{{ calibre_domain }}"
+  - "{{ grand_cedre_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -139,6 +140,16 @@ datadog_checks:
       disable_ssl_validation: false
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
       timeout: 5
+    - url: "https://{{ grand_cedre_domain }}"
+      name: "{{ grand_cedre_domain }}"
+      check_certificate_expiration: true
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
+      check_hostname: true
+      ssl_server_name: "{{ grand_cedre_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      timeout: 5
 
 # Git
 git_home: "/home/{{ git_user }}"
@@ -210,3 +221,10 @@ calibre_domain: "library.{{ main_domain }}"
 
 # slack
 slack_home: "{{ user_home }}/sclack"
+
+# grand-cedre-admin
+grand_cedre_home: "{{ user_home }}/grand-cedre"
+grand_cedre_data_dir: "{{ grand_cedre_home }}/data"
+grand_cedre_host: 127.0.0.1
+grand_cedre_port: 8008
+grand_cedre_domain: "grand-cedre.{{ sophro_domain }}"

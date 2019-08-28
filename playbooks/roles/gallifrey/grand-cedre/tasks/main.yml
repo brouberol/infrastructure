@@ -1,0 +1,57 @@
+- name: "Create grand_cedre directories"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items:
+    - "{{ grand_cedre_home }}"
+    - "{{ grand_cedre_data_dir }}"
+
+- name: "Render google auth token"
+  shell: "echo '{{ grand_cedre_google_token }}' | base64 -d > {{ grand_cedre_data_dir }}/token.pickle"
+
+- name: "Copy data files"
+  copy:
+    src: files/calendars.json
+    dest: "{{ grand_cedre_data_dir }}/calendars.json"
+
+- name: "Create basic auth htpasswd file"
+  htpasswd:
+    path: /etc/nginx/grand-cedre.htpasswd
+    name: "{{ grand_cedre_admin_username }}"
+    password: "{{ grand_cedre_admin_password }}"
+    owner: root
+    group: www-data
+    mode: 0640
+
+- name: "Copy the grand-cedre sites-available nginx conf"
+  template:
+    src: grand-cedre-nginx.conf.j2
+    dest: /etc/nginx/sites-available/grand-cedre.conf
+    owner: root
+    group: root
+  notify: "reload nginx service"
+
+- name: "Link the grand-cedre sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/grand-cedre.conf
+    dest: /etc/nginx/sites-enabled/grand-cedre.conf
+    state: link
+  notify: "reload nginx service"
+
+- name: "Start the grand_cedre container"
+  become: "{{ user }}"
+  docker_container:
+    name: grand-cedre
+    image: "brouberol/grand-cedre"
+    pull: yes
+    state: started
+    published_ports:
+      - "{{ grand_cedre_host }}:{{ grand_cedre_port }}:8000"
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ grand_cedre_home }}/data:/app/data"
+    env:
+      SQLALCHEMY_DATABASE_URI: "{{ grand_cedre_database_uri }}"
+      SECRET_KEY: "{{ grand_cedre_secret_key }}"
