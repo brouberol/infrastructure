@@ -15,8 +15,10 @@
 
 - name: "Copy data files"
   copy:
-    src: files/calendars.json
-    dest: "{{ grand_cedre_data_dir }}/calendars.json"
+    src: "{{ item }}"
+    dest: "{{ grand_cedre_data_dir }}/"
+  with_fileglob:
+    - "files/*.json"
 
 - name: "Create basic auth htpasswd file"
   htpasswd:
