@@ -91,3 +91,18 @@
       "docker exec grand-cedre flask generate-invoices"
   become: yes
   become_user: "{{ user }}"
+
+- name: "Schedule balance sheet generation"
+  cron:
+    name: "grand-cedre balance sheet generation"
+    minute: "0"
+    hour: "0"
+    day: "1"
+    job: >
+      /usr/local/bin/dogwrap -n "Generate last Grand Cedre balance sheet"
+      --submit_mode all
+      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
+      --tag app:grand-cedre
+      "docker exec grand-cedre flask create-balance-sheet"
+  become: yes
+  become_user: "{{ user }}"
