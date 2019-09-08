@@ -10,8 +10,6 @@
 
 - name: "Render google auth token"
   shell: "echo '{{ grand_cedre_google_token }}' | base64 -d > {{ grand_cedre_data_dir }}/token.pickle"
-  args:
-    creates: "{{ grand_cedre_data_dir }}/token.pickle"
 
 - name: "Copy data files"
   copy:
