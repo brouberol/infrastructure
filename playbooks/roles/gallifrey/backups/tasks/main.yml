@@ -82,6 +82,6 @@
       /usr/local/bin/dogwrap -n "Backup grand-cedre db"
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
-      "rsync -r {{ grand_cedre_home }}/grand-cedre/data/data.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/grand-cedre/data.db"
+      "rsync -r {{ grand_cedre_home }}/data/data.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/grand-cedre/data.db"
   become: yes
   become_user: "{{ user }}"
