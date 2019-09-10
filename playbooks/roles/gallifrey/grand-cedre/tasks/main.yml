@@ -71,7 +71,7 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
       --tag app:grand-cedre
-      "docker exec grand-cedre flask import-bookings"
+      "docker exec grand-cedre flask import-bookings --no-commit"
   become: yes
   become_user: "{{ user }}"
 
@@ -80,7 +80,7 @@
     name: "grand-cedre invoices generation"
     minute: "0"
     hour: "0"
-    day: "28"
+    day: "1"
     job: >
       /usr/local/bin/dogwrap -n "Generate Grand Cedre invoices"
       --submit_mode all
