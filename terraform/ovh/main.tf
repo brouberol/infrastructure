@@ -85,3 +85,11 @@ resource "ovh_domain_zone_record" "grand_cedre_subdomain" {
     depends_on = [ovh_domain_zone_record.root_domain]
 
 }
+
+
+resource "ovh_domain_zone_record" "bleuromarin_domain" {
+    zone = "${module.global_vars.bleuromarin_domain}"
+    fieldtype = "A"
+    ttl = "0"
+    target = "${module.global_vars.main_domain_ip}"
+}
