@@ -6,7 +6,7 @@ ANSIBLE_COMMON_ROLES := roles/common
 ANSIBLE_OPTS := -v
 
 playbook-%:  ## Configure an instance. Replace '%' by the instance playbook you want to run
-	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* ansible-playbook $*.yml $(ANSIBLE_OPTS)
+	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* ansible-playbook $*.yml $(ANSIBLE_OPTS) $(target)
 
 playbook-%-bootstrap:  ## Bootstrap an instance. Replace '%' by the instance playbook you want to run
 	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* ansible-playbook $*-bootstrap.yml $(ANSIBLE_OPTS)
