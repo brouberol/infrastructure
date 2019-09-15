@@ -22,6 +22,16 @@ datadog_agent6: true
 datadog_config:
   log_level: INFO
   tags: "name:{{ hostname }}, role:web"
+  logs_enabled: true
+  listeners:
+    - name: docker
+  config_providers:
+    - name: docker
+      polling: true
+  logs_config:
+    container_collect_all: true
+  ac_exclude: ["image:.*"]
+  ac_include: ["image:brouberol/grand-cedre"]
 datadog_checks:
   process:
     init_config:
