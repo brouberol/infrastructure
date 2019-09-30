@@ -65,20 +65,20 @@
     name: "grand-cedre bookings import"
     minute: "0"
     hour: "0"
-    day: "*/2"
+    day: "1"
     job: >
       /usr/local/bin/dogwrap -n "Import Grand Cedre bookings"
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
       --tag app:grand-cedre
-      "docker exec grand-cedre flask import-bookings --no-commit"
+      "docker exec grand-cedre flask import-bookings >> /proc/1/fd/2"
   become: yes
   become_user: "{{ user }}"
 
 - name: "Schedule invoice generation"
   cron:
     name: "grand-cedre invoices generation"
-    minute: "0"
+    minute: "5"
     hour: "0"
     day: "1"
     job: >
@@ -86,14 +86,14 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
       --tag app:grand-cedre
-      "docker exec grand-cedre flask generate-invoices"
+      "docker exec grand-cedre flask generate-invoices >> /proc/1/fd/2"
   become: yes
   become_user: "{{ user }}"
 
 - name: "Schedule balance sheet generation"
   cron:
     name: "grand-cedre balance sheet generation"
-    minute: "0"
+    minute: "10"
     hour: "0"
     day: "1"
     job: >
@@ -101,6 +101,6 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
       --tag app:grand-cedre
-      "docker exec grand-cedre flask create-balance-sheet"
+      "docker exec grand-cedre flask create-balance-sheet >> /proc/1/fd/2"
   become: yes
   become_user: "{{ user }}"
