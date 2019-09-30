@@ -51,9 +51,11 @@ resource "ovh_domain_zone_record" "private_subdomains" {
 resource "ovh_domain_zone_record" "home" {
     zone = "${module.global_vars.root_domain}"
     subdomain = "${module.global_vars.home_subdomain}"
-    fieldtype = "A"
+    fieldtype = "CNAME"
     ttl = "0"
-    target = "${module.global_vars.home_local_ip}"
+    target = "${module.global_vars.home_dyn_dns_domain}."
+
+    depends_on = [ovh_domain_zone_record.root_domain]
 }
 
 resource "ovh_domain_zone_record" "sophro_domain" {
