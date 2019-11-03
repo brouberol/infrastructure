@@ -1,4 +1,4 @@
-This project defines my personal infrastucture as a set of terraform manifests and ansible playbooks.
+This project defines my personal infrastucture as a set of terraform manifests and ansible playbooks, as detailed in the [following blogpost](https://blog.balthazar-rouberol.com/managing-my-infra-like-its-2019).
 
 The main idea is to centralize all configuration, whether they apply to instances or cloud services, and make it easy to add new services, secure and monitor them properly.
 
