@@ -71,7 +71,7 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
       --tag app:grand-cedre
-      "docker exec grand-cedre flask import-bookings >> /proc/1/fd/2"
+      "docker exec -it grand-cedre sh -c 'flask import-bookings 2>/proc/1/fd/2'"
   become: yes
   become_user: "{{ user }}"
 
@@ -86,7 +86,7 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
       --tag app:grand-cedre
-      "docker exec grand-cedre flask generate-invoices >> /proc/1/fd/2"
+      "docker exec -it grand-cedre sh -c 'flask generate-invoices 2>/proc/1/fd/2'"
   become: yes
   become_user: "{{ user }}"
 
@@ -101,6 +101,6 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
       --tag app:grand-cedre
-      "docker exec grand-cedre flask create-balance-sheet >> /proc/1/fd/2"
+      "docker exec -it grand-cedre sh -c 'flask create-balance-sheet 2>/proc/1/fd/2'"
   become: yes
   become_user: "{{ user }}"
