@@ -76,7 +76,7 @@
   cron:
     name: "website backup"
     minute: "0"
-    hour: "0"
+    hour: "23"
     job: >
       /usr/local/bin/dogwrap -n "Backup sophro website"
       --submit_mode all
