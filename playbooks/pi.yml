@@ -16,3 +16,4 @@
   - { role: weboob, tags: ['weboob'] }
   - { role: kresus, tags: ['kresus'] }
   - { role: backups, tags: ['backups'] }
+  - { role: pihole, tags: ['pihole'] }
