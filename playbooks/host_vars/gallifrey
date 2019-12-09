@@ -33,6 +33,14 @@ datadog_config:
   ac_exclude: ["image:.*"]
   ac_include: ["image:brouberol/grand-cedre"]
 datadog_checks:
+  journald:
+    logs:
+    - type: journald
+      path: /run/log/journal
+      exclude_units:
+      - datadog-agent.service
+      - datadog-agent-process.service
+      - datadog-agent-trace.service
   process:
     init_config:
     instances:
