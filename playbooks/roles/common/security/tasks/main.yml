@@ -50,6 +50,14 @@
     - 80
     - 443
 
+- name: "Accept incoming wireguard traffic"
+  iptables:
+    chain: INPUT
+    protocol: udp
+    destination_port: "5687"
+    jump: ACCEPT
+    comment: ansible managed
+
 - name: "Drop traffic on all the other TCP ports"
   iptables:
     chain: INPUT
