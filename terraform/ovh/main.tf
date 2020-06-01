@@ -102,4 +102,6 @@ resource "ovh_domain_zone_record" "recyclette_domain_cname" {
     fieldtype = "CNAME"
     ttl = "0"
     target = "${module.global_vars.shopify_domain}."
+
+    depends_on = [ovh_domain_zone_record.recyclette_domain]
 }
