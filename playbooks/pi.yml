@@ -12,8 +12,8 @@
   - { role: datadog-agent, tags: ['datadog-agent', 'datadog'] }
   - { role: datadogpy, tags: ['datadogpy', 'datadog'] }
   - { role: nginx, tags: ['nginx', 'web'] }
-  - { role: node, tags: ['node'] }
-  - { role: weboob, tags: ['weboob'] }
-  - { role: kresus, tags: ['kresus'] }
+  # - { role: node, tags: ['node'] }
+  # - { role: weboob, tags: ['weboob'] }
+  # - { role: kresus, tags: ['kresus'] }
   - { role: backups, tags: ['backups'] }
   - { role: pihole, tags: ['pihole'] }
