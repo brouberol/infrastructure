@@ -34,3 +34,14 @@
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
       "echo y | docker system prune"
   become: "{{ user }}"
+
+- name: Install the python docker library
+  pip:
+    name: docker
+    state: present
+
+- name: "Install the ssl backports library"
+  apt:
+    name: python-backports.ssl-match-hostname
+    state: present
+  when: ansible_os_family == "Debian" and ansible_lsb['id'] == 'Raspbian'
