@@ -44,3 +44,9 @@
   file:
     path: /home/pi/.ssh/authorized_keys
     state: absent
+
+- name: Enable the ssh service
+  systemd:
+    name: ssh
+    enabled: yes
+    masked: no

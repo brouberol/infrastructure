@@ -2,3 +2,8 @@
   service:
     name: ssh
     state: restarted
+
+- name: enable ssh
+  service:
+    name: ssh
+    state: enabled
