@@ -32,3 +32,4 @@
       DNS2: "1.0.0.1"
       DNSSEC: "true"
       ServerIP: "{{ ansible_default_ipv4.address }}"
+    log_driver: "none"  # no logging to save off the SD
