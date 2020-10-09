@@ -85,3 +85,16 @@
       "rsync -r {{ grand_cedre_home }}/data/data.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/grand-cedre/data.db"
   become: yes
   become_user: "{{ user }}"
+
+- name: "Schedule the backup of radicale files"
+  cron:
+    name: "backup radicale files"
+    minute: "0"
+    hour: "0"
+    job: >
+      /usr/local/bin/dogwrap -n "Backup radicale files"
+      --submit_mode all
+      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      "rsync -r {{ user_home }}/radicale {{ user }}@{{ home_domain }}:{{ user_home }}/backups/radicale"
+  become: yes
+  become_user: "{{ user }}"
