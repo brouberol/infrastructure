@@ -58,6 +58,6 @@
     regexp: "{{ item }}"
     state: present
   with_items:
-    - "tmpfs /tmp tmpfs defaults,noatime,nosuid,size=10m 0 0"
-    - "tmpfs /var/tmp tmpfs defaults,noatime,nosuid,size=10m 0 0"
+    - "tmpfs /tmp tmpfs defaults,noatime,nosuid,size=50m 0 0"
+    - "tmpfs /var/tmp tmpfs defaults,noatime,nosuid,size=20m 0 0"
     - "tmpfs /var/log tmpfs defaults,noatime,nosuid,mode=0755,size=10m 0 0"
