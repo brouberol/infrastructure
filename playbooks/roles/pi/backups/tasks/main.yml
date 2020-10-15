@@ -9,6 +9,7 @@
     - isso
     - calibre
     - grand-cedre
+    - radicale
 
 - name: "Install the restic client"
   apt:
