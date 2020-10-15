@@ -9,3 +9,60 @@
     - isso
     - calibre
     - grand-cedre
+
+- name: "Install the restic client"
+  apt:
+    name: restic
+    state: present
+
+- name: "Render the restic repository key password file"
+  template:
+    src: restic.j2
+    dest: /etc/restic
+
+- name: "Add Backblaze account id env var to the bash profile"
+  lineinfile:
+    path: "/home/{{ user }}/.profile"
+    line: "export B2_ACCOUNT_ID=\"{{ b2_account_id }}\""
+    regexp: "export B2_ACCOUNT_ID"
+    state: present
+
+- name: "Add Backblaze account key env var to the bash profile"
+  lineinfile:
+    path: "/home/{{ user }}/.profile"
+    line: "export B2_ACCOUNT_KEY=\"{{ b2_account_key }}\""
+    regexp: "export B2_ACCOUNT_KEY"
+    state: present
+
+- name: "Add restic repository env var to the bash profile"
+  lineinfile:
+    path: "/home/{{ user }}/.profile"
+    line: "export RESTIC_REPOSITORY=\"{{ restic_repository }}\""
+    regexp: "export RESTIC_REPOSITORY"
+    state: present
+
+- name: "Add restic password file env var to the bash profile"
+  lineinfile:
+    path: "/home/{{ user }}/.profile"
+    line: "export RESTIC_PASSWORD_FILE=/etc/restic"
+    regexp: "export RESTIC_PASSWORD_FILE=/etc/restic"
+    state: present
+
+- name: "Render the restic-wrapper script"
+  template:
+    src: restic-wrapper.sh.j2
+    dest: "/home/{{ user }}/restic-wrapper.sh"
+    mode: 0744
+
+- name: "Schedule the export of backups to Backblaze"
+  cron:
+    name: "export backups to backblaze"
+    minute: "0"
+    hour: "0"
+    job: >
+      /usr/local/bin/dogwrap -n "Export backups to Backblaze"
+      --submit_mode all
+      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      "/home/{{ user }}/restic-wrapper.sh"
+  become: yes
+  become_user: "{{ user }}"

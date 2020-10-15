@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed}}
+
+source /home/{{ user }}/.profile
+restic backup /home/{{ user }}/backups
