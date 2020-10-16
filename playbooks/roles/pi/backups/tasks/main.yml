@@ -54,6 +54,8 @@
     src: restic-wrapper.sh.j2
     dest: "/home/{{ user }}/restic-wrapper.sh"
     mode: 0744
+    owner: "{{ user }}"
+    group: "{{ group }}"
 
 - name: "Schedule the export of backups to Backblaze"
   cron:
