@@ -59,7 +59,7 @@
   cron:
     name: "export backups to backblaze"
     minute: "0"
-    hour: "0"
+    hour: "1"
     job: >
       /usr/local/bin/dogwrap -n "Export backups to Backblaze"
       --submit_mode all
