@@ -1,0 +1,18 @@
+auto vpn0
+iface vpn0 inet static
+    address {{ vpn_bridge_ip }}
+    netmask 255.255.255.0
+    pre-up ip link add $IFACE type bridge
+    post-up /usr/bin/wg-quick up wg0
+    post-up /sbin/ip rule add from {{ vpn0_cidr }} table vpn
+    post-up /sbin/ip route add {{ wg0_cidr }} dev wg0
+    post-up /sbin/ip rule add iif vpn0 lookup vpn priority 1000
+    post-up /sbin/ip rule add iif vpn0 blackhole priority 1001
+    post-up /usr/sbin/iptables -A POSTROUTING -s {{ vpn0_cidr }} -o wg0 -t nat
+    down /usr/bin/wg-quick down wg0
+    down /sbin/ip rule del iif vpn0 lookup vpn priority 1000 || true
+    down /sbin/ip rule del iif vpn0 blackhole priority 1001 || true
+    down /sbin/ip route del {{ wg0_cidr }} dev wg0 || true
+    down /sbin/ip rule del from {{ vpn0_cidr }} table vpn || true
+    down /sbin/ip link delete vpn0
+    down /usr/sbin/iptables -D POSTROUTING -s {{ vpn0_cidr }} -o wg0 -t nat

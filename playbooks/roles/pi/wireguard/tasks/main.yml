@@ -1,0 +1,37 @@
+# Instructions adapting https://wireguard.how/server/raspbian/
+
+- name: import the wireguard deb repo apt key
+  apt_key:
+    keyserver: hkp://p80.pool.sks-keyservers.net:80
+    id: "{{ item }}"
+  with_items:
+    - 04EE7237B7D453EC
+    - 648ACFD622F3D138
+
+- name: Add the Debian unstable release, and pin the Debian unstable priority behind Raspbian stable.
+  apt_repository:
+    repo: deb http://deb.debian.org/debian/ unstable main
+    state: present
+    filename: unstable
+
+- name: Keep the stable version for anything in stable and unstable
+  template:
+    src: limit-unstable.j2
+    dest: /etc/apt/preferences.d/limit-unstable
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Install wireguard
+  apt:
+    update_cache: yes
+    name: wireguard
+    state: present
+
+- name: Configure the wireguard interface
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+    mode: '0600'
+    owner: root
+    group: root

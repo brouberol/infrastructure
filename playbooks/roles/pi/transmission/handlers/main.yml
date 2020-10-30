@@ -1,0 +1,16 @@
+- name: restart networking service
+  service:
+    name: networking
+    state: restarted
+  listen: "restart networking"
+
+- name: restart transmission-daemon service
+  service:
+    name: transmission-daemon
+    state: restarted
+  listen: "restart transmission-daemon"
+
+- name: systemctl daemon reload
+  systemd:
+    daemon_reload: yes
+  listen: "systemctl daemon reload"

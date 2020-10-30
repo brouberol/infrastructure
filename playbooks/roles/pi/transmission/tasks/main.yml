@@ -1,0 +1,36 @@
+- name: Install transmission
+  apt:
+    name: transmission-daemon
+    state: present
+
+- name: "Tweak the systemd transmission service"
+  template:
+    src: transmission-daemon.service.j2
+    dest: /lib/systemd/system/transmission-daemon.service
+  notify:
+    - systemctl daemon reload
+
+- name: Tweak the default transmission config file
+  template:
+    src: transmission-settings.json.j2
+    dest: /etc/transmission-daemon/settings.json
+    owner: debian-transmission
+    group: debian-transmission
+    mode: '0644'
+  notify:
+    - restart transmission-daemon
+
+- name: Setup the vpn routing table
+  lineinfile:
+    path: /etc/iproute2/rt_tables
+    regexp: "{{ vpn_routing_table_id }}\tvpn"
+    line: "{{ vpn_routing_table_id }}\tvpn"
+    state: present
+
+- name: Setup the vpn0 bridge
+  template:
+    src: vpn0.j2
+    dest: /etc/network/interfaces.d/vpn
+  notify:
+    - restart networking
+    - restart transmission-daemon
