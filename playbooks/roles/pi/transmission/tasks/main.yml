@@ -34,3 +34,21 @@
   notify:
     - restart networking
     - restart transmission-daemon
+
+- name: "Set high transmission download/upload limits during the day"
+  cron:
+    name: "set high transmission download/upload limits during the day"
+    minute: "0"
+    hour: "7"
+    job: "/usr/bin/transmission-remote --downlimit 100 --uplimit 50"
+  become: yes
+  become_user: "{{ user }}"
+
+- name: "Disable transmission download/upload limits during the night"
+  cron:
+    name: "disable transmission download/upload limits during the night"
+    minute: "30"
+    hour: "1"
+    job: "/usr/bin/transmission-remote --no-downlimit --no-uplimit"
+  become: yes
+  become_user: "{{ user }}"
