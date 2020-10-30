@@ -17,3 +17,5 @@
   # - { role: kresus, tags: ['kresus'] }
   - { role: backups, tags: ['backups'] }
   - { role: pihole, tags: ['pihole'] }
+  - { role: wireguard, tags: ['wireguard'] }
+  - { role: transmission, tags: ['transmission'] }
