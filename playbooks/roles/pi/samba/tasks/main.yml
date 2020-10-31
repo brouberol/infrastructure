@@ -1,0 +1,22 @@
+- name: Install the samba package
+  apt:
+    name:
+    - samba
+    - samba-common-bin
+    state: present
+
+- name: Create a directory shared over SMB
+  file:
+    state: directory
+    dest: "{{ samba_directory }}"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Render the sambda configuration
+  template:
+    src: samba.conf.j2
+    dest: /etc/samba/smb.conf
+    owner: root
+    group: root
+  notify:
+    - restart samba

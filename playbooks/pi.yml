@@ -18,4 +18,5 @@
   - { role: backups, tags: ['backups'] }
   - { role: pihole, tags: ['pihole'] }
   - { role: wireguard, tags: ['wireguard'] }
+  - { role: samba, tags: ['samba'] }
   - { role: transmission, tags: ['transmission'] }

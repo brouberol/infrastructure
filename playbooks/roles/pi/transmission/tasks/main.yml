@@ -3,6 +3,13 @@
     name: transmission-daemon
     state: present
 
+- name: Create the transmission download directory
+  file:
+    dest: "{{ transmission_download_dir }}"
+    state: directory
+    owner: "debian-transmission"
+    group: "debian-transmission"
+
 - name: "Tweak the systemd transmission service"
   template:
     src: transmission-daemon.service.j2
@@ -18,7 +25,7 @@
     group: debian-transmission
     mode: '0644'
   notify:
-    - restart transmission-daemon
+    - reload transmission-daemon
 
 - name: Setup the vpn routing table
   lineinfile:
@@ -33,7 +40,7 @@
     dest: /etc/network/interfaces.d/vpn
   notify:
     - restart networking
-    - restart transmission-daemon
+    - reload transmission-daemon
 
 - name: "Set high transmission download/upload limits during the day"
   cron:
