@@ -23,11 +23,6 @@
   cron:
     name: renewCertbotCerts
     user: root
-    # minute: "{{ certbot_renew_certs_minute }}"
-    # hour: "{{ certbot_renew_certs_hour }}"
-    # month: "{{ certbot_renew_certs_month }}"
-    # weekday: "{{ certbot_renew_certs_weekday }}"
-    # day: "{{ certbot_renew_certs_day }}"
     special_time: weekly
     job: "{{ certbot_renew_certs_job }}"
     state: present
