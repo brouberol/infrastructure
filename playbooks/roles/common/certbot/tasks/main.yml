@@ -1,5 +1,5 @@
-- include_tasks: Debian_jessie.yml
-  when: ansible_distribution == 'Debian' and ansible_distribution_release == 'jessie'
+- include_tasks: Debian.yml
+  when: ansible_distribution == 'Debian'
 
 - include_tasks: Ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
