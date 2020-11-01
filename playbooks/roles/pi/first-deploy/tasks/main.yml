@@ -61,3 +61,17 @@
     - "tmpfs /tmp tmpfs defaults,noatime,nosuid,size=50m 0 0"
     - "tmpfs /var/tmp tmpfs defaults,noatime,nosuid,size=20m 0 0"
     - "tmpfs /var/log tmpfs defaults,noatime,nosuid,mode=0755,size=10m 0 0"
+
+- name: Create the /mnt/data directory
+  file:
+    dest: /mnt/data
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Mount external USB disk as extra storage"
+  lineinfile:
+    path: /etc/fstab
+    line: "UUID=3bcb0db3-8e65-4790-81c3-23547c8157c1 /mnt/data ext4 defaults,noatime,uid={{ user_uid }} 0 2"
+    regexp: "/mnt/data"
+    state: present

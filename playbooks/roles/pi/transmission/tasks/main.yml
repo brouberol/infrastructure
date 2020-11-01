@@ -8,7 +8,7 @@
     dest: "{{ transmission_download_dir }}"
     state: directory
     owner: "debian-transmission"
-    group: "debian-transmission"
+    group: "users"
 
 - name: "Tweak the systemd transmission service"
   template:
