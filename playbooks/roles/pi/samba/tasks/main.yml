@@ -12,10 +12,19 @@
     owner: "{{ user }}"
     group: "{{ group }}"
 
-- name: Render the sambda configuration
+- name: Render the samba configuration
   template:
     src: samba.conf.j2
     dest: /etc/samba/smb.conf
+    owner: root
+    group: root
+  notify:
+    - restart samba
+
+- name: Render the samba user / unix user mapping
+  template:
+    src: samba.conf.j2
+    dest: /etc/samba/smbusers
     owner: root
     group: root
   notify:
