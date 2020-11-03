@@ -56,3 +56,17 @@
     dest: /etc/nginx/sites-enabled/page.conf
     state: link
   notify: "reload nginx"
+
+- name: "Redeploy personal page after each birthday"
+  cron:
+    name: "redeploy personal page after each birthday"
+    minute: "0"
+    hour: "1"
+    day: "4"
+    month: "11"
+    job: >
+      /usr/local/bin/dogwrap -n "Redeploy personal page after each birthday"
+      --submit_mode all
+      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      "{{ page_repo }}/hooks/post-receive"
+    user: "{{ git_user }}"
