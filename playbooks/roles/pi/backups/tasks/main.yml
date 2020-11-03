@@ -67,5 +67,4 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
       "/home/{{ user }}/restic-wrapper.sh"
-  become: yes
-  become_user: "{{ user }}"
+    user: "{{ user }}"

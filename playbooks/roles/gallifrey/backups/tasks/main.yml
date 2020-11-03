@@ -17,8 +17,7 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
       "rsync -r --delete {{ user }}@51.254.120.74:{{ user_home }}/backups/ {{ user_home }}/backups/sophro"
-  become: yes
-  become_user: "{{ user }}"
+    user: "{{ user }}"
 
 - name: "Schedule the backup of the wallabag database"
   cron:
@@ -30,8 +29,7 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
       "rsync -r {{ user_home }}/wallabag/data/db/wallabag.sqlite {{ user }}@{{ home_domain }}:{{ user_home }}/backups/wallabag/wallabag.sqlite"
-  become: yes
-  become_user: "{{ user }}"
+    user: "{{ user }}"
 
 - name: "Schedule the backup of the calibre metadata database"
   cron:
@@ -43,8 +41,7 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
       "rsync -r {{ user_home }}/calibre/books/metadata.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/calibre/metadata.db"
-  become: yes
-  become_user: "{{ user }}"
+    user: "{{ user }}"
 
 
 - name: "Schedule the backup of the calibre app database"
@@ -57,8 +54,7 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
       "rsync -r {{ user_home }}/calibre/config/app.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/calibre/app.db"
-  become: yes
-  become_user: "{{ user }}"
+    user: "{{ user }}"
 
 - name: "Schedule the backup of the isso database"
   cron:
@@ -70,8 +66,7 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
       "rsync -r {{ isso_home }}/db/comments.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/isso/comments.db"
-  become: yes
-  become_user: "{{ user }}"
+    user: "{{ user }}"
 
 - name: "Schedule the backup of the grand-cedre database"
   cron:
@@ -83,8 +78,7 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
       "rsync -r {{ grand_cedre_home }}/data/data.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/grand-cedre/data.db"
-  become: yes
-  become_user: "{{ user }}"
+    user: "{{ user }}"
 
 - name: "Schedule the backup of radicale files"
   cron:
@@ -96,5 +90,4 @@
       --submit_mode all
       -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
       "rsync -r {{ user_home }}/radicale {{ user }}@{{ home_domain }}:{{ user_home }}/backups/radicale"
-  become: yes
-  become_user: "{{ user }}"
+    user: "{{ user }}"
