@@ -78,9 +78,8 @@
     minute: "0"
     hour: "23"
     job: >
-      /usr/local/bin/dogwrap -n "Backup sophro website"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
+      /usr/local/bin/dd-cron-event
+      "Backup sophro website"
       /root/scripts/backup-wordpress.sh
 
 - name: "Copy the global nginx config files"

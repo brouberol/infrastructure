@@ -63,8 +63,7 @@
     minute: "0"
     hour: "1"
     job: >
-      /usr/local/bin/dogwrap -n "Export backups to Backblaze"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      /usr/local/bin/dd-cron-event
+      "Export backups to Backblaze"
       "/home/{{ user }}/restic-wrapper.sh"
     user: "{{ user }}"

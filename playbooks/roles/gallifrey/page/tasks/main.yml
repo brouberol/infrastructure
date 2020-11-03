@@ -65,8 +65,7 @@
     day: "4"
     month: "11"
     job: >
-      /usr/local/bin/dogwrap -n "Redeploy personal page after each birthday"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      /usr/local/bin/dd-cron-event
+      "Redeploy personal page after each birthday"
       "{{ page_repo }}/hooks/post-receive"
     user: "{{ git_user }}"

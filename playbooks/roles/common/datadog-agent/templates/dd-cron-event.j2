@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -ue
+
+event_title=$1
+cmd=$2
+shift 2
+
+/usr/local/bin/dogwrap \
+    -n "$event_title" \
+    --submit_mode all \
+    -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //') \
+    "$@" \
+    "$cmd"
+

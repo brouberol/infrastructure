@@ -13,9 +13,8 @@
     minute: "0"
     hour: "0"
     job: >
-      /usr/local/bin/dogwrap -n "Backup sophro web files"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
+      /usr/local/bin/dd-cron-event
+      "Backup sophro web files"
       "rsync -r --delete {{ user }}@51.254.120.74:{{ user_home }}/backups/ {{ user_home }}/backups/sophro"
     user: "{{ user }}"
 
@@ -25,9 +24,8 @@
     minute: "0"
     hour: "0"
     job: >
-      /usr/local/bin/dogwrap -n "Backup wallabag db"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      /usr/local/bin/dd-cron-event
+      "Backup wallabag db"
       "rsync -r {{ user_home }}/wallabag/data/db/wallabag.sqlite {{ user }}@{{ home_domain }}:{{ user_home }}/backups/wallabag/wallabag.sqlite"
     user: "{{ user }}"
 
@@ -37,9 +35,8 @@
     minute: "0"
     hour: "0"
     job: >
-      /usr/local/bin/dogwrap -n "Backup calibre metadata db"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      /usr/local/bin/dd-cron-event
+      "Backup calibre metadata db"
       "rsync -r {{ user_home }}/calibre/books/metadata.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/calibre/metadata.db"
     user: "{{ user }}"
 
@@ -50,9 +47,8 @@
     minute: "0"
     hour: "0"
     job: >
-      /usr/local/bin/dogwrap -n "Backup calibre db"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      /usr/local/bin/dd-cron-event
+      "Backup calibre db"
       "rsync -r {{ user_home }}/calibre/config/app.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/calibre/app.db"
     user: "{{ user }}"
 
@@ -62,9 +58,8 @@
     minute: "0"
     hour: "0"
     job: >
-      /usr/local/bin/dogwrap -n "Backup isso db"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      /usr/local/bin/dd-cron-event
+      "Backup isso db"
       "rsync -r {{ isso_home }}/db/comments.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/isso/comments.db"
     user: "{{ user }}"
 
@@ -74,9 +69,8 @@
     minute: "0"
     hour: "0"
     job: >
-      /usr/local/bin/dogwrap -n "Backup grand-cedre db"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      /usr/local/bin/dd-cron-event
+      "Backup grand-cedre db"
       "rsync -r {{ grand_cedre_home }}/data/data.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/grand-cedre/data.db"
     user: "{{ user }}"
 
@@ -86,8 +80,7 @@
     minute: "0"
     hour: "0"
     job: >
-      /usr/local/bin/dogwrap -n "Backup radicale files"
-      --submit_mode all
-      -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed 's/ //')
+      /usr/local/bin/dd-cron-event
+      "Backup radicale files"
       "rsync -r {{ user_home }}/radicale {{ user }}@{{ home_domain }}:{{ user_home }}/backups/radicale"
     user: "{{ user }}"

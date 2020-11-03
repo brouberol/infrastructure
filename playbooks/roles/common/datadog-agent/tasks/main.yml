@@ -10,3 +10,11 @@
 
 - include: agent6.yml
   when: datadog_agent6
+
+- name: "Render a script allowing to easily send a dd event from within a croned command"
+  template:
+    src: dd-cron-event.j2
+    dest: /usr/local/bin/dd-cron-event
+    owner: root
+    group: root
+    mode: 0755
