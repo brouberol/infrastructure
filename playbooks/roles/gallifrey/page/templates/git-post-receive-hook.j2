@@ -34,7 +34,7 @@ git clone $PAGE_GIT $TMP_PAGE_CLONE
 template_replace age $CURRENT_AGE
 template_replace year $CURRENT_YEAR
 echo "Minifying CSS..."
-cssmin <$TMP_PAGE_CLONE/static/css/custom.css > $TMP_PAGE_CLONE/static/css/custom.min.css
+/usr/local/bin/cssmin <$TMP_PAGE_CLONE/static/css/custom.css > $TMP_PAGE_CLONE/static/css/custom.min.css
 replace custom.css custom.min.css
 
 cp -rvu --preserve=mode,ownership $TMP_PAGE_CLONE/* $PAGE_DIR
