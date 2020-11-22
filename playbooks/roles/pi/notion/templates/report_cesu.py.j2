@@ -1,0 +1,134 @@
+#!{{ user_home }}/notion/.env/bin/python
+
+import logging
+import calendar
+import argparse
+
+from datetime import date
+from notion.client import NotionClient
+
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+tok = "{{ notion_token }}"
+
+calendar_url = "{{ notion_cesu_calendar_url }}"
+
+notion = NotionClient(token_v2=tok)
+cal = notion.get_collection_view(calendar_url)
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--year", type=int)
+    parser.add_argument("--month", type=int, choices=range(1, 13))
+    return parser.parse_args()
+
+
+def month_start_day(year, month):
+    return date(year, month, 1)
+
+
+def month_end_day(year, month):
+    number_of_days_in_month = calendar.monthrange(year=year, month=month)[1]
+    end_of_month = month_start_day(year, month).replace(day=number_of_days_in_month)
+    return end_of_month
+
+
+def get_extra_hours(month_start, month_end):
+    for row in filter_rows(title="CESU", start_date=month_start, end_date=month_end):
+        extra_h = row.get_property("extra") or 0
+        logging.info(
+            f"Found a CESU row for {row.date.start} with extra hours = {extra_h}"
+        )
+        return extra_h
+    return 0
+
+
+def filter_rows(title, start_date, end_date):
+    rows = cal.collection.query(
+        filter={
+            "operator": "and",
+            "filters": [
+                {
+                    "property": "c=qu",
+                    "filter": {
+                        "operator": "date_is_on_or_after",
+                        "value": {
+                            "type": "exact",
+                            "value": {"type": "date", "start_date": str(start_date)},
+                        },
+                    },
+                },
+                {
+                    "property": "c=qu",
+                    "filter": {
+                        "operator": "date_is_on_or_before",
+                        "value": {
+                            "type": "exact",
+                            "value": {"type": "date", "start_date": str(end_date)},
+                        },
+                    },
+                },
+            ],
+        }
+    )
+    return [row for row in rows if title in row.title]
+
+
+def month_total_work_hours(month_start, month_end):
+    total_h = get_extra_hours(month_start, month_end)
+    for row in filter_rows(title="Nicolas", start_date=month_start, end_date=month_end):
+        work_h = row.get_property("duration")
+        if not work_h:
+            continue
+        total_h += work_h
+        logging.info(f"{work_h}h of work were reported on {row.date.start}")
+    return total_h
+
+
+def create_or_update_row(title, date, **properties):
+    for row in cal.collection.get_rows(search=title):
+        if row.date.start == date:
+            # already exists
+            for prop, val in properties.items():
+                row.set_property(prop, val)
+            return
+    cal.collection.add_row(title=title, date=date, **properties)
+
+
+def report_total_hours_on_month(month_end, total_h):
+    logging.info(f"Reporting {total_h}h to CESU row of {month_end}")
+    create_or_update_row("🔔 CESU", month_end, duration=total_h)
+
+
+def report_extra_hours_on_next_month(next_month_end_day, extra_hours):
+    logging.info(f"Reporting {extra_hours}h to the CESU row of {next_month_end_day}")
+    create_or_update_row("🔔 CESU", next_month_end_day, extra=extra_hours)
+
+
+def main():
+    args = parse_args()
+    month_start = month_start_day(args.year, args.month)
+    month_end = month_end_day(args.year, args.month)
+    total_h = month_total_work_hours(month_start, month_end)
+    logging.info(
+        f"Total work hours for {calendar.month_name[month_start.month]}: {total_h}"
+    )
+    if total_h > 40:
+        extra_hours = total_h - 40
+        logging.info(
+            f"Total hours exceeding 40, reporting extra {extra_hours}h to next month"
+        )
+        total_h = 40
+        next_month = args.month + 1 if args.month < 12 else 1
+        next_year = args.year if args.month < 12 else args.year + 1
+        next_month_end_day = month_end_day(next_year, next_month)
+        report_extra_hours_on_next_month(next_month_end_day, extra_hours)
+    report_total_hours_on_month(month_end, total_h)
+
+
+if __name__ == "__main__":
+    main()
