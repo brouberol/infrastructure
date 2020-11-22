@@ -30,7 +30,9 @@
     name: "Compute how many hours to report to CESU and export the result to Notion"
     minute: "1"
     hour: "0"
-    day: "0"
+    day: "1"
     job: >
-      {{ user_home }}/notion/report_cesu.py  --year $(date --date='-1 month' +%Y) --month $(date --date='-1 month' +%m)
+      /usr/local/bin/dd-cron-event
+      "Export CESU hours to Notion"
+      "{{ user_home }}/notion/report_cesu.py --year $(date --date='-1 month' +%Y) --month $(date --date='-1 month' +%m)"
     user: "{{ user }}"
