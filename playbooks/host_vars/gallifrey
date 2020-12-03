@@ -170,6 +170,17 @@ datadog_checks:
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
       timeout: 5
       http_response_status_code: "(1|2|3|4)\\d\\d"
+    - url: "https://{{ nextcloud_domain }}"
+      name: "{{ nextcloud_domain }}"
+      check_certificate_expiration: true
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
+      check_hostname: true
+      ssl_server_name: "{{ nextcloud_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      timeout: 5
+      http_response_status_code: "(1|2|3|4)\\d\\d"
 
 # Git
 git_home: "/home/{{ git_user }}"
