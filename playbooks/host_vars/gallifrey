@@ -16,6 +16,7 @@ certbot_list_of_certs_to_create:
   - "{{ isso_domain }}"
   - "{{ calibre_domain }}"
   - "{{ grand_cedre_domain }}"
+  - "{{ nextcloud_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -247,3 +248,9 @@ grand_cedre_data_dir: "{{ grand_cedre_home }}/data"
 grand_cedre_host: 127.0.0.1
 grand_cedre_port: 8008
 grand_cedre_domain: "grand-cedre.{{ sophro_domain }}"
+
+# nextcloud
+nextcloud_domain: "cloud.{{ main_domain }}"
+nextcloud_home: "/mnt/data/nextcloud"
+nextcloud_host: 127.0.0.1
+nextcloud_port: 8009

@@ -28,6 +28,7 @@
   - { role: calibre, tags: ['calibre'] }
   - { role: slack, tags: ['slack'] }
   - { role: grand-cedre, tags: ['grand-cedre'] }
+  - { role: nextcloud, tags: ['nextcloud'] }
 
   post_tasks:
   - include_vars:

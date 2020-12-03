@@ -1,0 +1,37 @@
+- name: "Create the nextcloud home folder"
+  file:
+    path: "{{ nextcloud_home }}"
+    state: directory
+    # uid/gid of www-data in the container
+    owner: "33"
+    group: "33"
+
+- name: "Start the nextcloud container"
+  docker_container:
+    name: nextcloud
+    image: "nextcloud:fpm"
+    state: started
+    published_ports:
+      - "127.0.0.1:{{ nextcloud_port }}:9000"
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ nextcloud_home }}:/var/www/html"
+    env:
+      NEXTCLOUD_TRUSTED_DOMAINS: "https://{{ nextcloud_domain }}"
+      NEXTCLOUD_ADMIN_USER: "{{ nextcloud_admin }}"
+      NEXTCLOUD_ADMIN_PASSWORD: "{{ nextcloud_password }}"
+
+- name: "Copy nextcloud sites-available nginx conf"
+  template:
+    src: nextcloud.conf.j2
+    dest: /etc/nginx/sites-available/nextcloud.conf
+    owner: root
+    group: root
+  notify: "reload nginx service"
+
+- name: "Link nextcloud sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/nextcloud.conf
+    dest: /etc/nginx/sites-enabled/nextcloud.conf
+    state: link
+  notify: "reload nginx service"
