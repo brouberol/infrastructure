@@ -8,7 +8,6 @@ user_ssh_authorized:
 certbot_list_of_certs_to_create:
   - "{{ page_domain }}"
   - "{{ blog_domain }}"
-  - "{{ lounge_domain }}"
   - "{{ fathom_domain }}"
   - "{{ wallabag_domain }}"
   - "{{ radicale_domain }}"
@@ -49,9 +48,6 @@ datadog_checks:
         search_string: ['ssh', 'sshd']
       - name: nginx
         search_string: ['nginx']
-      - name: lounge
-        search_string: ['/usr/local/bin/lounge start']
-        exact_match: false
       - name: fathom
         search_string: ['fathom']
       - name: radicale
@@ -62,7 +58,6 @@ datadog_checks:
     instances:
      - nginx_status_url: "https://{{ page_domain }}/basic_status"
      - nginx_status_url: "https://{{ blog_domain }}/basic_status"
-     - nginx_status_url: "https://{{ lounge_domain }}/basic_status"
      - nginx_status_url: "https://{{ fathom_domain }}/basic_status"
      - nginx_status_url: "https://{{ wallabag_domain }}/basic_status"
      - nginx_status_url: "https://{{ radicale_domain }}/basic_status"
@@ -89,15 +84,6 @@ datadog_checks:
       days_critical: "{{ datadog_http_check_days_critical }}"
       check_hostname: true
       ssl_server_name: "{{ blog_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-    - url: "https://{{ lounge_domain }}"
-      name: "{{ lounge_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ lounge_domain }}"
       disable_ssl_validation: false
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
     - url: "https://{{ fathom_domain }}"
@@ -198,12 +184,6 @@ page_repo: "{{ git_home }}/page.git"
 page_web_dir: "{{ web_home }}/page"
 page_domain: "{{ main_domain }}"
 
-# lounge
-lounge_domain: "irc.{{ main_domain }}"
-lounge_host: localhost
-lounge_port: 8000
-lounge_home: "/home/{{ user }}/.lounge"
-
 # myip
 myip_domain: "ip.{{ main_domain }}"
 myip_port: 8001
@@ -249,9 +229,6 @@ calibre_version: latest
 calibre_host: 127.0.0.1
 calibre_port: 8007
 calibre_domain: "library.{{ main_domain }}"
-
-# slack
-slack_home: "{{ user_home }}/sclack"
 
 # grand-cedre-admin
 grand_cedre_home: "{{ user_home }}/grand-cedre"
