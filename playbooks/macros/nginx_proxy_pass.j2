@@ -1,4 +1,4 @@
-{% macro nginx_proxy_pass(domain, port, extra_opts={}) %}
+{% macro nginx_proxy_pass(domain, port, hsts=False, extra_opts={}) %}
 server {
     listen 80;
     server_name {{ domain }};
@@ -13,9 +13,14 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
     ssl_session_cache shared:SSL:10m;
     ssl_prefer_server_ciphers on;
+
     {% for opt_name, opt_value in extra_opts.items() %}
     {{ opt_name }} {{ opt_value }};
     {% endfor %}
+
+    {% if hsts %}
+    add_header Strict-Transport-Security "max-age=63072000;" always;
+    {% endif %}
 
     # Letsencrypt challenge
     location {{ web_acme_challenge_location }} {
