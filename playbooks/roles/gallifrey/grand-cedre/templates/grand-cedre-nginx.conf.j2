@@ -13,6 +13,8 @@ server {
     ssl_session_cache shared:SSL:10m;
     ssl_prefer_server_ciphers on;
 
+    add_header Strict-Transport-Security "max-age=63072000;" always;
+
     # Letsencrypt challenge
     location {{ web_acme_challenge_location }} {
         root {{ web_home }};

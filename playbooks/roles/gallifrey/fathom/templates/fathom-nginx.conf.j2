@@ -1,2 +1,2 @@
 {% from "macros/nginx_proxy_pass.j2" import nginx_proxy_pass with context %}
-{{ nginx_proxy_pass(fathom_domain, fathom_port) }}
+{{ nginx_proxy_pass(fathom_domain, fathom_port,hsts=True) }}

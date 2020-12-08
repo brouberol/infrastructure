@@ -1,2 +1,2 @@
 {% from "macros/nginx_proxy_pass.j2" import nginx_proxy_pass with context %}
-{{ nginx_proxy_pass(calibre_domain, calibre_port, {"client_max_body_size": "15m"}) }}
+{{ nginx_proxy_pass(calibre_domain, calibre_port, extra_opts={"client_max_body_size": "15m"}, hsts=True) }}
