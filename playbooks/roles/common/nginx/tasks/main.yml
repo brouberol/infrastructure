@@ -30,6 +30,11 @@
     src: default.conf
     dest: "/etc/nginx/sites-available/default.conf"
 
+- name: "Set diffie-hellman params config file"
+  copy:
+    src: dhparams
+    dest: "/etc/nginx/dhparams"
+
 - name: "Link default sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/default.conf
