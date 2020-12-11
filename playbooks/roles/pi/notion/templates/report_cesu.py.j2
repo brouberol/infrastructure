@@ -121,6 +121,12 @@ def extra_hours_per_month(extra_hours):
     return out
 
 
+def find_next_month(current_month, offset):
+    if current_month + offset > 12:
+        return current_month + offset - 12
+    return current_month + offset
+
+
 def main():
     args = parse_args()
     month_start = month_start_day(args.year, args.month)
@@ -130,15 +136,20 @@ def main():
         f"Total work hours for {calendar.month_name[month_start.month]}: {total_h}"
     )
     if total_h > 40:
-        report_total_hours_on_month(month_end, 40)
-        extra_h = total_h - 40
+        reported_extra_hours = get_extra_hours(month_start, month_end)
+        if reported_extra_hours < 40:
+            report_total_hours_on_month(month_end, 40)
+            extra_h = total_h - 40
+        else:
+            extra_h = total_h
         for i, extra_hour in enumerate(extra_hours_per_month(extra_h), 1):
-            next_month = max((args.month + i) % 13, 1)
+            next_month = find_next_month(args.month, i)
             next_year = args.year if (args.month + i) <= 12 else args.year + 1
             next_month_end_day = month_end_day(next_year, next_month)
             report_extra_hours_on_next_month(next_month_end_day, extra_hour)
     else:
         report_total_hours_on_month(month_end, total_h)
+
 
 
 if __name__ == "__main__":
