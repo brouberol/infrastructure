@@ -37,13 +37,9 @@ def month_end_day(year, month):
     return end_of_month
 
 
-def get_extra_hours(month_start, month_end):
+def get_month_total_hours(month_start, month_end):
     for row in filter_rows(title="CESU", start_date=month_start, end_date=month_end):
-        extra_h = row.get_property("extra") or 0
-        logging.info(
-            f"Found a CESU row for {row.date.start} with extra hours = {extra_h}"
-        )
-        return extra_h
+        return row.get_property("duration") or 0
     return 0
 
 
@@ -79,7 +75,8 @@ def filter_rows(title, start_date, end_date):
 
 
 def month_total_work_hours(month_start, month_end):
-    total_h = get_extra_hours(month_start, month_end)
+    # total_h = get_extra_hours(month_start, month_end)
+    total_h = 0
     for row in filter_rows(title="Nicolas", start_date=month_start, end_date=month_end):
         work_h = row.get_property("duration")
         if not work_h:
@@ -104,23 +101,6 @@ def report_total_hours_on_month(month_end, total_h):
     create_or_update_row("🔔 CESU", month_end, duration=total_h)
 
 
-def report_extra_hours_on_next_month(next_month_end_day, extra_hours):
-    logging.info(f"Reporting {extra_hours}h to the CESU row of {next_month_end_day}")
-    create_or_update_row("🔔 CESU", next_month_end_day, extra=extra_hours)
-
-
-def extra_hours_per_month(extra_hours):
-    out = []
-    if extra_hours <= 40:
-        return [extra_hours]
-    while extra_hours > 40:
-        out.append(40)
-        extra_hours -= 40
-    if extra_hours:
-        out.append(extra_hours)
-    return out
-
-
 def find_next_month(current_month, offset):
     if current_month + offset > 12:
         return current_month + offset - 12
@@ -132,24 +112,31 @@ def main():
     month_start = month_start_day(args.year, args.month)
     month_end = month_end_day(args.year, args.month)
     total_h = month_total_work_hours(month_start, month_end)
+    already_reported_work_h = get_month_total_hours(month_start, month_end)
     logging.info(
-        f"Total work hours for {calendar.month_name[month_start.month]}: {total_h}"
+        f"Total work hours for {calendar.month_name[month_start.month]}: {total_h}, already reported {already_reported_work_h}h"
     )
-    if total_h > 40:
-        reported_extra_hours = get_extra_hours(month_start, month_end)
-        if reported_extra_hours < 40:
+    if total_h + already_reported_work_h > 40:
+        if already_reported_work_h < 40:
             report_total_hours_on_month(month_end, 40)
-            extra_h = total_h - 40
-        else:
-            extra_h = total_h
-        for i, extra_hour in enumerate(extra_hours_per_month(extra_h), 1):
+            total_h = total_h + already_reported_work_h - 40
+
+        i = 1
+        while total_h > 0:
             next_month = find_next_month(args.month, i)
             next_year = args.year if (args.month + i) <= 12 else args.year + 1
             next_month_end_day = month_end_day(next_year, next_month)
-            report_extra_hours_on_next_month(next_month_end_day, extra_hour)
+            already_reported_hours_for_next_month = get_month_total_hours(next_month_end_day, next_month_end_day)
+            total_h += already_reported_hours_for_next_month
+            if total_h > 40:
+                total_h -= 40
+                report_total_hours_on_month(next_month_end_day, 40)
+            else:
+                report_total_hours_on_month(next_month_end_day, total_h)
+                total_h = 0
+            i += 1
     else:
-        report_total_hours_on_month(month_end, total_h)
-
+        report_total_hours_on_month(month_end, total_h + already_reported_work_h)
 
 
 if __name__ == "__main__":
