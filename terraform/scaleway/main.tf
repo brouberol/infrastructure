@@ -63,7 +63,6 @@ resource "scaleway_instance_security_group" "default_sg" {
   stateful = false
 }
 
-
 resource "scaleway_object_bucket" "brouberol-nextcloud" {
   name = "brouberol-nextcloud"
   acl = "private"
