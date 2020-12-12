@@ -1,3 +1,11 @@
+- name: Install python libraries required by monitoring scripts
+  pip:
+    name:
+    - praw
+    - mailchimp3
+    state: present
+    executable: pip3
+
 - name: render monitoring scripts
   template:
     src: "{{ item }}"
