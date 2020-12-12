@@ -47,7 +47,7 @@
     name: "set high transmission download/upload limits during the day"
     minute: "0"
     hour: "7"
-    job: "/usr/bin/transmission-remote --downlimit 100 --uplimit 50"
+    job: "/usr/bin/transmission-remote --downlimit 100 --uplimit 10"
   become: yes
   become_user: "{{ user }}"
 
