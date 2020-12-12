@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+
+import sqlite3
+import datetime
+
+from collections import defaultdict, Counter
+from datadog.dogstatsd import DogStatsd
+
+ESSENTIAL_TOOLS_PAGES = [
+    'discovering-the-terminal',
+    'text-processing-in-the-shell',
+    'the-shells-building-blocks',
+    'customizing-your-shell',
+    'shell-productivity-tips-and-tricks',
+]
+
+class Stats:
+
+    def __init__(self, views, visitors, entries):
+        self.views = views
+        self.visitors = visitors
+        self.entries = entries
+
+    def __add__(self, other):
+        return Stats(
+            views=self.views + other.views,
+            visitors=self.visitors + other.visitors,
+            entries=self.entries + other.entries)
+
+    def __repr__(self):
+        return str(tuple([self.views, self.visitors, self.entries]))
+
+
+statsd = DogStatsd(socket_path='/var/run/datadog/datadog-agent.socket')
+conn = sqlite3.connect('/home/br/fathom/fathom.db')
+
+now = datetime.datetime.utcnow()
+start_of_prev_hour = (now - datetime.timedelta(hours=1)).replace(minute=0, second=0, microsecond=0)
+end_of_prev_hour = (now - datetime.timedelta(hours=1)).replace(minute=59, second=59, microsecond=0)
+c = conn.cursor()
+
+query = """
+SELECT
+        p.name AS pathname,
+        SUM(pageviews) AS pageviews,
+        SUM(visitors) AS visitors,
+        SUM(entries) AS entries
+FROM page_stats s
+    LEFT JOIN pathnames p ON p.id = s.pathname_id
+WHERE site_id = 1 AND ts >= ? AND ts <= ?
+GROUP BY pathname
+ORDER BY pageviews DESC LIMIT 100;
+"""
+
+rows = c.execute(query, (start_of_prev_hour, end_of_prev_hour))
+
+count = {}
+for uri, pageviews, visitors, entries in rows:
+    uri = uri.lstrip('/').split('?')[0].replace('.html', '')
+    if not uri:
+        uri = 'homepage'
+    if uri not in count:
+        count[uri] = Stats(pageviews, visitors, entries)
+    else:
+        count[uri] += Stats(pageviews, visitors, entries)
+
+for uri, stats in count.items():
+    tags = ['article:%s' % (uri)]
+    if uri in ESSENTIAL_TOOLS_PAGES:
+        tags.append('campaign:essential-tools')
+    statsd.gauge('blog.audience.views', value=stats.views, tags=tags)
+    statsd.gauge('blog.audience.visitors', value=stats.visitors, tags=tags)
+    statsd.gauge('blog.audience.entries', value=stats.entries, tags=tags)
+
+
+query = """
+SELECT
+    p.name as pathname,
+    groupname,
+    SUM(visitors) AS visitors
+FROM referrer_stats s
+    LEFT JOIN pathnames p on p.id = s.pathname_id
+WHERE ts >= ? AND ts <= ?
+GROUP BY groupname;
+"""
+
+visitors_by_origin = defaultdict(Counter)
+rows = c.execute(query, (start_of_prev_hour, end_of_prev_hour))
+for uri, origin, visitors in rows:
+    uri = uri.lstrip('/').split('?')[0].replace('.html', '')
+    if not uri:
+        uri = 'homepage'
+    origin = 'organic' if not origin else origin.lower()
+    visitors_by_origin[uri][origin] += visitors
+
+for uri, data in visitors_by_origin.items():
+    for origin, visitors in data.items():
+        tags = ['origin:%s' % (origin)]
+        if uri in ESSENTIAL_TOOLS_PAGES:
+            tags.append('campaign:essential-tools')
+        statsd.gauge('blog.audience.visitors_by_origin', value=visitors, tags=tags)

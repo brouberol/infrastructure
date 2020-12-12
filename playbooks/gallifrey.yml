@@ -29,6 +29,7 @@
   # - { role: slack, tags: ['slack'] }
   - { role: grand-cedre, tags: ['grand-cedre'] }
   - { role: nextcloud, tags: ['nextcloud'] }
+  - { role: monitoring, tags: ['monitoring'] }
 
   post_tasks:
   - include_vars:
