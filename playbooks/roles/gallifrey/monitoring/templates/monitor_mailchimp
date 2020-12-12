@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+
+from collections import Counter
+
+
+from mailchimp3 import MailChimp
+from datadog.dogstatsd import DogStatsd
+
+MAILCHIMP_API_KEY = "{{ mailchimp_api_key }}"
+MAILCHIMP_LIST_ID = "{{ mailchimp_list_id }}"
+
+statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+mailchimp = MailChimp(mc_api=MAILCHIMP_API_KEY)
+
+tracked_fields = (
+    "member_count",
+    "unsubscribe_count",
+    "click_rate",
+    "member_count_since_send",
+    "open_rate",
+    "unsubscribe_count_since_send",
+)
+
+mc_list = mailchimp.lists.get(MAILCHIMP_LIST_ID)
+for field in tracked_fields:
+    value = mc_list["stats"][field]
+    statsd.gauge(
+        "mailchimp.list.%s" % (field), value=value, tags=["campaign:essential-tools"]
+    )
+
+members_per_location = Counter()
+members = mailchimp.lists.members.all(MAILCHIMP_LIST_ID, count=1000)
+for member in members["members"]:
+    if member["location"]["country_code"]:
+        members_per_location[member["location"]["country_code"]] += 1
+
+for country_code, members in members_per_location.items():
+    statsd.gauge(
+        "mailchimp.members_per_country",
+        value=members,
+        tags=["country:%s" % (country_code), "campaign:essential-tools"],
+    )
