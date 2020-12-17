@@ -7,9 +7,8 @@ certbot_renew_certs_month: '*'
 certbot_renew_certs_weekday: '*'
 certbot_renew_certs_day: '1,15'
 certbot_renew_certs_job: >
-  /usr/local/bin/dogwrap -n "Renew SSL certificates"
-  --submit_mode all
-  -k $(grep apikey {{ user_home }}/.dogrc | cut -d= -f2 | sed "s/ //")
+  /usr/local/bin/dd-cron-event
+  "Renew SSL certificates"
   "/usr/bin/certbot --nginx renew"
 
 certbot_waitfor_port_seconds: 3
