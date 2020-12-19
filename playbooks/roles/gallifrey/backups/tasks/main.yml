@@ -104,5 +104,5 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup photoprism db"
-      "rsync {{ photoprism_home }}/index.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/photoprism"
+      "rsync {{ photoprism_home }}/storage/index.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/photoprism"
     user: "{{ user }}"

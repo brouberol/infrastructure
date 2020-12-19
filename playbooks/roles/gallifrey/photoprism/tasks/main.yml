@@ -1,7 +1,11 @@
 - name: Create the photoprism home directory
   file:
-    path: "{{ photoprism_home }}"
+    path: "{{ item }}"
     state: directory
+  with_items:
+    - "{{ photoprism_home }}"
+    - "{{ photoprism_home }}/storage"
+    - "{{ photoprism_home }}/originals"
 
 - name: Run the photoprism container
   docker_container:
@@ -20,7 +24,8 @@
     published_ports:
       - "{{ photoprism_host }}:{{ photoprism_port }}:2342"
     volumes:
-      - "{{ photoprism_home }}:/photoprism/storage:rw"
+      - "{{ photoprism_home }}/storage:/photoprism/storage:rw"
+      - "{{ photoprism_home }}/originals:/photoprism/originals:rw"
     restart_policy: unless-stopped
 
 - name: "Copy photoprism sites-available nginx conf"
