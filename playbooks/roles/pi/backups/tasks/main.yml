@@ -11,6 +11,7 @@
     - grand-cedre
     - radicale
     - nextcloud
+    - photoprism
 
 - name: "Install the restic client"
   apt:
