@@ -16,6 +16,7 @@ certbot_list_of_certs_to_create:
   - "{{ calibre_domain }}"
   - "{{ grand_cedre_domain }}"
   - "{{ nextcloud_domain }}"
+  - "{{ photoprism_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -64,6 +65,7 @@ datadog_checks:
      - nginx_status_url: "https://{{ pastebin_domain }}/basic_status"
      - nginx_status_url: "https://{{ isso_domain }}/basic_status"
      - nginx_status_url: "https://{{ calibre_domain }}/basic_status"
+     - nginx_status_url: "https://{{ photoprism_domain }}/basic_status"
 
   http_check:
     init_config:
@@ -167,6 +169,15 @@ datadog_checks:
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
       timeout: 5
       http_response_status_code: "(1|2|3|4)\\d\\d"
+    - url: "https://{{ photoprism_domain }}"
+      name: "{{ photoprism_domain }}"
+      check_certificate_expiration: true
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
+      check_hostname: true
+      ssl_server_name: "{{ photoprism_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
 
 # Git
 git_home: "/home/{{ git_user }}"
@@ -242,3 +253,9 @@ nextcloud_domain: "cloud.{{ main_domain }}"
 nextcloud_home: "/mnt/data/nextcloud"
 nextcloud_host: 127.0.0.1
 nextcloud_port: 8009
+
+# photoprism
+photoprism_domain: "photos.{{ main_domain }}"
+photoprism_home: "/mnt/data/photoprism"
+photoprism_host: 127.0.0.1
+photoprism_port: 8010

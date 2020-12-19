@@ -1,0 +1,39 @@
+- name: Create the photoprism home directory
+  file:
+    path: "{{ photoprism_home }}"
+    state: directory
+
+- name: Run the photoprism container
+  docker_container:
+    name: photoprism
+    image: photoprism/photoprism
+    state: started
+    security_opts:
+    - "seccomp=unconfined"
+    - "apparmor=unconfined"
+    env:
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+      PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism_admin_password }}"
+      PHOTOPRISM_SITE_URL: "{{ photoprism_domain }}"
+      PHOTOPRISM_SITE_CAPTION: "Balthazar's photos"
+      PHOTOPRISM_DATABASE_DRIVER: sqlite
+    published_ports:
+      - "{{ photoprism_host }}:{{ photoprism_port }}:2342"
+    volumes:
+      - "{{ photoprism_home }}:/photoprism/storage:rw"
+    restart_policy: unless-stopped
+
+- name: "Copy photoprism sites-available nginx conf"
+  template:
+    src: photoprism.conf.j2
+    dest: /etc/nginx/sites-available/photoprism.conf
+    owner: root
+    group: root
+  notify: "reload nginx service"
+
+- name: "Link photoprism sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/photoprism.conf
+    dest: /etc/nginx/sites-enabled/photoprism.conf
+    state: link
+  notify: "reload nginx service"
