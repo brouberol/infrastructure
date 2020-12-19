@@ -3,5 +3,6 @@
 .terraform
 terraform.tfstate*
 crash.log
+.env/
 
 terraform/global_vars/gitcrypt-key
