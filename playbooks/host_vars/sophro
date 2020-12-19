@@ -15,6 +15,7 @@ sophro_www_home: /var/www/sophrologie-chalon
 _datadog_http_check_interval: 1800
 datadog_agent6: true
 datadog_config:
+  dogstatsd_socket: /var/run/datadog/datadog-agent.socket
   log_level: INFO
   tags: "name:{{ hostname }}, role:web"
 datadog_checks:

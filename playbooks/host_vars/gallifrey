@@ -21,6 +21,7 @@ certbot_list_of_certs_to_create:
 # Datadog
 datadog_agent6: true
 datadog_config:
+  dogstatsd_socket: /var/run/datadog/datadog-agent.socket
   log_level: INFO
   tags: "name:{{ hostname }}, role:web"
   logs_enabled: true
