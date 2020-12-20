@@ -42,3 +42,19 @@
     dest: /etc/nginx/sites-enabled/photoprism.conf
     state: link
   notify: "reload nginx service"
+
+- name: "Install jpegoptim"
+  apt:
+    name: jpegoptim
+    state: present
+
+- name: "Schedule the optimization of the photoprism originals downloaded in the last 24h"
+  cron:
+    name: "schedule the optimization of the photoprism originals downloaded in the last 24h"
+    minute: "0"
+    hour: "2"
+    job: >
+      /usr/local/bin/dd-cron-event
+      "Optimize photoprism originals to save space"
+      "/usr/bin/find {{ photoprism_home }}/originals -ctime -1 -iname \"*.jpg\" -print0 | /usr/bin/xargs -0 jpegoptim -S 3072 --strip-none --totals -o"
+    user: "root"
