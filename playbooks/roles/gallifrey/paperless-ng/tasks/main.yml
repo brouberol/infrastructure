@@ -57,14 +57,14 @@
 - name: "Copy paperless sites-available nginx conf"
   template:
     src: paperless-nginx.conf.j2
-    dest: /etc/nginx/sites-available/paperless.conf
+    dest: /etc/nginx/sites-available/paperless-nginx.conf
     owner: root
     group: root
   notify: "reload nginx service"
 
 - name: "Link paperless sites-enabled nginx conf"
   file:
-    src: /etc/nginx/sites-available/paperless.conf
-    dest: /etc/nginx/sites-enabled/paperless.conf
+    src: /etc/nginx/sites-available/paperless-nginx.conf
+    dest: /etc/nginx/sites-enabled/paperless-nginx.conf
     state: link
   notify: "reload nginx service"
