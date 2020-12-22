@@ -31,6 +31,7 @@
   - { role: nextcloud, tags: ['nextcloud'] }
   - { role: monitoring, tags: ['monitoring'] }
   - { role: photoprism, tags: ['photoprism'] }
+  - { role: paperless-ng, tags: ['paperless-ng'] }
 
   post_tasks:
   - include_vars:
