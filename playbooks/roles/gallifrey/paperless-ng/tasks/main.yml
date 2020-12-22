@@ -45,22 +45,23 @@
             PAPERLESS_TIME_ZONE: Europe/Paris
             PAPERLESS_OCR_LANGUAGE: fra
             PAPERLESS_ALLOWED_HOSTS: "{{ paperless_domain }},localhost"  # localhost needed for the healthchecks
+            PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{title}"
 
       volumes:
         data:
         media:
 
-- name: "Copy calibre sites-available nginx conf"
+- name: "Copy paperless sites-available nginx conf"
   template:
-    src: calibre-nginx.conf.j2
-    dest: /etc/nginx/sites-available/calibre.conf
+    src: paperless-nginx.conf.j2
+    dest: /etc/nginx/sites-available/paperless.conf
     owner: root
     group: root
   notify: "reload nginx service"
 
-- name: "Link calibre sites-enabled nginx conf"
+- name: "Link paperless sites-enabled nginx conf"
   file:
-    src: /etc/nginx/sites-available/calibre.conf
-    dest: /etc/nginx/sites-enabled/calibre.conf
+    src: /etc/nginx/sites-available/paperless.conf
+    dest: /etc/nginx/sites-enabled/paperless.conf
     state: link
   notify: "reload nginx service"
