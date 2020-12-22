@@ -106,3 +106,14 @@
       "Backup photoprism db"
       "rsync {{ photoprism_home }}/storage/index.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/photoprism"
     user: "{{ user }}"
+
+- name: "Schedule paperless backups"
+  cron:
+    name: "backup paperless DB"
+    minute: "0"
+    hour: "0"
+    job: >
+      /usr/local/bin/dd-cron-event
+      "Backup paperless db"
+      "rsync {{ paperless_home }}/data/db.sqlite3 {{ user }}@{{ home_domain }}:{{ user_home }}/backups/paperless"
+    user: "{{ user }}"
