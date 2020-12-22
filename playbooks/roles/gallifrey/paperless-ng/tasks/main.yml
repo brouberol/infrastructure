@@ -45,7 +45,10 @@
             PAPERLESS_TIME_ZONE: Europe/Paris
             PAPERLESS_OCR_LANGUAGE: fra
             PAPERLESS_ALLOWED_HOSTS: "{{ paperless_domain }},localhost"  # localhost needed for the healthchecks
-            PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{title}"
+            PAPERLESS_TASK_WORKERS: "1"
+            PAPERLESS_THREADS_PER_WORKER: "1"
+            PAPERLESS_CONSUMER_POLLING: "120"
+            PAPERLESS_CONVERT_MEMORY_LIMIT: "32"
 
       volumes:
         data:
