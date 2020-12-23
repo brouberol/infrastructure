@@ -49,6 +49,7 @@
             PAPERLESS_THREADS_PER_WORKER: "1"
             PAPERLESS_CONSUMER_POLLING: "120"
             PAPERLESS_CONVERT_MEMORY_LIMIT: "32"
+            PAPERLESS_DISABLE_DBHANDLER: "true"
 
       volumes:
         data:
