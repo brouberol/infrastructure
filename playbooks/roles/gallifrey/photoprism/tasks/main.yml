@@ -56,5 +56,5 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Optimize photoprism originals to save space"
-      "/usr/bin/find {{ photoprism_home }}/originals -ctime -1 -iname \"*.jpg\" -print0 | /usr/bin/xargs -0 jpegoptim -S 3072 --strip-none --totals -o"
+      "/usr/bin/find {{ photoprism_home }}/originals -ctime -1 -type f -iname \"*.jpg\" -print0 | /usr/bin/xargs -0 jpegoptim -S 3072 --strip-none --totals -o"
     user: "root"
