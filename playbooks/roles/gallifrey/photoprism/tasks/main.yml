@@ -18,7 +18,7 @@
     env:
       PHOTOPRISM_UPLOAD_NSFW: "true"
       PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism_admin_password }}"
-      PHOTOPRISM_SITE_URL: "{{ photoprism_domain }}"
+      PHOTOPRISM_SITE_URL: "https://{{ photoprism_domain }}/"
       PHOTOPRISM_SITE_CAPTION: "Balthazar's photos"
       PHOTOPRISM_DATABASE_DRIVER: sqlite
     published_ports:
