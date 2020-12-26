@@ -26,6 +26,8 @@ datadog_config:
   log_level: INFO
   tags: "name:{{ hostname }}, role:web"
   logs_enabled: true
+  process_config:
+    enabled: "true"
   listeners:
     - name: docker
   config_providers:
