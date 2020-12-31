@@ -11,6 +11,7 @@
   docker_container:
     name: photoprism
     image: photoprism/photoprism
+    pull: yes
     state: started
     security_opts:
     - "seccomp=unconfined"
