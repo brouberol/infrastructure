@@ -54,9 +54,13 @@
     owner: "{{ user }}"
     group: "{{ group }}"
 
-- name: "Setup user authorized keys"
-  template:
-    src: authorized_keys.j2
-    dest: "{{ user_home }}/.ssh/authorized_keys"
-  become: yes
-  become_user: "{{ user }}"
+- name: "Mount temporary directories as tmpfs to save the SD card"
+  lineinfile:
+    path: /etc/fstab
+    line: "{{ item }}"
+    regexp: "{{ item }}"
+    state: present
+  with_items:
+    - "tmpfs /tmp tmpfs defaults,noatime,nosuid,size=50m 0 0"
+    - "tmpfs /var/tmp tmpfs defaults,noatime,nosuid,size=20m 0 0"
+    - "tmpfs /var/log tmpfs defaults,noatime,nosuid,mode=0755,size=10m 0 0"
