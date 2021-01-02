@@ -4,5 +4,6 @@
 terraform.tfstate*
 crash.log
 .env/
+playbooks/host_vars/perso.*
 
 terraform/global_vars/gitcrypt-key
