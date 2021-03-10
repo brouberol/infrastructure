@@ -12,6 +12,7 @@
     name: calibre-web
     image: "{{ calibre_image }}:{{ calibre_version }}"
     state: started
+    pull: yes
     env:
       PUID: "{{ user_uid | string }}"
       PGID: "{{ user_gid | string }}"
