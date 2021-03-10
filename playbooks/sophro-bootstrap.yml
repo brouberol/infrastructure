@@ -1,7 +1,5 @@
 ---
-- hosts: gallifrey
-  user: ubuntu
-  become: yes
-  become_method: sudo
+- hosts: sophro
+  user: root
   roles:
   - first-deploy
