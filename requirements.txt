@@ -8,7 +8,7 @@ cryptography==3.2.1
 datadog==0.29.3
 decorator==4.4.0
 idna==2.8
-Jinja2==2.10.1
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 pycparser==2.19
 PyYAML==5.1.1
