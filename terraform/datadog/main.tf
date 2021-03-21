@@ -36,7 +36,7 @@ resource "datadog_monitor" "gallifrey_services" {
 resource "datadog_monitor" "nginx_can_connect" {
   name = "Web service nginx config is running"
   type = "service check"
-  message = "@slack-notifications"
+  message = "@webhook-Discord-balthazar-dd"
   query = "\"nginx.can_connect\".over(\"*\").by(\"host\",\"port\", \"server\").last(4).count_by_status()"
 
   thresholds = {
@@ -57,7 +57,7 @@ resource "datadog_monitor" "nginx_can_connect" {
 resource "datadog_monitor" "http_can_connect" {
   name = "Web service is down"
   type = "metric alert"
-  message = "@slack-notifications"
+  message = "@webhook-Discord-balthazar-dd"
   query = "avg(last_2h):avg:network.http.can_connect{*} by {instance,host} < 1"
 
   thresholds = {
@@ -77,7 +77,7 @@ resource "datadog_monitor" "http_can_connect" {
 resource "datadog_monitor" "ssl_certificates_expiration" {
   name = "SSL certificate is close to expiry"
   type = "service check"
-  message = "@slack-notifications"
+  message = "@webhook-Discord-balthazar-dd"
   query = "\"http.ssl_cert\".over(\"*\").by(\"host\",\"instance\").last(4).count_by_status()"
 
   thresholds = {
@@ -99,7 +99,7 @@ resource "datadog_monitor" "ssl_certificates_expiration" {
 resource "datadog_monitor" "hosts_up" {
   name = "Host is down"
   type = "service check"
-  message = "@slack-notifications"
+  message = "@webhook-Discord-balthazar-dd"
   query = "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()"
 
   thresholds = {
@@ -119,7 +119,7 @@ resource "datadog_monitor" "hosts_up" {
 resource "datadog_monitor" "hosts_disk_usage" {
   name = "Disk is filling up"
   type = "metric alert"
-  message = "@slack-notifications"
+  message = "@webhook-Discord-balthazar-dd"
   query = "avg(last_4h):avg:system.disk.in_use{!host:${module.global_vars.pi_server_name}} by {host,device} > 0.85"
 
   thresholds = {
@@ -138,7 +138,7 @@ resource "datadog_monitor" "hosts_disk_usage" {
 resource "datadog_monitor" "pi_disk_usage" {
   name = "Pi disk is filling up"
   type = "metric alert"
-  message = "@slack-notifications"
+  message = "@webhook-Discord-balthazar-dd"
   query = "avg(last_4h):avg:system.disk.in_use{host:${module.global_vars.pi_server_name},device:/dev/mmcblk0p1} > 0.85"
 
   thresholds = {
@@ -157,7 +157,7 @@ resource "datadog_monitor" "pi_disk_usage" {
 resource "datadog_monitor" "backups" {
   name = "Backup failed"
   type = "event alert"
-  message = "@slack-notifications"
+  message = "@webhook-Discord-balthazar-dd"
   query = "events('sources:apps priority:all status:error \"Backup\"').rollup('count').last('5m') > 0"
 
   notify_no_data    = false
@@ -175,7 +175,7 @@ resource "datadog_monitor" "backups" {
 resource "datadog_monitor" "grand-cedre" {
   name = "A Grand-Cedre event failed"
   type = "event alert"
-  message = "@slack-notifications"
+  message = "@webhook-Discord-balthazar-dd"
   query = "events('sources:apps priority:all status:error tags:app:grand-cedre \"Grand Cedre\"').rollup('count').last('5m') > 0"
 
   notify_no_data    = false
