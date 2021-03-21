@@ -16,7 +16,7 @@ resource "datadog_monitor" "gallifrey_services" {
   message = "{{#is_alert}}${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is down{{/is_alert}} \n{{#is_alert_recovery}}${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is back up{{/is_alert_recovery}}  @slack-notifications"
   query = "\"process.up\".over(\"host:gallifrey\",\"process:${element(module.global_vars.datadog_gallifrey_monitored_processes, count.index)}\").last(4).count_by_status()"
 
-  thresholds = {
+  monitor_thresholds {
     ok       = 3
     critical = 3
   }
@@ -39,7 +39,7 @@ resource "datadog_monitor" "nginx_can_connect" {
   message = "@webhook-Discord-balthazar-dd"
   query = "\"nginx.can_connect\".over(\"*\").by(\"host\",\"port\", \"server\").last(4).count_by_status()"
 
-  thresholds = {
+  monitor_thresholds {
     ok       = 3
     critical = 3
   }
@@ -60,7 +60,7 @@ resource "datadog_monitor" "http_can_connect" {
   message = "@webhook-Discord-balthazar-dd"
   query = "avg(last_2h):avg:network.http.can_connect{*} by {instance,host} < 1"
 
-  thresholds = {
+  monitor_thresholds {
     critical = 1
   }
 
@@ -80,7 +80,7 @@ resource "datadog_monitor" "ssl_certificates_expiration" {
   message = "@webhook-Discord-balthazar-dd"
   query = "\"http.ssl_cert\".over(\"*\").by(\"host\",\"instance\").last(4).count_by_status()"
 
-  thresholds = {
+  monitor_thresholds {
     ok       = 3
     critical = 3
   }
@@ -100,9 +100,9 @@ resource "datadog_monitor" "hosts_up" {
   name = "Host is down"
   type = "service check"
   message = "@webhook-Discord-balthazar-dd"
-  query = "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()"
+  query = "\"datadog.agent.up\".over(\"*\").by(\"host\").last(3).count_by_status()"
 
-  thresholds = {
+  monitor_thresholds {
     ok       = 3
     critical = 3
   }
@@ -122,7 +122,7 @@ resource "datadog_monitor" "hosts_disk_usage" {
   message = "@webhook-Discord-balthazar-dd"
   query = "avg(last_4h):avg:system.disk.in_use{!host:${module.global_vars.pi_server_name}} by {host,device} > 0.85"
 
-  thresholds = {
+  monitor_thresholds {
     warning  = 0.80
     critical = 0.85
   }
@@ -141,7 +141,7 @@ resource "datadog_monitor" "pi_disk_usage" {
   message = "@webhook-Discord-balthazar-dd"
   query = "avg(last_4h):avg:system.disk.in_use{host:${module.global_vars.pi_server_name},device:/dev/mmcblk0p1} > 0.85"
 
-  thresholds = {
+  monitor_thresholds {
     warning  = 0.80
     critical = 0.85
   }
