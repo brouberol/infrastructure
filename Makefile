@@ -1,6 +1,16 @@
 .PHONY: clean help terraform-plan-% terraform-apply-% playbook-% playbook-%-bootstrap terraform-init terraform-plan terraform-apply
 .DEFAULT_GOAL := help
 
+PLATFORM := $(shell uname -s)
+ifeq ($(PLATFORM),Darwin)
+    FIND = gfind
+	ECHO = echo
+else
+    FIND = find
+	ECHO = echo -e
+endif
+
+
 PLAYBOOKS := playbooks
 ANSIBLE_COMMON_ROLES := roles/common
 ANSIBLE_OPTS := -v
@@ -15,7 +25,7 @@ playbook-%:  ## Configure an instance. Replace '%' by the instance playbook you 
 
 playbook-lint:  ## Lint role directories and playbook files
 	@cd $(PLAYBOOKS) && \
-	echo $$( find roles/ -mindepth 2 -maxdepth 2 -type d && find . -maxdepth 1 -name "*.yml") | xargs ansible-lint
+	echo $$( $(FIND) roles/ -mindepth 2 -maxdepth 2 -type d && $(FIND) . -maxdepth 1 -name "*.yml") | xargs ansible-lint
 
 terraform-%-plan:  ## Plan all terraform changes under the target directory %
 	@cd terraform && source ./env.sh && cd $* && terraform plan
@@ -25,36 +35,36 @@ terraform-%-apply:  ## Apply all terraform changes under the target directory %
 
 terraform-init:  ## Initialize all terraform workspaces
 	@cd terraform && \
-	for dir in $$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
+	for dir in $$($(FIND) . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
 		cd $$dir && \
 		echo "[+] Initializing $$dir" && \
 		terraform init \
 			-backend-config=../config.hcl \
 			-backend-config="key=infra/$$dir.tfstate" && \
 		cd .. && \
-		echo -e "\n"; \
+		$(ECHO) "\n"; \
 	done
 
 terraform-plan:  ## Plan all terraform workspaces
 	@cd terraform && \
 	source ./env.sh && \
-	for dir in $$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
+	for dir in $$($(FIND) . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
 		cd $$dir && \
 		echo "[+] Planning $$dir" && \
 		terraform plan ; \
 		cd .. && \
-		echo -e "\n"; \
+		$(ECHO) "\n"; \
 	done
 
 terraform-apply:  ## Apply all terraform workspaces
 	@cd terraform && \
 	source ./env.sh && \
-	for dir in $$(find . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
+	for dir in $$($(FIND) . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
 		cd $$dir && \
 		echo "[+] Applying $$dir" && \
 		terraform apply ; \
 		cd .. && \
-		echo -e "\n"; \
+		$(ECHO) "\n"; \
 	done
 
 help:
