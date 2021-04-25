@@ -8,7 +8,6 @@ user_ssh_authorized:
 certbot_list_of_certs_to_create:
   - "{{ page_domain }}"
   - "{{ blog_domain }}"
-  - "{{ lounge_domain }}"
   - "{{ fathom_domain }}"
   - "{{ wallabag_domain }}"
   - "{{ radicale_domain }}"
@@ -16,13 +15,19 @@ certbot_list_of_certs_to_create:
   - "{{ isso_domain }}"
   - "{{ calibre_domain }}"
   - "{{ grand_cedre_domain }}"
+  - "{{ nextcloud_domain }}"
+  - "{{ photoprism_domain }}"
+  - "{{ paperless_domain }}"
 
 # Datadog
 datadog_agent6: true
 datadog_config:
+  dogstatsd_socket: /var/run/datadog/datadog-agent.socket
   log_level: INFO
   tags: "name:{{ hostname }}, role:web"
   logs_enabled: true
+  process_config:
+    enabled: "true"
   listeners:
     - name: docker
   config_providers:
@@ -48,9 +53,6 @@ datadog_checks:
         search_string: ['ssh', 'sshd']
       - name: nginx
         search_string: ['nginx']
-      - name: lounge
-        search_string: ['/usr/local/bin/lounge start']
-        exact_match: false
       - name: fathom
         search_string: ['fathom']
       - name: radicale
@@ -61,13 +63,14 @@ datadog_checks:
     instances:
      - nginx_status_url: "https://{{ page_domain }}/basic_status"
      - nginx_status_url: "https://{{ blog_domain }}/basic_status"
-     - nginx_status_url: "https://{{ lounge_domain }}/basic_status"
      - nginx_status_url: "https://{{ fathom_domain }}/basic_status"
      - nginx_status_url: "https://{{ wallabag_domain }}/basic_status"
      - nginx_status_url: "https://{{ radicale_domain }}/basic_status"
      - nginx_status_url: "https://{{ pastebin_domain }}/basic_status"
      - nginx_status_url: "https://{{ isso_domain }}/basic_status"
      - nginx_status_url: "https://{{ calibre_domain }}/basic_status"
+     - nginx_status_url: "https://{{ photoprism_domain }}/basic_status"
+     - nginx_status_url: "https://{{ paperless_domain }}/basic_status"
 
   http_check:
     init_config:
@@ -88,15 +91,6 @@ datadog_checks:
       days_critical: "{{ datadog_http_check_days_critical }}"
       check_hostname: true
       ssl_server_name: "{{ blog_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-    - url: "https://{{ lounge_domain }}"
-      name: "{{ lounge_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ lounge_domain }}"
       disable_ssl_validation: false
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
     - url: "https://{{ fathom_domain }}"
@@ -169,6 +163,35 @@ datadog_checks:
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
       timeout: 5
       http_response_status_code: "(1|2|3|4)\\d\\d"
+    - url: "https://{{ nextcloud_domain }}"
+      name: "{{ nextcloud_domain }}"
+      check_certificate_expiration: true
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
+      check_hostname: true
+      ssl_server_name: "{{ nextcloud_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      timeout: 5
+      http_response_status_code: "(1|2|3|4)\\d\\d"
+    - url: "https://{{ photoprism_domain }}"
+      name: "{{ photoprism_domain }}"
+      check_certificate_expiration: true
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
+      check_hostname: true
+      ssl_server_name: "{{ photoprism_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+    - url: "https://{{ paperless_domain }}"
+      name: "{{ paperless_domain }}"
+      check_certificate_expiration: true
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
+      check_hostname: true
+      ssl_server_name: "{{ paperless_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
 
 # Git
 git_home: "/home/{{ git_user }}"
@@ -186,12 +209,6 @@ page_repo: "{{ git_home }}/page.git"
 page_web_dir: "{{ web_home }}/page"
 page_domain: "{{ main_domain }}"
 
-# lounge
-lounge_domain: "irc.{{ main_domain }}"
-lounge_host: localhost
-lounge_port: 8000
-lounge_home: "/home/{{ user }}/.lounge"
-
 # myip
 myip_domain: "ip.{{ main_domain }}"
 myip_port: 8001
@@ -205,7 +222,7 @@ fathom_version: "1.2.1"
 
 # wallabag
 wallabag_home: "{{ user_home }}/wallabag"
-wallabag_version: latest
+wallabag_version: 2.4.1
 wallabag_host: 127.0.0.1
 wallabag_port: 8003
 wallabag_domain: "wallabag.{{ main_domain }}"
@@ -238,12 +255,28 @@ calibre_host: 127.0.0.1
 calibre_port: 8007
 calibre_domain: "library.{{ main_domain }}"
 
-# slack
-slack_home: "{{ user_home }}/sclack"
-
 # grand-cedre-admin
 grand_cedre_home: "{{ user_home }}/grand-cedre"
 grand_cedre_data_dir: "{{ grand_cedre_home }}/data"
 grand_cedre_host: 127.0.0.1
 grand_cedre_port: 8008
 grand_cedre_domain: "grand-cedre.{{ sophro_domain }}"
+
+# nextcloud
+nextcloud_domain: "cloud.{{ main_domain }}"
+nextcloud_home: "/mnt/data/nextcloud"
+nextcloud_host: 127.0.0.1
+nextcloud_port: 8009
+
+# photoprism
+photoprism_domain: "photos.{{ main_domain }}"
+photoprism_home: "/mnt/data/photoprism"
+photoprism_host: 127.0.0.1
+photoprism_port: 8010
+
+# paperless-ng
+paperless_domain: "papers.{{ main_domain }}"
+paperless_home: "{{ user_home }}/paperless"
+paperless_host: 127.0.0.1
+paperless_port: 8011
+paperless_version: "0.9.9"

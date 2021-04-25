@@ -1,0 +1,40 @@
+#!/usr/bin/env python3.7
+
+import praw
+
+from datadog.dogstatsd import DogStatsd
+
+statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+
+ESSENTIAL_TOOLS_URL = [
+    "discovering-the-terminal",
+    "text-processing-in-the-shell",
+    "the-shells-building-blocks",
+    "customizing-your-shell",
+    "shell-productivity-tips-and-tricks",
+]
+BLOG_DOMAIN = "blog.balthazar-rouberol.com"
+
+reddit = praw.Reddit(
+    client_id="{{ reddit_client_id }}",
+    client_secret="{{ reddit_client_secret }}",
+    username="BaltoRouberol",
+    password="{{ reddit_password }}",
+    user_agent="testscript by /u/BaltoRouberol",
+)
+
+
+for post in reddit.user.me().submissions.new():
+    post = vars(post)
+    if BLOG_DOMAIN not in post["url"]:
+        continue
+    slug = post["url"].split("/")[-1].replace(".html", "")
+    tags = ["subreddit:%s" % (post["subreddit"].display_name), "article:%s" % (slug)]
+    if post["domain"] == BLOG_DOMAIN:
+        for url in ESSENTIAL_TOOLS_URL:
+            if url in post["url"]:
+                tags.append("campaign:essential-tools")
+                break
+
+    statsd.gauge("reddit.post.score", value=post["score"], tags=tags)
+    statsd.gauge("reddit.post.comments", value=post["num_comments"], tags=tags)

@@ -1,0 +1,11 @@
+---
+- hosts: perso.linkpi
+  user: "{{ user }}"
+  become: yes
+  become_method: sudo
+
+  roles:
+  - { role: pi-setup, tags: ['setup'] }
+  - { role: pi-datadog-agent, tags: ['datadog-agent', 'datadog'] }
+  - { role: datadog-agent, tags: ['datadog-agent', 'datadog'] }
+  - { role: datadogpy, tags: ['datadogpy', 'datadog'] }

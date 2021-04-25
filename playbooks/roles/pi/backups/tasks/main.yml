@@ -10,6 +10,9 @@
     - calibre
     - grand-cedre
     - radicale
+    - nextcloud
+    - photoprism
+    - paperless
 
 - name: "Install the restic client"
   apt:

@@ -1,0 +1,61 @@
+- name: Create the photoprism home directory
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ photoprism_home }}"
+    - "{{ photoprism_home }}/storage"
+    - "{{ photoprism_home }}/originals"
+
+- name: Run the photoprism container
+  docker_container:
+    name: photoprism
+    image: photoprism/photoprism
+    pull: yes
+    state: started
+    security_opts:
+    - "seccomp=unconfined"
+    - "apparmor=unconfined"
+    env:
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+      PHOTOPRISM_ADMIN_PASSWORD: "{{ photoprism_admin_password }}"
+      PHOTOPRISM_SITE_URL: "https://{{ photoprism_domain }}/"
+      PHOTOPRISM_SITE_CAPTION: "Balthazar's photos"
+      PHOTOPRISM_DATABASE_DRIVER: sqlite
+    published_ports:
+      - "{{ photoprism_host }}:{{ photoprism_port }}:2342"
+    volumes:
+      - "{{ photoprism_home }}/storage:/photoprism/storage:rw"
+      - "{{ photoprism_home }}/originals:/photoprism/originals:rw"
+    restart_policy: unless-stopped
+
+- name: "Copy photoprism sites-available nginx conf"
+  template:
+    src: photoprism.conf.j2
+    dest: /etc/nginx/sites-available/photoprism.conf
+    owner: root
+    group: root
+  notify: "reload nginx service"
+
+- name: "Link photoprism sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/photoprism.conf
+    dest: /etc/nginx/sites-enabled/photoprism.conf
+    state: link
+  notify: "reload nginx service"
+
+- name: "Install jpegoptim"
+  apt:
+    name: jpegoptim
+    state: present
+
+- name: "Schedule the optimization of the photoprism originals downloaded in the last 24h"
+  cron:
+    name: "schedule the optimization of the photoprism originals downloaded in the last 24h"
+    minute: "0"
+    hour: "2"
+    job: >
+      /usr/local/bin/dd-cron-event
+      "Optimize photoprism originals to save space"
+      "/usr/bin/find {{ photoprism_home }}/originals -ctime -1 -type f -iname \"*.jpg\" -print0 | /usr/bin/xargs -0 jpegoptim -S 3072 --strip-none --totals -o"
+    user: "root"

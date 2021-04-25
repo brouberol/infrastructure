@@ -1,0 +1,23 @@
+- name: Install python libraries required by monitoring scripts
+  pip:
+    name:
+    - praw
+    - mailchimp3
+    state: present
+    executable: pip3
+
+- name: render monitoring scripts
+  template:
+    src: "{{ item }}"
+    dest: "/etc/cron.hourly/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+  - monitor_blog
+  - monitor_blog_comments
+  - monitor_devto
+  - monitor_lobsters
+  - monitor_mailchimp
+  - monitor_nextcloud
+  - monitor_reddit

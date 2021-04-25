@@ -5,18 +5,16 @@
   become_method: sudo
 
   roles:
-  - { role: setup, tags: ['setup'] }
+  - { role: pi-setup, tags: ['setup'] }
   - { role: docker, tags: ['docker'] }
   - { role: certbot, tags: ['certbot'] }
-  - { role: datadog-agent-pi, tags: ['datadog-agent', 'datadog'] }
+  - { role: pi-datadog-agent, tags: ['datadog-agent', 'datadog'] }
   - { role: datadog-agent, tags: ['datadog-agent', 'datadog'] }
   - { role: datadogpy, tags: ['datadogpy', 'datadog'] }
   - { role: nginx, tags: ['nginx', 'web'] }
-  # - { role: node, tags: ['node'] }
-  # - { role: weboob, tags: ['weboob'] }
-  # - { role: kresus, tags: ['kresus'] }
   - { role: backups, tags: ['backups'] }
   - { role: pihole, tags: ['pihole'] }
   - { role: wireguard, tags: ['wireguard'] }
   - { role: samba, tags: ['samba'] }
   - { role: transmission, tags: ['transmission'] }
+  - { role: notion, tags: ['notion'] }

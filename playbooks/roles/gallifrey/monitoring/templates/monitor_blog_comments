@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+import sqlite3
+
+from datadog.dogstatsd import DogStatsd
+
+
+statsd = DogStatsd(socket_path='/var/run/datadog/datadog-agent.socket')
+conn = sqlite3.connect('/home/br/isso/db/comments.db')
+
+ESSENTIAL_TOOLS_THREADS = [
+    'discovering-the-terminal',
+    'text-processing-in-the-shell',
+    'the-shells-building-blocks',
+    'customizing-your-shell',
+    'shell-productivity-tips-and-tricks',
+]
+
+
+c = conn.cursor()
+
+query = """
+SELECT threads.uri, tid, COUNT(*)
+FROM comments
+INNER JOIN threads ON comments.tid = threads.id
+GROUP BY threads.uri
+"""
+res = c.execute(query)
+
+for uri, tid, nb_comments in res:
+    uri = uri.strip('/')
+    tags = ['article:%s' % (uri)]
+    if uri in ESSENTIAL_TOOLS_THREADS:
+        tags.append('campaign:essential-tools')
+    statsd.gauge('blog.comments', value=nb_comments, tags=tags)

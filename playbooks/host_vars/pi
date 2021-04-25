@@ -28,6 +28,8 @@ datadog_agent6: true
 datadog_config:
   log_level: INFO
   tags: "name:{{ hostname }}, role:web"
+  process_config:
+    enabled: "true"
 datadog_checks:
   process:
     init_config:

@@ -2,53 +2,61 @@
   apt:
     name:
       - mysql-common
-      - mysql-client-5.5
-      - mysql-server-5.5
-      - php5-cli
-      - php5-common
-      - php5-fpm
-      - php5-json
-      - php5-mysql
-      - php5-readline
+      - mysql-client-5.7
+      - mysql-server-5.7
+      - php-cli
+      - php-common
+      - php-fpm
+      - php-json
+      - php-mysql
+      - php-readline
+      - python3-pymysql
 
-- name: "Copy the php5-fpm config files"
+- name: "Copy the php-fpm config files"
   copy:
     src: "{{ item }}"
-    dest: "/etc/php5/fpm/{{ item }}"
+    dest: "/etc/php/7.2/fpm/{{ item }}"
     owner: root
     group: root
     mode: 0644
   with_items:
     - php.ini
     - php-fpm.conf
-  notify: start php5-fpm
+  notify: start php-fpm
 
-- name: "Change the root mysql password"
-  mysql_user:
-    name: root
-    host: localhost
-    password: "{{ sophro_www_mysql_root_password }}"
-    check_implicit_admin: yes
-    login_user: root
-    login_password: "{{ sophro_www_mysql_root_old_password }}"
-    state: present
-  ignore_errors: yes
+- name: "Enable and start the mysql service"
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+    daemon_reload: yes
 
-- name: "Create the MySQL database"
-  mysql_db:
-    name: "{{ sophro_www_mysql_db }}"
-    state: present
-    login_user: root
-    login_password: "{{ sophro_www_mysql_root_password }}"
+# - name: "Change the root mysql password"
+#   mysql_user:
+#     name: root
+#     host: localhost
+#     password: "{{ sophro_www_mysql_root_password }}"
+#     check_implicit_admin: yes
+#     login_user: root
+#     login_password: ""
+#     state: present
+#   ignore_errors: yes
 
-- name: "Create the MySQL user"
-  mysql_user:
-    name: "{{ sophro_www_mysql_user }}"
-    host: localhost
-    password: "{{ sophro_www_mysql_password }}"
-    priv: '{{ sophro_www_mysql_db }}.*:ALL'
-    login_user: root
-    login_password: "{{ sophro_www_mysql_root_password }}"
+# - name: "Create the MySQL database"
+#   mysql_db:
+#     name: "{{ sophro_www_mysql_db }}"
+#     state: present
+#     login_user: root
+#     login_password: "{{ sophro_www_mysql_root_password }}"
+
+# - name: "Create the MySQL user"
+#   mysql_user:
+#     name: "{{ sophro_www_mysql_user }}"
+#     host: localhost
+#     password: "{{ sophro_www_mysql_password }}"
+#     priv: '{{ sophro_www_mysql_db }}.*:ALL'
+#     login_user: root
+#     login_password: "{{ sophro_www_mysql_root_password }}"
 
 - name: "Create the root scripts directory"
   file:

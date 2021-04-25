@@ -54,7 +54,7 @@ ControlMaster auto
 ControlPath ~/.ssh/cm/control:%h:%p:%r
 
 Host pi
-HostName pi.balthazar-rouberol.com
+HostName home.balthazar-rouberol.com
 
 Host gallifrey
 HostName balthazar-rouberol.com

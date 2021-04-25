@@ -1,0 +1,5 @@
+hostname: linkpi
+datadog_config_dir: /root/.datadog-agent/agent
+datadog_config:
+  log_level: INFO
+  tags: "name:{{ hostname }}"

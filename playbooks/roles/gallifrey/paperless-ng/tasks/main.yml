@@ -1,0 +1,71 @@
+- name: "Create the paperless home folder"
+  file:
+    path: "{{ paperless_home }}/{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items:
+  - data
+  - media
+  - export
+  - consume
+
+- name: "Run the paperless-ng-sqlite services via docker-compose"
+  docker_compose:
+    project_name: paperless-ng
+    definition:
+      version: "3.4"
+      services:
+        broker:
+          image: redis:6.0
+          restart: always
+
+        webserver:
+          image: "jonaswinkler/paperless-ng:{{ paperless_version }}"
+          restart: always
+          depends_on:
+            - broker
+          ports:
+            - "{{ paperless_port }}:8000"
+          healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8000"]
+            interval: 30s
+            timeout: 10s
+            retries: 5
+          volumes:
+            - "{{ paperless_home }}/data:/usr/src/paperless/data"
+            - "{{ paperless_home }}/media:/usr/src/paperless/media"
+            - "{{ paperless_home }}/export:/usr/src/paperless/export"
+            - "{{ paperless_home }}/consume:/usr/src/paperless/consume"
+          environment:
+            PAPERLESS_REDIS: redis://broker:6379
+            USERMAP_UID: "{{ user_uid }}"
+            USERMAP_GID: "{{ user_gid }}"
+            PAPERLESS_SECRET_KEY: "{{ paperless_secret_key }}"
+            PAPERLESS_TIME_ZONE: Europe/Paris
+            PAPERLESS_OCR_LANGUAGE: fra
+            PAPERLESS_ALLOWED_HOSTS: "{{ paperless_domain }},localhost"  # localhost needed for the healthchecks
+            PAPERLESS_TASK_WORKERS: "1"
+            PAPERLESS_THREADS_PER_WORKER: "1"
+            PAPERLESS_CONSUMER_POLLING: "120"
+            PAPERLESS_CONVERT_MEMORY_LIMIT: "32"
+            PAPERLESS_DISABLE_DBHANDLER: "true"
+
+      volumes:
+        data:
+        media:
+
+- name: "Copy paperless sites-available nginx conf"
+  template:
+    src: paperless-nginx.conf.j2
+    dest: /etc/nginx/sites-available/paperless-nginx.conf
+    owner: root
+    group: root
+  notify: "reload nginx service"
+
+- name: "Link paperless sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/paperless-nginx.conf
+    dest: /etc/nginx/sites-enabled/paperless-nginx.conf
+    state: link
+  notify: "reload nginx service"

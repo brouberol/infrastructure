@@ -19,15 +19,17 @@
   - { role: blog, tags: ['blog', 'web'] }
   - { role: myip, tags: ['myip', 'services'] }
   - { role: fathom, tags: ['fathom', 'services'] }
-  - { role: lounge, tags: ['lounge', 'web', 'services'] }
   - { role: wallabag, tags: ['wallabag', 'web', 'services'] }
   - { role: radicale, tags: ['radicale', 'web', 'services'] }
   - { role: backups, tags: ['backups'] }
   - { role: pastebin, tags: ['pastebin'] }
   - { role: isso, tags: ['isso'] }
   - { role: calibre, tags: ['calibre'] }
-  - { role: slack, tags: ['slack'] }
   - { role: grand-cedre, tags: ['grand-cedre'] }
+  - { role: nextcloud, tags: ['nextcloud'] }
+  - { role: monitoring, tags: ['monitoring'] }
+  - { role: photoprism, tags: ['photoprism'] }
+  - { role: paperless-ng, tags: ['paperless-ng'] }
 
   post_tasks:
   - include_vars:

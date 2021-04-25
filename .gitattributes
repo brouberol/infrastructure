@@ -1,0 +1,1 @@
+terraform/global_vars/main.tf filter=git-crypt diff=git-crypt

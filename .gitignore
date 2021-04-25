@@ -3,9 +3,17 @@
 .terraform
 terraform.tfstate*
 crash.log
+.env/
+playbooks/host_vars/perso.*
 
+<<<<<<< HEAD
 terraform/global_vars/main.tf
 
 .env/
 *.code-workspace
 *.swp
+||||||| cdd0850
+terraform/global_vars/main.tf
+=======
+terraform/global_vars/gitcrypt-key
+>>>>>>> c6fdf9b9a0fc1deb6ff83e3c989de42aad6beb46

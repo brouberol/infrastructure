@@ -25,7 +25,7 @@ fi
 tar -cvf $BACKUP_DIR/$FILE --transform "s,^$_WWW_DIR,www," --exclude="*.mp3" /$_WWW_DIR
 
 # Add the MySQL dump to the archive
-mysqldump -u$DB_USER -p$DB_PASS $DB_NAME > $BACKUP_DIR/$DB_FILE
+mysqldump --no-tablespaces -u$DB_USER -p$DB_PASS $DB_NAME > $BACKUP_DIR/$DB_FILE
 tar --append --file=$BACKUP_DIR/$FILE --transform "s,^$_BACKUP_DIR,db," $BACKUP_DIR/$DB_FILE
 rm $BACKUP_DIR/$DB_FILE
 
