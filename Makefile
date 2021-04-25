@@ -4,12 +4,14 @@
 PLAYBOOKS := playbooks
 ANSIBLE_COMMON_ROLES := roles/common
 ANSIBLE_OPTS := -v
+ANSIBLE_PLAYBOOK_CMD=poetry run ansible-playbook
+
 
 playbook-%-bootstrap:  ## Bootstrap an instance. Replace '%' by the instance playbook you want to run
-	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* ANSIBLE_CONFIG=./ansible-bootstrap.cfg ansible-playbook --ask-pass $*-bootstrap.yml $(ANSIBLE_OPTS)
+	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* ANSIBLE_CONFIG=./ansible-bootstrap.cfg $(ANSIBLE_PLAYBOOK_CMD) --ask-pass $*-bootstrap.yml $(ANSIBLE_OPTS)
 
 playbook-%:  ## Configure an instance. Replace '%' by the instance playbook you want to run
-	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* ansible-playbook $*.yml $(ANSIBLE_OPTS) $(target)
+	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* $(ANSIBLE_PLAYBOOK_CMD) $*.yml $(ANSIBLE_OPTS) $(target)
 
 playbook-lint:  ## Lint role directories and playbook files
 	@cd $(PLAYBOOKS) && \
