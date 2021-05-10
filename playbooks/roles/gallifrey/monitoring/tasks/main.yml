@@ -3,6 +3,7 @@
     name:
     - praw
     - mailchimp3
+    - ovh
     state: present
     executable: pip3
 
@@ -20,4 +21,5 @@
   - monitor_lobsters
   - monitor_mailchimp
   - monitor_nextcloud
+  - monitor_ovh
   - monitor_reddit

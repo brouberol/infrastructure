@@ -1,0 +1,50 @@
+#!/usr/bin/env python3
+
+import datetime
+import re
+
+from ovh.client import Client as OvhClient
+from datadog.dogstatsd import DogStatsd
+
+statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+
+ovh = OvhClient(
+    endpoint="{{ ovh_endpoint }}",
+    application_key="{{ ovh_app_key }}",
+    application_secret="{{ ovh_app_secret }}",
+    consumer_key="{{ ovh_consumer_key }}")
+
+IGNORED_PRODUCTS = ('/caas/registry/', '/cloud/project', '/email/', '/domain/zone')
+
+
+for service_id in ovh.get('/services'):
+    service = ovh.get('/services/%s' % (service_id))
+    if not service['route']:
+        continue
+
+    for route in IGNORED_PRODUCTS:
+        if route in service['route']['url']:
+            break
+    else:
+        service_name = service['resource']['displayName']
+        if not service['resource'].get('product'):
+            if '/domain' in service['route']['path']:
+                service_type = "domain"
+            else:
+                continue
+        else:
+            service_type = service['resource']['product']['name']
+
+        # massage the expiration date into something that complies wirth python3.5
+        # being dumb.
+        exp_date = service['billing']['expirationDate']
+        exp_date = re.sub(r"([+-])(\d{2})\:(\d{2})", "\g<1>\g<2>\g<3>", exp_date) 
+        expiration_date = datetime.datetime.strptime(
+            exp_date,
+            '%Y-%m-%dT%H:%M:%S%z').replace(tzinfo=None)
+            
+        service_remaining_days = (expiration_date - datetime.datetime.utcnow()).days
+        statsd.gauge(
+            "ovh.service.remaining_days",
+            tags=['service:%s' % (service_name), 'product:%s' % (service_type)],
+            value=service_remaining_days)

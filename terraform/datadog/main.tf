@@ -188,3 +188,24 @@ resource "datadog_monitor" "grand-cedre" {
 
   tags = ["app:grand-cedre"]
 }
+
+resource "datadog_monitor" "ovh_service_expiry" {
+  name = "OVH service is close to expiry"
+  type = "metric alert"
+  message = "${module.global_vars.dd_discord_webhook}"
+  query = "avg(last_4h):avg:ovh.service.remaining_days{*} by {product,device} < 7"
+
+  monitor_thresholds {
+    warning  = 30
+    critical = 7
+  }
+
+  notify_no_data    = false
+  renotify_interval = 360
+
+  notify_audit = false
+  timeout_h    = 60
+  include_tags = true
+
+  tags = []
+}
