@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 DOGRC=$HOME/.dogrc
-AWS_CREDS=$HOME/.aws/credentials-perso
+AWS_CREDS=$HOME/.aws/credentials
 
 if [ -e $DOGRC ]; then
     export DATADOG_API_KEY=$(grep apikey $DOGRC | cut -d= -f2 | sed 's/ //g')
