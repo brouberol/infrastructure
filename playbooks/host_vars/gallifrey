@@ -279,4 +279,4 @@ paperless_domain: "papers.{{ main_domain }}"
 paperless_home: "{{ user_home }}/paperless"
 paperless_host: 127.0.0.1
 paperless_port: 8011
-paperless_version: "0.9.9"
+paperless_version: "1.4.4"
