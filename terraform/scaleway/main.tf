@@ -14,9 +14,9 @@ provider "scaleway" {
 }
 
 resource "scaleway_account_ssh_key" "ssh_key" {
-    name = "${element(split("== ", element(module.global_vars.ssh_keys, count.index)), 1)}"
-    public_key = "${element(module.global_vars.ssh_keys, count.index)}"
-    count = "${length(module.global_vars.ssh_keys)}"
+    name = element(split("== ", element(module.global_vars.ssh_keys, count.index)), 1)
+    public_key = element(module.global_vars.ssh_keys, count.index)
+    count = length(module.global_vars.ssh_keys)
 }
 
 resource "scaleway_instance_ip" "gallifrey_ip" {}
@@ -34,10 +34,10 @@ resource "scaleway_instance_volume" "gallifrey_data" {
 }
 
 resource "scaleway_instance_server" "gallifrey" {
-  name  = "${module.global_vars.gallifrey_scaleway_server_name}"
-  image = "${module.global_vars.gallifrey_scaleway_image_id}"
-  type  = "${module.global_vars.gallifrey_scaleway_server_type}"
-  ip_id = "${scaleway_instance_ip.gallifrey_ip.id}"
+  name  = module.global_vars.gallifrey_scaleway_server_name
+  image = module.global_vars.gallifrey_scaleway_image_id
+  type  = module.global_vars.gallifrey_scaleway_server_type
+  ip_id = scaleway_instance_ip.gallifrey_ip.id
   enable_ipv6 = false
   tags = []
   additional_volume_ids = [scaleway_instance_volume.gallifrey_data.id]
@@ -52,8 +52,8 @@ resource "scaleway_instance_server" "gallifrey" {
 }
 
 resource "scaleway_instance_ip_reverse_dns" "gallifrey" {
-  ip_id = "${scaleway_instance_ip.gallifrey_ip.id}"
-  reverse = "${module.global_vars.root_domain}"
+  ip_id = scaleway_instance_ip.gallifrey_ip.id
+  reverse = module.global_vars.root_domain
 
   depends_on = [scaleway_instance_ip.gallifrey_ip]
 }
