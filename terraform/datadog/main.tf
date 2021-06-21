@@ -193,7 +193,7 @@ resource "datadog_monitor" "ovh_service_expiry" {
   name = "OVH service is close to expiry"
   type = "metric alert"
   message = module.global_vars.dd_discord_webhook
-  query = "avg(last_4h):avg:ovh.service.remaining_days{*} by {product,service} < 7"
+  query = "min(last_1d):avg:ovh.service.remaining_days{*} by {service}.fill(linear) < 7"
 
   monitor_thresholds {
     warning  = 30
