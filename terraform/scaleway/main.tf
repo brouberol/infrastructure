@@ -1,6 +1,12 @@
 terraform {
-  required_version = ">= 0.12.0"
   backend "s3" {}
+  required_providers {
+    scaleway = {
+      source = "scaleway/scaleway"
+      version = "~> 2.1.0"
+    }
+  }
+  required_version = ">= 0.13"
 }
 
 module "global_vars" {
