@@ -59,14 +59,3 @@
       "Optimize photoprism originals to save space"
       "/usr/bin/find {{ photoprism_home }}/originals -ctime -1 -type f -iname \"*.jpg\" -print0 | /usr/bin/xargs -0 jpegoptim -S 3072 --strip-none --totals -o"
     user: "root"
-
-- name: "Schedule the optimization of the photoprism thumbnais created in the last 24h"
-  cron:
-    name: "schedule the optimization of the photoprism thumbnails downloaded in the last 24h"
-    minute: "0"
-    hour: "3"
-    job: >
-      /usr/local/bin/dd-cron-event
-      "Optimize photoprism thumbnails to save space"
-      "/usr/bin/find {{ photoprism_home }}/thumbnails -ctime -1 -type f -iname \"*.jpg\" -print0 | /usr/bin/xargs -0 jpegoptim -S 300 --strip-none --totals -o"
-    user: "root"
