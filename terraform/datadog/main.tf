@@ -95,7 +95,7 @@ resource "datadog_monitor" "ssl_certificates_expiration" {
     critical = 3
   }
 
-  notify_no_data    = false
+  notify_no_data    = true
   renotify_interval = 360
 
   notify_audit = false
@@ -196,7 +196,7 @@ resource "datadog_monitor" "ovh_service_expiry" {
     critical = 7
   }
 
-  notify_no_data    = false
+  notify_no_data    = true
   renotify_interval = 360
 
   notify_audit = false
