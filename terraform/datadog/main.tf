@@ -196,7 +196,7 @@ resource "datadog_monitor" "ovh_service_expiry" {
     critical = 7
   }
 
-  notify_no_data    = true
+  notify_no_data    = false
   renotify_interval = 360
 
   notify_audit = false
