@@ -95,7 +95,7 @@ resource "datadog_monitor" "ssl_certificates_expiration" {
     critical = 3
   }
 
-  notify_no_data    = true
+  notify_no_data    = false
   renotify_interval = 360
 
   notify_audit = false
