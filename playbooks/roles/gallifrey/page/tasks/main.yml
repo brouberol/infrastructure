@@ -36,7 +36,7 @@
     path: "{{ page_web_dir }}/{{ item }}"
     state: directory
     owner: "{{ web_user }}"
-    group: "{{ web_user }}"
+    group: users
     mode: 0775
   with_items:
     - public
