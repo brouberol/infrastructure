@@ -25,7 +25,6 @@
   - { role: pastebin, tags: ['pastebin'] }
   - { role: isso, tags: ['isso'] }
   - { role: calibre, tags: ['calibre'] }
-  - { role: grand-cedre, tags: ['grand-cedre'] }
   - { role: nextcloud, tags: ['nextcloud'] }
   - { role: monitoring, tags: ['monitoring'] }
   - { role: photoprism, tags: ['photoprism'] }
