@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+
+import requests
+import json
+from datadog.dogstatsd import DogStatsd
+
+statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+
+BUCKET_NAME = "{{ scaleway_bucket_name }}"
+PROJECT_ID = "{{ scaleway_project_id }}"
+SECRET_KEY = "{{ scaleway_secret_key }}"
+
+resp = requests.post(
+    "https://api.scaleway.com/object-private/v1/regions/fr-par/buckets-info",
+    headers={
+        "Accept": "application/json",
+        "X-Auth-Token": SECRET_KEY,
+        "Content-Type": "application/json",
+    },
+    data=json.dumps({"project_id": PROJECT_ID, "buckets_name": [BUCKET_NAME]}),
+)
+resp.raise_for_status()
+bucket_usage = resp.json()
+total_storage_used_gb = bucket_usage["current_size"] / 1000 ** 3
+total_objects = bucket_usage["current_objects"]
+bucket_storage_used_gb = (
+    bucket_usage["buckets"][BUCKET_NAME]["current_size"] / 1000 ** 3
+)
+bucket_total_objects = bucket_usage["buckets"][BUCKET_NAME]["current_objects"]
+
+statsd.gauge("scaleway.s3.total.used_gb", value=total_storage_used_gb)
+statsd.gauge("scaleway.s3.total.objects", value=total_objects)
+statsd.gauge(
+    "scaleway.s3.bucket.used_gb",
+    value=bucket_storage_used_gb,
+    tags=["bucket:%s" % (BUCKET_NAME)],
+)
+statsd.gauge(
+    "scaleway.s3.bucket.objects",
+    value=bucket_total_objects,
+    tags=["bucket:%s" % (BUCKET_NAME)],
+)
