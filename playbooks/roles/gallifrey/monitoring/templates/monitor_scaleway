@@ -10,6 +10,7 @@ BUCKET_NAME = "{{ scaleway_bucket_name }}"
 PROJECT_ID = "{{ scaleway_project_id }}"
 SECRET_KEY = "{{ scaleway_secret_key }}"
 
+# weird that it's a POST request :shrug:
 resp = requests.post(
     "https://api.scaleway.com/object-private/v1/regions/fr-par/buckets-info",
     headers={
@@ -21,6 +22,8 @@ resp = requests.post(
 )
 resp.raise_for_status()
 bucket_usage = resp.json()
+
+# This is in Gigabytes, not Gibibytes
 total_storage_used_gb = bucket_usage["current_size"] / 1000 ** 3
 total_objects = bucket_usage["current_objects"]
 bucket_storage_used_gb = (
