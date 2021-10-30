@@ -24,6 +24,7 @@
   - monitor_scaleway
   - monitor_ovh
   - monitor_reddit
+  - monitor_rain
 
 - name: "Copy the river level monitoring script to a bindir"
   copy:

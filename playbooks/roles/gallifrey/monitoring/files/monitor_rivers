@@ -8,7 +8,7 @@ from datadog.dogstatsd import DogStatsd
 
 statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
 
-URLS = {
+RIVER_LEVEL_URLS = {
     "chaulet": "https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=V504881301&FormatDate=iso",
     "gravieres": "https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=V504503001&FormatDate=iso",
 }
@@ -46,7 +46,7 @@ def monitor_alert_level():
 
 
 def monitor_river(station_name):
-    data = requests.get(URLS[station_name]).json()
+    data = requests.get(RIVER_LEVEL_URLS[station_name]).json()
     datapoint = data["Serie"]["ObssHydro"][-1]
     value = datapoint["ResObsHydro"]
     statsd.gauge(

@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+
+import requests
+
+from enum import Enum
+from bs4 import BeautifulSoup
+from datadog.dogstatsd import DogStatsd
+
+statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+
+RAIN_VOLUME_URLS = {
+    "chaulet": "https://www.rdbrmc.com/hydroreel2/station.php?codestation=1086",
+    "gravieres": "https://www.rdbrmc.com/hydroreel2/station.php?codestation=514",
+}
+
+
+def monitor_rain_volume(station_name):
+    html = requests.get(RAIN_VOLUME_URLS[station_name]).text
+    soup = BeautifulSoup(html, features="html.parser")
+    rain_level_h5 = soup.find_all("h5")[3].text
+    rain_level = float(rain_level_h5.split("dernier cumul horaire ")[1].split(" ")[0])
+    statsd.gauge(
+        "weather.rain.hourly", tags=["station:%s" % (station_name)], value=rain_level
+    )
+
+
+def main():
+    monitor_rain_volume("chaulet")
+    monitor_rain_volume("gravieres")
+
+
+if __name__ == "__main__":
+    main()
