@@ -11,13 +11,15 @@ statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
 RAIN_VOLUME_URLS = {
     "chaulet": "https://www.rdbrmc.com/hydroreel2/station.php?codestation=1086",
     "gravieres": "https://www.rdbrmc.com/hydroreel2/station.php?codestation=514",
+    "villefort": "https://www.rdbrmc.com/hydroreel2/station.php?codestation=761",
 }
 
 
 def monitor_rain_volume(station_name):
     html = requests.get(RAIN_VOLUME_URLS[station_name]).text
     soup = BeautifulSoup(html, features="html.parser")
-    rain_level_h5 = soup.find_all("h5")[3].text
+    h5_index = 1 if station_name == "villefort" else 3
+    rain_level_h5 = soup.find_all("h5")[h5_index].text
     rain_level = float(rain_level_h5.split("dernier cumul horaire ")[1].split(" ")[0])
     statsd.gauge(
         "weather.rain.hourly", tags=["station:%s" % (station_name)], value=rain_level
@@ -27,6 +29,7 @@ def monitor_rain_volume(station_name):
 def main():
     monitor_rain_volume("chaulet")
     monitor_rain_volume("gravieres")
+    monitor_rain_volume("villefort")
 
 
 if __name__ == "__main__":
