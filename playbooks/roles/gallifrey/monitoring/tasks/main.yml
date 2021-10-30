@@ -4,6 +4,7 @@
     - praw
     - mailchimp3
     - ovh
+    - beautifulsoup4
     state: present
     executable: pip3
 
@@ -23,3 +24,18 @@
   - monitor_scaleway
   - monitor_ovh
   - monitor_reddit
+
+- name: "Copy the river level monitoring script to a bindir"
+  copy:
+    src: files/monitor_rivers
+    dest: /usr/local/bin/monitor_rivers
+    mode: 0755
+    owner: root
+    group: root
+
+- name: "Monitor river level at different stations"
+  cron:
+    name: "monitor rivers"
+    minute: "*/5"
+    job: /usr/local/bin/monitor_rivers
+    user: "{{ user }}"

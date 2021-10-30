@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+
+import requests
+
+from enum import Enum
+from bs4 import BeautifulSoup
+from datadog.dogstatsd import DogStatsd
+
+statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+
+URLS = {
+    "chaulet": "https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=V504881301&FormatDate=iso",
+    "gravieres": "https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=V504503001&FormatDate=iso",
+}
+
+VIGICRUE_ARDECHE_URL = "https://www.vigicrues.gouv.fr/niv2-bassin.php?CdEntVigiCru=20"
+
+
+class AlertLevel(Enum):
+    GREEN = 0
+    YELLOW = 1
+    ORANGE = 2
+    RED = 3
+
+
+def monitor_alert_level():
+    html = requests.get(VIGICRUE_ARDECHE_URL).text
+    soup = BeautifulSoup(html, features="html.parser")
+    links = soup.find_all("a", class_="basin-item-vigilance")
+    chassezac_link = [link for link in links if "20#GA23" in link.attrs["href"]][0]
+    link_title = chassezac_link.attrs["title"]
+    alert_level = None
+    if "Vert" in link_title:
+        alert_level = AlertLevel.GREEN
+    elif "Jaune" in link_title:
+        alert_level = AlertLevel.YELLOW
+    elif "Orange" in link_title:
+        alert_level = AlertLevel.ORANGE
+    elif "Rouge" in link_title:
+        alert_level = AlertLevel.RED
+
+    if alert_level is not None:
+        statsd.gauge(
+            "river.alert_level", tags=["river:chassezac"], value=alert_level.value
+        )
+
+
+def monitor_river(station_name):
+    data = requests.get(URLS[station_name]).json()
+    datapoint = data["Serie"]["ObssHydro"][-1]
+    value = datapoint["ResObsHydro"]
+    statsd.gauge(
+        "river.level",
+        value=value,
+        tags=["station:%s" % (station_name), "river:chassezac"],
+    )
+
+
+def main():
+    monitor_alert_level()
+    monitor_river("chaulet")
+    monitor_river("gravieres")
+
+
+if __name__ == "__main__":
+    main()
