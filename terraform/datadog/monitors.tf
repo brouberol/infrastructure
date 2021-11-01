@@ -147,25 +147,6 @@ resource "datadog_monitor" "backups" {
   tags = ["role:backup"]
 }
 
-
-resource "datadog_monitor" "grand-cedre" {
-  name = "A Grand-Cedre event failed"
-  type = "event alert"
-  message = module.global_vars.dd_discord_webhook
-  query = "events('sources:apps priority:all status:error tags:app:grand-cedre \"Grand Cedre\"').rollup('count').last('5m') > 0"
-  priority = 4
-
-  notify_no_data    = false
-  renotify_interval = 0
-  require_full_window = false
-
-  notify_audit = false
-  timeout_h    = 0
-  include_tags = true
-
-  tags = ["app:grand-cedre"]
-}
-
 resource "datadog_monitor" "ovh_service_expiry" {
   name = "OVH service is close to expiry"
   type = "metric alert"
