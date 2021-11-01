@@ -208,3 +208,51 @@ resource "datadog_monitor" "new_blog_comment" {
 
   tags = []
 }
+
+resource "datadog_monitor" "chassezac_in_high_alert" {
+  name    = "Chassezac in red alert"
+  type    = "metric alert"
+  message = "{{#is_alert}} @webhook-Discord-alert @${module.global_vars.alerts_email} Niveau rouge!{{/is_alert}}{{#is_warning}}@webhook-Discord-warning Niveau orange{{/is_warning}}{{#is_recovery}}@webhook-Discord-recovery{{/is_recovery}}"
+  query   = "avg(last_5m):avg:river.alert_level{river:chassezac} >= 3"
+
+  monitor_thresholds {
+    critical = 3
+    warning  = 2
+  }
+
+  notify_no_data    = false
+  renotify_interval = 0
+
+  notify_audit = false
+  timeout_h    = 0
+  include_tags = false
+  priority     = 1
+  tags = [
+    "river:chassezac",
+    "source:weather"
+  ]
+}
+
+resource "datadog_monitor" "river_level_is_high" {
+  name    = "River level is high"
+  type    = "metric alert"
+  message = "{{#is_alert}} @webhook-Discord-alert @${module.global_vars.alerts_email} Niveau rouge!{{/is_alert}}{{#is_warning}}@webhook-Discord-warning Niveau orange{{/is_warning}}{{#is_recovery}}@webhook-Discord-recovery{{/is_recovery}}"
+  query   = "max(last_15m):avg:river.level{station:gravieres} > 5"
+
+  monitor_thresholds {
+    critical = 5
+    warning  = 4
+  }
+
+  notify_no_data    = false
+  renotify_interval = 0
+
+  notify_audit = false
+  timeout_h    = 0
+  include_tags = false
+  priority     = 1
+  tags = [
+    "river:chassezac",
+    "source:weather"
+  ]
+}
