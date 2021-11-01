@@ -1,8 +1,8 @@
 resource "datadog_monitor" "gallifrey_services" {
-  name = "${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is down"
-  type = "service check"
-  message = "{{#is_alert}}${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is down{{/is_alert}} \n{{#is_alert_recovery}}${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is back up{{/is_alert_recovery}}  @slack-notifications"
-  query = "\"process.up\".over(\"host:gallifrey\",\"process:${element(module.global_vars.datadog_gallifrey_monitored_processes, count.index)}\").last(4).count_by_status()"
+  name     = "${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is down"
+  type     = "service check"
+  message  = "{{#is_alert}}${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is down{{/is_alert}} \n{{#is_alert_recovery}}${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is back up{{/is_alert_recovery}}  @slack-notifications"
+  query    = "\"process.up\".over(\"host:gallifrey\",\"process:${element(module.global_vars.datadog_gallifrey_monitored_processes, count.index)}\").last(4).count_by_status()"
   priority = 3
 
   monitor_thresholds {
@@ -23,10 +23,10 @@ resource "datadog_monitor" "gallifrey_services" {
 }
 
 resource "datadog_monitor" "nginx_can_connect" {
-  name = "Web service nginx config is running"
-  type = "service check"
-  message = module.global_vars.dd_discord_webhook
-  query = "\"nginx.can_connect\".over(\"*\").by(\"host\",\"port\", \"server\").last(4).count_by_status()"
+  name     = "Web service nginx config is running"
+  type     = "service check"
+  message  = module.global_vars.dd_discord_webhook
+  query    = "\"nginx.can_connect\".over(\"*\").by(\"host\",\"port\", \"server\").last(4).count_by_status()"
   priority = 3
 
   monitor_thresholds {
@@ -45,10 +45,10 @@ resource "datadog_monitor" "nginx_can_connect" {
 }
 
 resource "datadog_monitor" "http_can_connect" {
-  name = "Web service is down"
-  type = "metric alert"
-  message = module.global_vars.dd_discord_webhook
-  query = "avg(last_2h):avg:network.http.can_connect{*} by {instance,host} < 1"
+  name     = "Web service is down"
+  type     = "metric alert"
+  message  = module.global_vars.dd_discord_webhook
+  query    = "avg(last_2h):avg:network.http.can_connect{*} by {instance,host} < 1"
   priority = 3
 
   monitor_thresholds {
@@ -66,10 +66,10 @@ resource "datadog_monitor" "http_can_connect" {
 }
 
 resource "datadog_monitor" "ssl_certificates_expiration" {
-  name = "SSL certificate is close to expiry"
-  type = "service check"
-  message = module.global_vars.dd_discord_webhook
-  query = "\"http.ssl_cert\".over(\"*\").by(\"host\",\"instance\").last(4).count_by_status()"
+  name     = "SSL certificate is close to expiry"
+  type     = "service check"
+  message  = module.global_vars.dd_discord_webhook
+  query    = "\"http.ssl_cert\".over(\"*\").by(\"host\",\"instance\").last(4).count_by_status()"
   priority = 2
 
   monitor_thresholds {
@@ -89,10 +89,10 @@ resource "datadog_monitor" "ssl_certificates_expiration" {
 
 
 resource "datadog_monitor" "hosts_up" {
-  name = "Host is down"
-  type = "service check"
-  message = module.global_vars.dd_discord_webhook
-  query = "\"datadog.agent.up\".over(\"*\").by(\"host\").last(3).count_by_status()"
+  name     = "Host is down"
+  type     = "service check"
+  message  = module.global_vars.dd_discord_webhook
+  query    = "\"datadog.agent.up\".over(\"*\").by(\"host\").last(3).count_by_status()"
   priority = 1
 
   monitor_thresholds {
@@ -110,10 +110,10 @@ resource "datadog_monitor" "hosts_up" {
 }
 
 resource "datadog_monitor" "hosts_disk_usage" {
-  name = "Disk is filling up"
-  type = "metric alert"
-  message = module.global_vars.dd_discord_webhook
-  query = "avg(last_4h):avg:system.disk.in_use{!host:${module.global_vars.pi_server_name}} by {host,device} > 0.85"
+  name     = "Disk is filling up"
+  type     = "metric alert"
+  message  = module.global_vars.dd_discord_webhook
+  query    = "avg(last_4h):avg:system.disk.in_use{!host:${module.global_vars.pi_server_name}} by {host,device} > 0.85"
   priority = 3
 
   monitor_thresholds {
@@ -130,14 +130,14 @@ resource "datadog_monitor" "hosts_disk_usage" {
 }
 
 resource "datadog_monitor" "backups" {
-  name = "Backup failed"
-  type = "event alert"
-  message = "{{#is_alert}}@webhook-Discord-alert{{/is_alert}}"
-  query = "events('sources:apps priority:all status:error \"Backup\"').rollup('count').last('5m') > 0"
+  name     = "Backup failed"
+  type     = "event alert"
+  message  = "{{#is_alert}}@webhook-Discord-alert{{/is_alert}}"
+  query    = "events('sources:apps priority:all status:error \"Backup\"').rollup('count').last('5m') > 0"
   priority = 3
 
-  notify_no_data    = false
-  renotify_interval = 0
+  notify_no_data      = false
+  renotify_interval   = 0
   require_full_window = false
 
   notify_audit = false
@@ -148,10 +148,10 @@ resource "datadog_monitor" "backups" {
 }
 
 resource "datadog_monitor" "ovh_service_expiry" {
-  name = "OVH service is close to expiry"
-  type = "metric alert"
-  message = module.global_vars.dd_discord_webhook
-  query = "min(last_1d):avg:ovh.service.remaining_days{*} by {service}.fill(linear) < 7"
+  name     = "OVH service is close to expiry"
+  type     = "metric alert"
+  message  = module.global_vars.dd_discord_webhook
+  query    = "min(last_1d):avg:ovh.service.remaining_days{*} by {service}.fill(linear) < 7"
   priority = 2
 
   monitor_thresholds {
@@ -170,10 +170,10 @@ resource "datadog_monitor" "ovh_service_expiry" {
 }
 
 resource "datadog_monitor" "new_blog_comment" {
-  name = "New comment received on blog"
-  type = "metric alert"
-  message = "A new comment has been issued on the blog. Visit the Isso admin to review. {{#is_alert}}@webhook-Discord-warning{{/is_alert}}"
-  query = "change(max(last_2h),last_4h):default_zero(sum:blog.comments{*}) >= 1"
+  name     = "New comment received on blog"
+  type     = "metric alert"
+  message  = "A new comment has been issued on the blog. Visit the Isso admin to review. {{#is_alert}}@webhook-Discord-warning{{/is_alert}}"
+  query    = "change(max(last_2h),last_4h):default_zero(sum:blog.comments{*}) >= 1"
   priority = 5
 
   monitor_thresholds {
