@@ -193,7 +193,7 @@ resource "datadog_monitor" "new_blog_comment" {
 resource "datadog_monitor" "chassezac_in_high_alert" {
   name    = "Chassezac in red alert"
   type    = "metric alert"
-  message = "{{#is_alert}} @webhook-Discord-alert @${module.global_vars.alerts_email} Niveau rouge!{{/is_alert}}{{#is_warning}}@webhook-Discord-warning Niveau orange{{/is_warning}}{{#is_recovery}}@webhook-Discord-recovery{{/is_recovery}}"
+  message = "{{#is_alert}} @webhook-Discord-alert @pagerduty-Chassezac  Niveau rouge!{{/is_alert}}{{#is_warning}}@webhook-Discord-warning Niveau orange{{/is_warning}}{{#is_recovery}}@webhook-Discord-recovery{{/is_recovery}}"
   query   = "avg(last_5m):avg:river.alert_level{river:chassezac} >= 3"
 
   monitor_thresholds {
@@ -217,7 +217,7 @@ resource "datadog_monitor" "chassezac_in_high_alert" {
 resource "datadog_monitor" "river_level_is_high" {
   name    = "River level is high"
   type    = "metric alert"
-  message = "{{#is_alert}} @webhook-Discord-alert @${module.global_vars.alerts_email} Niveau rouge!{{/is_alert}}{{#is_warning}}@webhook-Discord-warning Niveau orange{{/is_warning}}{{#is_recovery}}@webhook-Discord-recovery{{/is_recovery}}"
+  message = "{{#is_alert}} @webhook-Discord-alert @pagerduty-Chassezac Niveau rouge!{{/is_alert}}{{#is_warning}}@webhook-Discord-warning Niveau orange{{/is_warning}}{{#is_recovery}}@webhook-Discord-recovery{{/is_recovery}}"
   query   = "max(last_15m):avg:river.level{station:gravieres} > 5"
 
   monitor_thresholds {
