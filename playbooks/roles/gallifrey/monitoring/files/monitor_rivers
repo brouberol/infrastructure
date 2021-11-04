@@ -8,12 +8,21 @@ from datadog.dogstatsd import DogStatsd
 
 statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
 
-RIVER_LEVEL_URLS = {
-    "chaulet": "https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=V504881301&FormatDate=iso",
-    "gravieres": "https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=V504503001&FormatDate=iso",
+VIGICRUE_STATION_IDS = {
+    "chaulet": "V504881301",
+    "gravieres": "V504503001",
+    "saintines": "H751301001",
 }
 
-VIGICRUE_ARDECHE_URL = "https://www.vigicrues.gouv.fr/niv2-bassin.php?CdEntVigiCru=20"
+RIVER_TO_TERRITORY_ID = {
+    "chassezac": "20",
+    "oise": "5",
+}
+
+RIVER_TO_CSS_ID = {
+    "chassezac": "dropdownMenu4",
+    "oise": "dropdownMenu5",
+}
 
 
 class AlertLevel(Enum):
@@ -23,11 +32,13 @@ class AlertLevel(Enum):
     RED = 3
 
 
-def monitor_alert_level():
-    html = requests.get(VIGICRUE_ARDECHE_URL).text
+def monitor_alert_level(river_name):
+    url = "https://www.vigicrues.gouv.fr/niv2-bassin.php?CdEntVigiCru=%s" % (
+        RIVER_TO_TERRITORY_ID[river_name]
+    )
+    html = requests.get(url).text
     soup = BeautifulSoup(html, features="html.parser")
-    links = soup.find_all("a", class_="basin-item-vigilance")
-    alert_text= soup.find("button", id="dropdownMenu4").parent.p.text
+    alert_text = soup.find("button", id=RIVER_TO_CSS_ID[river_name]).parent.p.text
     alert_level = None
     if "Vert" in alert_text:
         alert_level = AlertLevel.GREEN
@@ -40,25 +51,33 @@ def monitor_alert_level():
 
     if alert_level is not None:
         statsd.gauge(
-            "river.alert_level", tags=["river:chassezac"], value=alert_level.value
+            "river.alert_level",
+            tags=["river:%s" % (river_name)],
+            value=alert_level.value,
         )
 
 
-def monitor_river(station_name):
-    data = requests.get(RIVER_LEVEL_URLS[station_name]).json()
+def monitor_river(river_name, station_name):
+    url = (
+        "https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=%s&FormatDate=iso"
+        % (VIGICRUE_STATION_IDS[station_name])
+    )
+    data = requests.get(url).json()
     datapoint = data["Serie"]["ObssHydro"][-1]
     value = datapoint["ResObsHydro"]
     statsd.gauge(
         "river.level",
         value=value,
-        tags=["station:%s" % (station_name), "river:chassezac"],
+        tags=["station:%s" % (station_name), "river:%s" % (river_name)],
     )
 
 
 def main():
-    monitor_alert_level()
-    monitor_river("chaulet")
-    monitor_river("gravieres")
+    monitor_alert_level("chassezac")
+    monitor_alert_level("oise")
+    monitor_river("chassezac", "chaulet")
+    monitor_river("chassezac", "gravieres")
+    monitor_river("oise", "saintines")
 
 
 if __name__ == "__main__":
