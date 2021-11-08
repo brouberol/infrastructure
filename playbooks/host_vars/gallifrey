@@ -35,6 +35,8 @@ datadog_config:
   logs_config:
     container_collect_all: true
   ac_exclude: ["image:.*"]
+  apm_config:
+    enabled: "false"
 datadog_checks:
   journald:
     logs:
