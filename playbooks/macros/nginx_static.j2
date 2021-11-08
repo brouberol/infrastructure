@@ -1,4 +1,4 @@
-{% macro nginx_static_serve(domain, root_dir, hsts=False, htpasswd_filename=None, extra_opts={}) %}
+{% macro nginx_static_serve(domain, root_dir, hsts=False, htpasswd_filename=None, extra_opts={}, autoindex_locations=[]) %}
 # {{ ansible_managed }}
 server {
     listen 80;
@@ -56,5 +56,12 @@ server {
     location @htmlext {
         rewrite ^(.*)$ $1.html last;
     }
+
+    {%- for location in autoindex_locations %}
+    location {{ location }} {
+        autoindex on;
+    }
+
+    {% endfor %}
 }
 {% endmacro %}
