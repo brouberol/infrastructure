@@ -11,7 +11,7 @@
   args:
     creates: "{{ blog_repo }}"
 
-- name: "Chance user/group of the blog git repo"
+- name: "Change user/group of the blog git repo"
   file:
     path: "{{ blog_repo }}"
     owner: "{{ git_user }}"

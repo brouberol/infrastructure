@@ -9,7 +9,7 @@
   args:
     creates: "{{ page_repo }}"
 
-- name: "Chance user/group of the page git repo"
+- name: "Change user/group of the page git repo"
   file:
     path: "{{ page_repo }}"
     owner: "{{ git_user }}"
