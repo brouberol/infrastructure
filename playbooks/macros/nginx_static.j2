@@ -1,0 +1,60 @@
+{% macro nginx_static_serve(domain, root_dir, hsts=False, htpasswd_filename=None, extra_opts={}) %}
+# {{ ansible_managed }}
+server {
+    listen 80;
+    server_name {{ domain }};
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name {{ domain }};
+
+    ssl_certificate /etc/letsencrypt/live/{{ domain }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
+    ssl_session_cache shared:SSL:10m;
+    ssl_prefer_server_ciphers on;
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options "SAMEORIGIN";
+
+    {% for opt_name, opt_value in extra_opts.items() %}
+    {{ opt_name }} {{ opt_value }};
+    {% endfor %}
+
+    {%- if hsts %}
+    add_header Strict-Transport-Security "max-age=63072000;" always;
+    {% endif %}
+
+    {%- if htpasswd_filename %}
+    auth_basic "Administrator's Area";
+    auth_basic_user_file /etc/nginx/{{ htpasswd_filename }}.htpasswd;
+    {% endif %}
+
+    root {{ root_dir }};
+    index index.html;
+
+    # Letsencrypt challenge
+    location {{ web_acme_challenge_location }} {
+        root {{ web_home }};
+        allow all;
+        try_files $uri $uri/ =404;
+    }
+
+    # Datadog endpoint
+    location {{ web_datadog_agent_nginx_check_location }} {
+        stub_status on;
+    }
+
+    location / {
+        try_files $uri $uri/ @htmlext;
+    }
+
+    location ~ \.html$ {
+        try_files $uri =404;
+    }
+
+    location @htmlext {
+        rewrite ^(.*)$ $1.html last;
+    }
+}
+{% endmacro %}
