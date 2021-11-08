@@ -1,0 +1,51 @@
+# {{ ansible_managed }}
+
+server {
+    listen 80;
+    server_name www.{{ _5e_tools_domain }} {{ _5e_tools_domain }};
+    rewrite ^ https://{{ _5e_tools_domain }}$request_uri? ;
+}
+
+server {
+    listen 443 ssl;
+
+    ssl_certificate {{ certbot_live_home }}/{{ _5e_tools_domain }}/fullchain.pem;
+    ssl_certificate_key {{ certbot_live_home }}/{{ _5e_tools_domain }}/privkey.pem;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header Strict-Transport-Security "max-age=63072000;" always;
+
+    auth_basic "Administrator's Area";
+    auth_basic_user_file /etc/nginx/5e.htpasswd;
+
+    server_name {{ _5e_tools_domain }};
+
+    root {{ _5e_tools_home }};
+    index index.html;
+
+    # Letsencrypt challenge
+    location {{ web_acme_challenge_location }} {
+        root {{ web_home }};
+        allow all;
+        try_files $uri $uri/ =404;
+    }
+
+    # Datadog endpoint
+    location {{ web_datadog_agent_nginx_check_location }} {
+        stub_status on;
+    }
+
+    location / {
+        try_files $uri $uri/ @htmlext;
+    }
+
+    location ~ \.html$ {
+        try_files $uri =404;
+    }
+
+    location @htmlext {
+        rewrite ^(.*)$ $1.html last;
+    }
+
+}

@@ -1,0 +1,43 @@
+- name: Create the 5e.tools server directory
+  file:
+    dest: "{{ _5e_tools_home }}"
+    state: directory
+
+- name: Extract the 5etools files
+  unarchive:
+    src: "https://web.archive.org/web/20210916133034if_/https://get.5e.tools/release/5eTools.{{ _5e_tools_version }}.zip"
+    dest: "{{ _5e_tools_home }}"
+    remote_src: yes 
+    creates: "{{ _5e_tools_home }}/index.html"
+
+- name: "Remove big useless dirs"
+  file:
+    dest: "{{ _5e_tools_home }}/{{ item }}"
+    state: absent
+  with_items:
+  - node_modules
+  - data/roll20-module
+
+- name: "Create basic auth htpasswd file"
+  htpasswd:
+    path: /etc/nginx/5e.htpasswd
+    name: "{{ _5e_username }}"
+    password: "{{ _5e_password }}"
+    owner: root
+    group: www-data
+    mode: '0640'
+
+- name: "Copy 5e sites-available nginx conf"
+  template:
+    src: 5e.conf.j2
+    dest: /etc/nginx/sites-available/5e.conf
+    owner: root
+    group: root
+  notify: "reload nginx service"
+
+- name: "Link 5e sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/5e.conf
+    dest: /etc/nginx/sites-enabled/5e.conf
+    state: link
+  notify: "reload nginx service"

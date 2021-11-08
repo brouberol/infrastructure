@@ -17,6 +17,7 @@ certbot_list_of_certs_to_create:
   - "{{ nextcloud_domain }}"
   - "{{ photoprism_domain }}"
   - "{{ paperless_domain }}"
+  - "{{ _5e_tools_domain }}"
 
 # Datadog
 datadog_agent6: true
@@ -69,6 +70,7 @@ datadog_checks:
      - nginx_status_url: "https://{{ calibre_domain }}/basic_status"
      - nginx_status_url: "https://{{ photoprism_domain }}/basic_status"
      - nginx_status_url: "https://{{ paperless_domain }}/basic_status"
+     - nginx_status_url: "https://{{ _5e_tools_domain }}/basic_status"
 
   http_check:
     init_config:
@@ -179,6 +181,15 @@ datadog_checks:
       ssl_server_name: "{{ paperless_domain }}"
       disable_ssl_validation: false
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+    - url: "https://{{ _5e_tools_domain }}"
+      name: "{{ _5e_tools_domain }}"
+      check_certificate_expiration: true
+      days_warning: "{{ datadog_http_check_days_warning }}"
+      days_critical: "{{ datadog_http_check_days_critical }}"
+      check_hostname: true
+      ssl_server_name: "{{ _5e_tools_domain }}"
+      disable_ssl_validation: false
+      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
 
 # Git
 git_home: "/home/{{ git_user }}"
@@ -260,3 +271,8 @@ paperless_home: "{{ user_home }}/paperless"
 paperless_host: 127.0.0.1
 paperless_port: 8011
 paperless_version: "1.4.4"
+
+# 5e.tools
+_5e_tools_version: "1.134.0"
+_5e_tools_home: "/var/www/5e"
+_5e_tools_domain: "5e.{{ main_domain }}"

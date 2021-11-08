@@ -29,6 +29,7 @@
   - { role: monitoring, tags: ['monitoring'] }
   - { role: photoprism, tags: ['photoprism'] }
   - { role: paperless-ng, tags: ['paperless-ng'] }
+  - { role: 5e, tags: ['5e'] }
 
   post_tasks:
   - include_vars:
