@@ -17,7 +17,6 @@ certbot_list_of_certs_to_create:
   - "{{ nextcloud_domain }}"
   - "{{ photoprism_domain }}"
   - "{{ paperless_domain }}"
-  - "{{ _5e_tools_domain }}"
 
 # Datadog
 datadog_agent6: true
