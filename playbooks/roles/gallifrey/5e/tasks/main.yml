@@ -27,6 +27,11 @@
     group: www-data
     mode: '0640'
 
+- name: "Disallow public crawl"
+  copy:
+    src: robots.txt
+    dest: "{{ _5e_tools_home }}/robots.txt"
+
 - name: "Copy 5e sites-available nginx conf"
   template:
     src: 5e.conf.j2
