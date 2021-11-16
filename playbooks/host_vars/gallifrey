@@ -263,7 +263,7 @@ nextcloud_port: 8009
 
 # photoprism
 photoprism_domain: "photos.{{ main_domain }}"
-photoprism_home: "/mnt/data/photoprism"
+photoprism_home: "/mnt/block-storage/photoprism"
 photoprism_host: 127.0.0.1
 photoprism_port: 8010
 
