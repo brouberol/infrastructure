@@ -63,17 +63,6 @@
       "rsync -r {{ isso_home }}/db/comments.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/isso/comments.db"
     user: "{{ user }}"
 
-- name: "Schedule the backup of the grand-cedre database"
-  cron:
-    name: "backup grand-cedre db"
-    minute: "0"
-    hour: "0"
-    job: >
-      /usr/local/bin/dd-cron-event
-      "Backup grand-cedre db"
-      "rsync -r {{ grand_cedre_home }}/data/data.db {{ user }}@{{ home_domain }}:{{ user_home }}/backups/grand-cedre/data.db"
-    user: "{{ user }}"
-
 - name: "Schedule the backup of radicale files"
   cron:
     name: "backup radicale files"
