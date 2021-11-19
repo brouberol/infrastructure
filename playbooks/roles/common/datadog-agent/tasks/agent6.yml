@@ -10,6 +10,13 @@
 - debug: 'msg="Using deprecated `datadog_process_checks` is no longer supported in agent6, use `process` under `datadog_checks` instead"'
   when: datadog_process_checks is defined
 
+- name: "Create the datadog folder under /var/run"
+  file:
+    path: /var/run/datadog
+    state: directory
+    owner: '{{ datadog_user }}'
+    group: '{{ datadog_group }}'
+
 - name: Create a configuration file for each Datadog check
   template:
     src: checks.yaml.j2
