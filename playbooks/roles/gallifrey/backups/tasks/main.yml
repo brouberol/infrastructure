@@ -15,7 +15,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup sophro web files"
-      "rsync -r --delete {{ user }}@51.254.120.74:{{ user_home }}/backups/ {{ user_home }}/backups/sophro"
+      "rsync -r --delete {{ user }}@{{ sophro_domain }}:{{ user_home }}/backups/ {{ user_home }}/backups/sophro"
     user: "{{ user }}"
 
 - name: "Schedule the backup of the wallabag database"
