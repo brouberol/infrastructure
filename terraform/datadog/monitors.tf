@@ -193,7 +193,7 @@ resource "datadog_monitor" "new_blog_comment" {
 resource "datadog_monitor" "chassezac_in_high_alert" {
   name    = "Chassezac in red alert"
   type    = "metric alert"
-  message = "{{#is_no_data}}@webhook-Discord-nodata {{/is_no_data} }{{#is_alert}} @webhook-Discord-alert @pagerduty-Chassezac  Niveau rouge!{{/is_alert}}{{#is_warning}}@webhook-Discord-warning Niveau orange{{/is_warning}}{{#is_recovery}}@webhook-Discord-recovery{{/is_recovery}}"
+  message = "{{#is_no_data}}@webhook-Discord-nodata {{/is_no_data}} {{#is_alert}} @webhook-Discord-alert @pagerduty-Chassezac  Niveau rouge!{{/is_alert}}{{#is_warning}}@webhook-Discord-warning Niveau orange{{/is_warning}}{{#is_recovery}}@webhook-Discord-recovery{{/is_recovery}}"
   query   = "avg(last_5m):avg:river.alert_level{river:chassezac} >= 3"
 
   monitor_thresholds {
