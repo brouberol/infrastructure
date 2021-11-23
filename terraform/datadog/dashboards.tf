@@ -932,11 +932,68 @@ resource "datadog_dashboard_json" "web_services_dash" {
             "definition": {
                 "title": "Disk usage",
                 "show_legend": false,
-                "legend_size": "0",
+                "legend_layout": "auto",
+                "legend_columns": [
+                    "avg",
+                    "min",
+                    "max",
+                    "value",
+                    "sum"
+                ],
+                "time": {},
                 "type": "timeseries",
                 "requests": [
                     {
-                        "q": "avg:system.disk.in_use{$instance,!device:tmpfs,!device:udev} by {device,host}",
+                        "formulas": [
+                            {
+                                "alias": "gallifrey-block-storage",
+                                "formula": "query1"
+                            },
+                            {
+                                "alias": "gallifrey-local-data",
+                                "formula": "query2"
+                            },
+                            {
+                                "alias": "gallifrey-root-device",
+                                "formula": "query3"
+                            },
+                            {
+                                "alias": "sophro-root-device",
+                                "formula": "query4"
+                            },
+                            {
+                                "alias": "pi-root-device",
+                                "formula": "query5"
+                            }
+                        ],
+                        "queries": [
+                            {
+                                "data_source": "metrics",
+                                "name": "query1",
+                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/sda}"
+                            },
+                            {
+                                "data_source": "metrics",
+                                "name": "query2",
+                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/vdb}"
+                            },
+                            {
+                                "data_source": "metrics",
+                                "name": "query3",
+                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/vda1}"
+                            },
+                            {
+                                "data_source": "metrics",
+                                "name": "query4",
+                                "query": "avg:system.disk.in_use{host:sophro,device:/dev/vda1}"
+                            },
+                            {
+                                "data_source": "metrics",
+                                "name": "query5",
+                                "query": "avg:system.disk.in_use{host:retropie,device:/dev/mmcblk0p1}"
+                            }
+                        ],
+                        "response_format": "timeseries",
                         "style": {
                             "palette": "dog_classic",
                             "line_type": "solid",
@@ -945,6 +1002,13 @@ resource "datadog_dashboard_json" "web_services_dash" {
                         "display_type": "line"
                     }
                 ],
+                "yaxis": {
+                    "scale": "linear",
+                    "include_zero": true,
+                    "label": "",
+                    "min": "auto",
+                    "max": "auto"
+                },
                 "markers": [
                     {
                         "value": "0.80 < y < 0.90",
