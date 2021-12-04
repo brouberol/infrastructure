@@ -39,6 +39,12 @@ resource "scaleway_instance_volume" "gallifrey_data" {
   type       = "l_ssd"
 }
 
+resource "scaleway_instance_volume" "gallifrey_block_storage" {
+  name       = "vol-focused-gagarin"
+  size_in_gb = 40
+  type       = "b_ssd"
+}
+
 resource "scaleway_instance_server" "gallifrey" {
   name  = module.global_vars.gallifrey_scaleway_server_name
   image = module.global_vars.gallifrey_scaleway_image_id
@@ -46,13 +52,14 @@ resource "scaleway_instance_server" "gallifrey" {
   ip_id = scaleway_instance_ip.gallifrey_ip.id
   enable_ipv6 = false
   tags = []
-  additional_volume_ids = [scaleway_instance_volume.gallifrey_data.id]
+  additional_volume_ids = [scaleway_instance_volume.gallifrey_block_storage.id, scaleway_instance_volume.gallifrey_data.id]
   security_group_id = scaleway_instance_security_group.default_sg.id
 
   depends_on = [
     scaleway_instance_ip.gallifrey_ip,
     scaleway_instance_volume.gallifrey_snap,
     scaleway_instance_volume.gallifrey_data,
+    scaleway_instance_volume.gallifrey_block_storage,
     scaleway_instance_security_group.default_sg
   ]
 }
