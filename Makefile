@@ -36,12 +36,12 @@ terraform-%-apply:  ## Apply all terraform changes under the target directory %
 terraform-init:  ## Initialize all terraform workspaces
 	@cd terraform && \
 	for dir in $$($(FIND) . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
-		cd $$dir && \
+		pushd $$dir && \
 		echo "[+] Initializing $$dir" && \
 		terraform init \
 			-backend-config=../config.hcl \
 			-backend-config="key=infra/$$dir.tfstate" && \
-		cd .. && \
+		popd && \
 		$(ECHO) "\n"; \
 	done
 
@@ -49,10 +49,10 @@ terraform-plan:  ## Plan all terraform workspaces
 	@cd terraform && \
 	source ./env.sh && \
 	for dir in $$($(FIND) . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
-		cd $$dir && \
+		pushd $$dir && \
 		echo "[+] Planning $$dir" && \
 		terraform plan ; \
-		cd .. && \
+		popd && \
 		$(ECHO) "\n"; \
 	done
 
@@ -60,10 +60,10 @@ terraform-apply:  ## Apply all terraform workspaces
 	@cd terraform && \
 	source ./env.sh && \
 	for dir in $$($(FIND) . -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | grep -v global_vars); do \
-		cd $$dir && \
+		pushd $$dir && \
 		echo "[+] Applying $$dir" && \
 		terraform apply ; \
-		cd .. && \
+		podp && \
 		$(ECHO) "\n"; \
 	done
 
