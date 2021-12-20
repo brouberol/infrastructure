@@ -13,6 +13,7 @@
     name: pihole
     image: pihole/pihole:latest
     state: started
+    pull: yes
     published_ports:
       - 127.0.0.1:53:53/udp
       - "{{ ansible_default_ipv4.address }}:53:53/udp"
