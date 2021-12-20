@@ -1,27 +1,6 @@
 # misc
 hostname: retropie
 
-# kresus
-kresus_user: kresus
-kresus_user_home: "/home/{{ kresus_user }}"
-kresus_dir: "{{ kresus_user_home }}/kresus"
-kresus_data_dir: "{{ kresus_user_home }}/data"
-kresus_tmpfs_mount: "{{ kresus_user_home }}/kresus_vram"
-kresus_host: 127.0.0.1
-kresus_port: 9876
-kresus_tag: 0.14.0
-kresus_domain: "bank.{{ main_domain }}"
-
-# weboob
-weboob_dir: "{{ user_home }}/weboob"
-
-# node
-node_version: 10.16.0
-
-# certbot
-certbot_list_of_certs_to_create:
-  - "{{ kresus_domain }}"
-
 # Datadog
 datadog_config_dir: /root/.datadog-agent/agent
 datadog_agent6: true
