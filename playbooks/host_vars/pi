@@ -7,16 +7,13 @@ datadog_agent6: true
 datadog_config:
   log_level: INFO
   tags: "name:{{ hostname }}, role:web"
-  process_config:
-    enabled: "true"
+  process_agent_enabled: true
 datadog_checks:
   process:
     init_config:
     instances:
       - name: ssh
         search_string: ['ssh', 'sshd']
-      - name: nginx
-        search_string: ['nginx']
   http_check:
     init_config:
       ca_certs: /etc/ssl/certs/ca-certificates.crt
