@@ -841,8 +841,9 @@ resource "datadog_dashboard_json" "web_services_dash" {
             "id": 7260551673026027,
             "definition": {
                 "title": "Web services UP",
-                "show_legend": false,
+                "show_legend": true,
                 "legend_size": "0",
+                "legend_layout": "auto",
                 "type": "timeseries",
                 "requests": [
                     {
@@ -892,7 +893,7 @@ resource "datadog_dashboard_json" "web_services_dash" {
                             {
                                 "formula": "query1",
                                 "limit": {
-                                    "count": 10,
+                                    "count": 25,
                                     "order": "asc"
                                 }
                             }
@@ -940,7 +941,6 @@ resource "datadog_dashboard_json" "web_services_dash" {
                     "value",
                     "sum"
                 ],
-                "time": {},
                 "type": "timeseries",
                 "requests": [
                     {
@@ -966,34 +966,34 @@ resource "datadog_dashboard_json" "web_services_dash" {
                                 "formula": "query5"
                             }
                         ],
+                        "response_format": "timeseries",
                         "queries": [
                             {
+                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/sda}",
                                 "data_source": "metrics",
-                                "name": "query1",
-                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/sda}"
+                                "name": "query1"
                             },
                             {
+                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/vdb}",
                                 "data_source": "metrics",
-                                "name": "query2",
-                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/vdb}"
+                                "name": "query2"
                             },
                             {
+                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/vda1}",
                                 "data_source": "metrics",
-                                "name": "query3",
-                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/vda1}"
+                                "name": "query3"
                             },
                             {
+                                "query": "avg:system.disk.in_use{host:sophro,device:/dev/vda1}",
                                 "data_source": "metrics",
-                                "name": "query4",
-                                "query": "avg:system.disk.in_use{host:sophro,device:/dev/vda1}"
+                                "name": "query4"
                             },
                             {
+                                "query": "avg:system.disk.in_use{host:retropie,device:/dev/mmcblk0p1}",
                                 "data_source": "metrics",
-                                "name": "query5",
-                                "query": "avg:system.disk.in_use{host:retropie,device:/dev/mmcblk0p1}"
+                                "name": "query5"
                             }
                         ],
-                        "response_format": "timeseries",
                         "style": {
                             "palette": "dog_classic",
                             "line_type": "solid",
@@ -1003,8 +1003,8 @@ resource "datadog_dashboard_json" "web_services_dash" {
                     }
                 ],
                 "yaxis": {
-                    "scale": "linear",
                     "include_zero": true,
+                    "scale": "linear",
                     "label": "",
                     "min": "auto",
                     "max": "auto"
