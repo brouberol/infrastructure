@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+
+import requests
+
+from datadog.dogstatsd import DogStatsd
+from bs4 import BeautifulSoup
+
+URL = "https://prixfioul.fr/prix-du-fioul-ardeche-07-departement.html"
+
+statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+
+
+def monitor_prixfioul():
+    html = requests.get(URL).text
+    soup = BeautifulSoup(html, features="html.parser")
+    table = soup.find("table", class_="table_conso")
+    first_row = table.find_all("tr")[0]
+    price_column = first_row.find_all("td")[0]
+    price_for_1t = int(price_column.text.rstrip("€"))
+    price_for_1l = price_for_1t / 1000
+    statsd.gauge("fioul.price.1l", value=price_for_1l, tags=["site:prixfioul.fr"])
+
+
+monitor_prixfioul()

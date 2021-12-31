@@ -1164,3 +1164,125 @@ resource "datadog_dashboard_json" "web_services_dash" {
 }
   EOF
 }
+
+
+resource "datadog_dashboard_json" "fioul_dash" {
+  dashboard = <<EOF
+{
+    "title": "Fioul",
+    "description": "",
+    "widgets": [
+        {
+            "id": 4835288157595439,
+            "definition": {
+                "title": "Prix d'1L de fioul",
+                "title_size": "16",
+                "title_align": "left",
+                "time": {},
+                "type": "query_value",
+                "requests": [
+                    {
+                        "formulas": [
+                            {
+                                "formula": "query1"
+                            }
+                        ],
+                        "response_format": "scalar",
+                        "queries": [
+                            {
+                                "query": "avg:fioul.price.1l{*}",
+                                "data_source": "metrics",
+                                "name": "query1",
+                                "aggregator": "last"
+                            }
+                        ]
+                    }
+                ],
+                "autoscale": true,
+                "custom_unit": "\u20ac",
+                "precision": 3
+            },
+            "layout": {
+                "x": 0,
+                "y": 0,
+                "width": 3,
+                "height": 3
+            }
+        },
+        {
+            "id": 5285908177757594,
+            "definition": {
+                "title": "Prix d'1L de fioul",
+                "title_size": "16",
+                "title_align": "left",
+                "show_legend": false,
+                "legend_layout": "auto",
+                "legend_columns": [
+                    "avg",
+                    "min",
+                    "max",
+                    "value",
+                    "sum"
+                ],
+                "time": {},
+                "type": "timeseries",
+                "requests": [
+                    {
+                        "formulas": [
+                            {
+                                "formula": "query1"
+                            }
+                        ],
+                        "queries": [
+                            {
+                                "query": "avg:fioul.price.1l{*}.rollup(avg, 86400)",
+                                "data_source": "metrics",
+                                "name": "query1"
+                            }
+                        ],
+                        "response_format": "timeseries",
+                        "style": {
+                            "palette": "grey",
+                            "line_type": "solid",
+                            "line_width": "normal"
+                        },
+                        "display_type": "bars"
+                    }
+                ],
+                "yaxis": {
+                    "include_zero": true,
+                    "scale": "linear",
+                    "label": "",
+                    "min": "auto",
+                    "max": "auto"
+                },
+                "markers": [
+                    {
+                        "label": "Buy!",
+                        "value": "y = 0.8",
+                        "display_type": "ok dashed"
+                    },
+                    {
+                        "label": "Buy?",
+                        "value": "y = 0.9",
+                        "display_type": "warning dashed"
+                    }
+                ]
+            },
+            "layout": {
+                "x": 3,
+                "y": 0,
+                "width": 4,
+                "height": 3
+            }
+        }
+    ],
+    "template_variables": [],
+    "layout_type": "ordered",
+    "is_read_only": false,
+    "notify_list": [],
+    "reflow_type": "fixed",
+    "id": "ax9-87v-fkf"
+}
+EOF
+}

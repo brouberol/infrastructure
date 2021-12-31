@@ -239,3 +239,27 @@ resource "datadog_monitor" "river_level_is_high" {
     "source:weather"
   ]
 }
+
+
+resource "datadog_monitor" "fioul_price_is_low" {
+  name    = "Fioul price is low"
+  type    = "metric alert"
+  message = "Fioul price currently sits at {{value}}€/L. Consider buying some if required. @webhook-Discord-warning"
+  query   = "max(last_1d):avg:fioul.price.1l{*} < 0.8"
+
+  monitor_thresholds {
+    critical = 0.8
+    warning  = 0.9
+  }
+
+  notify_no_data      = false
+  require_full_window = false
+  no_data_timeframe   = 0
+  renotify_interval   = 0
+
+  notify_audit = false
+  timeout_h    = 0
+  include_tags = true
+  priority     = 4
+  tags         = []
+}
