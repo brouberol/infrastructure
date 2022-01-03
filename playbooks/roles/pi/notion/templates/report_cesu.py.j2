@@ -7,6 +7,7 @@ import argparse
 from datetime import date
 from notion.client import NotionClient
 
+MAX_MONTHLY_HOURS = 50
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -116,10 +117,10 @@ def main():
     logging.info(
         f"Total work hours for {calendar.month_name[month_start.month]}: {total_h}, already reported {already_reported_work_h}h"
     )
-    if total_h + already_reported_work_h > 40:
-        if already_reported_work_h < 40:
-            report_total_hours_on_month(month_end, 40)
-            total_h = total_h + already_reported_work_h - 40
+    if total_h + already_reported_work_h > MAX_MONTHLY_HOURS:
+        if already_reported_work_h < MAX_MONTHLY_HOURS:
+            report_total_hours_on_month(month_end, MAX_MONTHLY_HOURS)
+            total_h = total_h + already_reported_work_h - MAX_MONTHLY_HOURS
 
         i = 1
         while total_h > 0:
@@ -128,9 +129,9 @@ def main():
             next_month_end_day = month_end_day(next_year, next_month)
             already_reported_hours_for_next_month = get_month_total_hours(next_month_end_day, next_month_end_day)
             total_h += already_reported_hours_for_next_month
-            if total_h > 40:
-                total_h -= 40
-                report_total_hours_on_month(next_month_end_day, 40)
+            if total_h > MAX_MONTHLY_HOURS:
+                total_h -= MAX_MONTHLY_HOURS
+                report_total_hours_on_month(next_month_end_day, MAX_MONTHLY_HOURS)
             else:
                 report_total_hours_on_month(next_month_end_day, total_h)
                 total_h = 0
