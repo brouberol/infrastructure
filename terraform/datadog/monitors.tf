@@ -263,3 +263,22 @@ resource "datadog_monitor" "fioul_price_is_low" {
   priority     = 4
   tags         = []
 }
+
+
+resource "datadog_monitor" "cesu_reporting" {
+  name     = "CESU reporting failed"
+  type     = "event alert"
+  message  = "{{#is_alert}}@webhook-Discord-alert{{/is_alert}}"
+  query    = "events('sources:apps priority:all status:error \"CESU\"').rollup('count').last('5m') > 0"
+  priority = 3
+
+  notify_no_data      = false
+  renotify_interval   = 0
+  require_full_window = false
+
+  notify_audit = false
+  timeout_h    = 0
+  include_tags = true
+
+  tags = []
+}
