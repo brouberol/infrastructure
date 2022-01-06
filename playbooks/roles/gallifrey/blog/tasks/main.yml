@@ -5,6 +5,7 @@
     - pelican
     - markdown
     state: present
+    executable: pip3
 
 - name: "Create blog git bare repo"
   command: "git init --bare {{ blog_repo }}"
