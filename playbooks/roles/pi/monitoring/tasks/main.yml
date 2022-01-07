@@ -1,0 +1,25 @@
+- name: install python3-pip
+  apt:
+    name: python3-pip
+    state: present
+
+- name: pip install datadog
+  pip:
+    name: datadog
+    state: latest
+    executable: /usr/bin/pip3
+
+- name: "copy OTB monitoring script"
+  template:
+    src: monitor_otb.j2
+    dest: /usr/local/bin/monitor_otb
+    mode: 0755
+    owner: root
+    group: root
+
+- name: "Monitor state of overthebox"
+  cron:
+    name: "monitor rivers"
+    minute: "*/2"
+    job: /usr/local/bin/monitor_otb
+    user: "{{ user }}"

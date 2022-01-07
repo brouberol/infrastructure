@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+import requests
+
+from datadog import initialize as dd_init, statsd
+
+options = {
+    'statsd_host':'127.0.0.1',
+    'statsd_port':8125
+}
+
+dd_init(**options)
+
+USERNAME = "{{ otb_username }}"
+PASSWORD = "{{ otb_password }}"
+
+with requests.Session() as s:
+    s.post("http://192.168.100.1/cgi-bin/luci", data={"luci_username": USERNAME, "luci_password": PASSWORD})
+    data = s.get("http://192.168.100.1/cgi-bin/luci/admin/overthebox/interfaces_status").json()
+    for wan in data['wans']:
+        value = 1 if wan['status'] == 'OK' else 0
+        tags = ['isp:%s' % (wan['label']), 'ip:%s' % (wan['wanip'])]
+        statsd.gauge("otb.wan.status", value=value, tags=tags)

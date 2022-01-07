@@ -282,3 +282,25 @@ resource "datadog_monitor" "cesu_reporting" {
 
   tags = []
 }
+
+
+resource "datadog_monitor" "isp_router_is_down" {
+  name    = "DSL Router is down"
+  type    = "metric alert"
+  message = "{{#is_no_data}}@webhook-Discord-nodata{{/is_no_data}}{{#is_alert}} The router for ISP {{isp.name}} is down!  {{#is_exact_match \"isp.name\" \"sosh\"}}Go to https://www.sosh.fr/tester-depanner-internet and test the state of the line, with line number ${module.global_vars.sosh_line_number}. {{/is_exact_match}} {{#is_exact_match \"isp.name\" \"ovh\"}} Go to https://www.ovh.com/manager/ and check the state of the line. {{/is_exact_match}} @webhook-Discord-alert {{/is_alert}} {{#is_recovery}} The router for ISP {{isp.name}} is up! @webhook-Discord-recovery {{/is_recovery}}"
+  query   = "avg(last_15m):avg:otb.wan.status{*} by {isp} < 1"
+
+  monitor_thresholds {
+    critical = 1
+  }
+  notify_no_data      = true
+  require_full_window = false
+  no_data_timeframe   = 0
+  renotify_interval   = 0
+
+  notify_audit = false
+  timeout_h    = 0
+  include_tags = true
+  priority     = 2
+  tags         = []
+}
