@@ -19,7 +19,7 @@
 
 - name: "Monitor state of overthebox"
   cron:
-    name: "monitor rivers"
+    name: "monitor overthebox"
     minute: "*/2"
     job: /usr/local/bin/monitor_otb
     user: "{{ user }}"
