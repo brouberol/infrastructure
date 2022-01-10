@@ -1,0 +1,9 @@
+{% macro ssh_user_authorized_keys(authorized_keys, extra_ssh_authorized_keys=[]) %}
+# {{ ansible_managed }}
+{% for ssh_key in authorized_keys %}
+{{ ssh_key }}
+{% endfor %}
+{% for ssh_key in extra_ssh_authorized_keys %}
+{{ ssh_key }}
+{% endfor %}
+{% endmacro %}
