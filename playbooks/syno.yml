@@ -1,0 +1,7 @@
+---
+- hosts: syno
+  user: "{{ user }}"
+  become: yes
+
+  roles:
+  - { role: ssh, tags: ['ssh'] }

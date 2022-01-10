@@ -1,0 +1,2 @@
+{% from "macros/ssh_user_authorized_keys.j2" import ssh_user_authorized_keys with context %}
+{{ ssh_user_authorized_keys(user_ssh_authorized_keys) }}

@@ -14,6 +14,7 @@ endif
 PLAYBOOKS := playbooks
 ANSIBLE_COMMON_ROLES := roles/common
 ANSIBLE_OPTS := -v
+ANSIBLE_syno_OPTS = --ask-become-pass
 ANSIBLE_PLAYBOOK_CMD=poetry run ansible-playbook
 
 
