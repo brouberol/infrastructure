@@ -4,6 +4,7 @@
     dest: "{{ user_home }}/.ssh/authorized_keys"
     owner: "{{ user }}"
     group: "{{ group }}"
+    mode: "0600"
 
 - name: "Only authorize select users to ssh"
   lineinfile:
