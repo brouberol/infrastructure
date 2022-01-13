@@ -6,3 +6,4 @@
   roles:
   - { role: ssh, tags: ['ssh'] }
   - { role: backups, tags: ['backups'] }
+  - { role: motd, tags: ['motd'] }

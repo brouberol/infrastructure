@@ -1,0 +1,6 @@
+- name: "Copy the motd file"
+  copy:
+    src: motd
+    dest: /etc/motd
+    owner: root
+    group: root
