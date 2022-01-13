@@ -5,3 +5,4 @@
 
   roles:
   - { role: ssh, tags: ['ssh'] }
+  - { role: backups, tags: ['backups'] }

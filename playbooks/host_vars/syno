@@ -1,2 +1,1 @@
 group: users
-user_home: "/var/services/homes/{{ user }}"

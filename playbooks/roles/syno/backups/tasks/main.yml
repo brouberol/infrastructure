@@ -1,0 +1,16 @@
+- name: "Create backup directories"
+  file:
+    path: "{{ user_home }}/backups/{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+  with_items:
+    - wallabag
+    - isso
+    - calibre
+    - grand-cedre
+    - radicale
+    - nextcloud
+    - photoprism
+    - paperless
+    - sophro
