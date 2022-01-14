@@ -14,7 +14,6 @@ certbot_list_of_certs_to_create:
   - "{{ pastebin_domain }}"
   - "{{ isso_domain }}"
   - "{{ calibre_domain }}"
-  - "{{ nextcloud_domain }}"
   - "{{ photoprism_domain }}"
   - "{{ paperless_domain }}"
 
@@ -153,17 +152,6 @@ datadog_checks:
       disable_ssl_validation: false
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
       timeout: 5
-    - url: "https://{{ nextcloud_domain }}"
-      name: "{{ nextcloud_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ nextcloud_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-      timeout: 5
-      http_response_status_code: "(1|2|3|4)\\d\\d"
     - url: "https://{{ photoprism_domain }}"
       name: "{{ photoprism_domain }}"
       check_certificate_expiration: true
@@ -254,12 +242,6 @@ calibre_version: latest
 calibre_host: 127.0.0.1
 calibre_port: 8007
 calibre_domain: "library.{{ main_domain }}"
-
-# nextcloud
-nextcloud_domain: "cloud.{{ main_domain }}"
-nextcloud_home: "/mnt/data/nextcloud"
-nextcloud_host: 127.0.0.1
-nextcloud_port: 8009
 
 # photoprism
 photoprism_domain: "photos.{{ main_domain }}"

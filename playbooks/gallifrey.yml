@@ -25,7 +25,6 @@
   - { role: pastebin, tags: ['pastebin'] }
   - { role: isso, tags: ['isso'] }
   - { role: calibre, tags: ['calibre'] }
-  - { role: nextcloud, tags: ['nextcloud'] }
   - { role: monitoring, tags: ['monitoring'] }
   - { role: photoprism, tags: ['photoprism'] }
   - { role: paperless-ng, tags: ['paperless-ng'] }

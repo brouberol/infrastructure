@@ -81,17 +81,6 @@
       "rsync --rsync-path=/usr/bin/rsync -r {{ user_home }}/radicale syno:{{ syno_user_home }}/backups/radicale"
     user: "{{ user }}"
 
-- name: "Schedule nextcloud backups"
-  cron:
-    name: "backup nextcloud DB"
-    minute: "0"
-    hour: "0"
-    job: >
-      /usr/local/bin/dd-cron-event
-      "Backup nextcloud db"
-      "rsync --rsync-path=/usr/bin/rsync {{ nextcloud_home }}/data/owncloud.db syno:{{ syno_user_home }}/backups/nextcloud"
-    user: "root"
-
 - name: "Schedule photoprism backups"
   cron:
     name: "backup photoprism DB"
