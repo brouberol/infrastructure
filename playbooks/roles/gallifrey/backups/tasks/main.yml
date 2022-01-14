@@ -81,17 +81,6 @@
       "rsync --rsync-path=/usr/bin/rsync -r {{ user_home }}/radicale syno:{{ syno_user_home }}/backups/radicale"
     user: "{{ user }}"
 
-- name: "Schedule photoprism backups"
-  cron:
-    name: "backup photoprism DB"
-    minute: "0"
-    hour: "0"
-    job: >
-      /usr/local/bin/dd-cron-event
-      "Backup photoprism db"
-      "rsync --rsync-path=/usr/bin/rsync {{ photoprism_home }}/storage/index.db syno:{{ syno_user_home }}/backups/photoprism"
-    user: "{{ user }}"
-
 - name: "Schedule paperless backups"
   cron:
     name: "backup paperless DB"

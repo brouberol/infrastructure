@@ -14,7 +14,6 @@ certbot_list_of_certs_to_create:
   - "{{ pastebin_domain }}"
   - "{{ isso_domain }}"
   - "{{ calibre_domain }}"
-  - "{{ photoprism_domain }}"
   - "{{ paperless_domain }}"
 
 # Datadog
@@ -68,7 +67,6 @@ datadog_checks:
      - nginx_status_url: "https://{{ pastebin_domain }}/basic_status"
      - nginx_status_url: "https://{{ isso_domain }}/basic_status"
      - nginx_status_url: "https://{{ calibre_domain }}/basic_status"
-     - nginx_status_url: "https://{{ photoprism_domain }}/basic_status"
      - nginx_status_url: "https://{{ paperless_domain }}/basic_status"
      - nginx_status_url: "https://{{ _5e_tools_domain }}/basic_status"
 
@@ -152,15 +150,6 @@ datadog_checks:
       disable_ssl_validation: false
       min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
       timeout: 5
-    - url: "https://{{ photoprism_domain }}"
-      name: "{{ photoprism_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ photoprism_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
     - url: "https://{{ paperless_domain }}"
       name: "{{ paperless_domain }}"
       check_certificate_expiration: true
@@ -242,12 +231,6 @@ calibre_version: latest
 calibre_host: 127.0.0.1
 calibre_port: 8007
 calibre_domain: "library.{{ main_domain }}"
-
-# photoprism
-photoprism_domain: "photos.{{ main_domain }}"
-photoprism_home: "/mnt/block-storage/photoprism"
-photoprism_host: 127.0.0.1
-photoprism_port: 8010
 
 # paperless-ng
 paperless_domain: "papers.{{ main_domain }}"

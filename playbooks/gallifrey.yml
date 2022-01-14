@@ -26,7 +26,6 @@
   - { role: isso, tags: ['isso'] }
   - { role: calibre, tags: ['calibre'] }
   - { role: monitoring, tags: ['monitoring'] }
-  - { role: photoprism, tags: ['photoprism'] }
   - { role: paperless-ng, tags: ['paperless-ng'] }
   - { role: 5e, tags: ['5e'] }
 
