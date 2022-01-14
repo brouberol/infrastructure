@@ -44,7 +44,6 @@
     group: root
   with_items:
   - /mnt/data
-  - /mnt/block-storage
 
 - name: "Mount external disks"
   lineinfile:
@@ -53,5 +52,4 @@
     regexp: "{{ item }}"
     state: present
   with_items:
-  - "UUID=1d72aaf1-ddd5-4bd4-9f8f-f73b627e208b /mnt/block-storage ext4 defaults 0 0"
   - "UUID=ef993b56-c230-4595-a9a9-185ca207f5e6 /mnt/data ext4 defaults 0 0
