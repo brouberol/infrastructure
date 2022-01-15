@@ -68,7 +68,6 @@ datadog_checks:
      - nginx_status_url: "https://{{ isso_domain }}/basic_status"
      - nginx_status_url: "https://{{ calibre_domain }}/basic_status"
      - nginx_status_url: "https://{{ paperless_domain }}/basic_status"
-     - nginx_status_url: "https://{{ _5e_tools_domain }}/basic_status"
 
   http_check:
     init_config:
