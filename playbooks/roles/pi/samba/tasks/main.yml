@@ -1,31 +1,34 @@
-- name: Install the samba package
+- name: Install the samba packages
   apt:
     name:
-    - samba
     - samba-common-bin
+    - samba-common
+    - smbclient
+    - cifs-utils
     state: present
 
-- name: Create a directory shared over SMB
+- name: Create the nas mountpoint hirearchy
   file:
+    path: "{{ item }}"
     state: directory
-    dest: "{{ samba_directory }}"
     owner: "{{ user }}"
     group: "{{ group }}"
+  with_items:
+  - "{{ nas_mount_point }}"
+  - "{{ download_directory }}"
 
-- name: Render the samba configuration
-  template:
-    src: samba.conf.j2
-    dest: /etc/samba/smb.conf
-    owner: root
-    group: root
-  notify:
-    - restart samba
 
-- name: Render the samba user / unix user mapping
+- name: Render the samba credentials configuration file
   template:
-    src: samba.conf.j2
-    dest: /etc/samba/smbusers
-    owner: root
-    group: root
-  notify:
-    - restart samba
+    src: smb.j2
+    dest: "{{ user_home }}/.smb"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: "0600"
+
+- name: Auto mount the downloads samba volume
+  lineinfile:
+    path: /etc/fstab
+    state: present
+    regexp: '^//192.168.100.131/downloads/transmission'
+    line: "//192.168.100.131/downloads/transmission\t{{ download_directory }}\tcifs\tuid=0,credentials={{ user_home }}/.smb,iocharset=utf8,vers=3.0,noperm 0 0"

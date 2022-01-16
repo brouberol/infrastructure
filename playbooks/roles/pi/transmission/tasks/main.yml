@@ -37,7 +37,7 @@
 - name: Setup the vpn0 bridge
   template:
     src: vpn0.j2
-    dest: /etc/network/interfaces.d/vpn
+    dest: /etc/network/interfaces.d/vpn0
   notify:
     - restart networking
     - reload transmission-daemon
