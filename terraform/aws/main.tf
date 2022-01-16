@@ -2,7 +2,7 @@ terraform {
   backend "s3" {}
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~> 3.46.0"
     }
   }
@@ -19,23 +19,42 @@ module "global_vars" {
 }
 
 resource "aws_s3_bucket" "balthazar-rouberol-blog" {
-  bucket   = module.global_vars.blog_s3_bucket_name
-  provider = aws.euwest
-  acl      = "public-read"
+  bucket        = module.global_vars.blog_s3_bucket_name
+  provider      = aws.euwest
+  acl           = "public-read"
   force_destroy = false
   versioning {
-      enabled = false
-      mfa_delete = false
+    enabled    = false
+    mfa_delete = false
   }
 }
 
 resource "aws_s3_bucket" "tfstate" {
-  bucket   = module.global_vars.tfstate_s3_bucket_name
-  provider = aws.euwest
-  acl      = "private"
+  bucket        = module.global_vars.tfstate_s3_bucket_name
+  provider      = aws.euwest
+  acl           = "private"
   force_destroy = true
   versioning {
-      enabled = false
-      mfa_delete = false
+    enabled    = false
+    mfa_delete = false
+  }
+}
+
+resource "aws_s3_bucket" "balthazar-backups" {
+  bucket        = module.global_vars.backups_s3_bucket_name
+  provider      = aws.euwest
+  acl           = null
+  force_destroy = null
+  versioning {
+    enabled    = false
+    mfa_delete = false
+  }
+  server_side_encryption_configuration {
+    rule {
+      bucket_key_enabled = false
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
   }
 }
