@@ -1,0 +1,103 @@
+---
+title: "La Tannerie Inc."
+subtitle: "Des services qu'ils sont bien"
+icon: "fas fa-hotel"
+
+header: true # Set to false to hide the header
+footer: false
+
+columns: "2" # "auto" or number (must be a factor of 12: 1, 2, 3, 4, 6, 12)
+connectivityCheck: true # whether you want to display a message when the apps are not accessible anymore (VPN disconnected for example)
+
+# Optional: Proxy / hosting option
+proxy:
+  useCredentials: false # send cookies & authorization headers when fetching service specific data. Set to `true` if you use an authentication proxy. Can be overrided on service level.
+
+# Optional theming
+theme: default # 'default' or one of the themes available in 'src/assets/themes'.
+
+# Optional message
+message: {}
+
+# Optional navbar
+links: []
+
+# Services
+# First level array represents a group.
+# Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
+services:
+  - name: "In-house"
+    icon: "fas fa-house-user"
+    items:
+      - name: "Transmission"
+        icon: "fas fa-download"
+        subtitle: "Download torrents"
+        url: "http://{{ ansible_default_ipv4['address'] }}:{{ transmission_rpc_port }}"
+        target: "_blank"
+      - name: "Synology"
+        subtitle: "Web admin of Synology NAS"
+        icon: "fas fa-server"
+        url: "http://192.168.100.131:5000/"
+        target: "_blank"
+      - name: "Photos"
+        subtitle: "Photo explorer"
+        icon: "fas fa-images"
+        url: "http://192.168.100.131:5000/?launchApp=SYNO.Foto.AppInstance"
+        target: "_blank"
+      - name: "Sosh"
+        subtitle: "Web admin of Sosh router"
+        icon: "fas fa-ethernet"
+        url: "http://192.168.1.1"
+        target: "_blank"
+      - name: "OVH"
+        subtitle: "Web admin of the OVH router"
+        icon: "fas fa-ethernet"
+        url: "http://192.168.0.1"
+      - name: "OverTheBox"
+        icon: "fas fa-ethernet"
+        subtitle: "Web admin of the OverTheBox"
+        url: "http://192.168.100.1/cgi-bin/luci/admin/overthebox/overview"
+      - name: "Pi-hole"
+        target: "_blank"
+        type: "PiHole"
+        icon: "fas fa-stop-circle"
+        url: "http://{{ ansible_default_ipv4['address'] }}:{{ pihole_admin_port }}/admin"
+  - name: "External"
+    icon: "fas fa-cloud"
+    items:
+      - name: "Webpage"
+        icon: "fas fa-file"
+        subtitle: "Personal page"
+        url: "https://{{ main_domain }}" 
+      - name: "Blog"
+        icon: "fas fa-blog"
+        subtitle: "Personal blog"
+        url: "https://{{ blog_domain }}" 
+      - name: "Isso"
+        icon: "fas fa-comments"
+        subtitle: "Comments manager"
+        url: "https://{{ isso_domain }}/admin" 
+      - name: "Pastebin"
+        icon: "fas fa-file-code"
+        subtitle: "Save and send snippets"
+        url: "https://{{ pastebin_domain }}" 
+      - name: "Fathom"
+        icon: "fas fa-signal"
+        subtitle: "Stats on blog visits"
+        url: "https://{{ fathom_domain }}"
+      - name: "Wallabag"
+        icon: "fas fa-save"
+        subtitle: "Save pages for later"
+        url: "https://{{ wallabag_domain }}" 
+      - name: "Radicale"
+        icon: "fas fa-id-card-alt"
+        subtitle: "CardDAV manager"
+        url: "https://{{ radicale_domain }}"
+      - name: "Calibre"
+        icon: "fas fa-book"
+        subtitle: "E-Book manager"
+        url: "https://{{ calibre_domain }}"
+      - name: "Paperless"
+        icon: "fas fa-file-invoice"
+        subtitle: "Invoice manager"
+        url: "https://{{ paperless_domain }}"

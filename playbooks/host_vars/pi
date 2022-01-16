@@ -27,4 +27,11 @@ nas_mount_point: /mnt/nas
 download_directory: "{{ nas_mount_point }}/transmission"
 
 # transmission
+transmission_rpc_port: 9091
 transmission_download_dir: "{{ download_directory }}"
+
+# homer
+homer_home: "{{ user_home }}/homer"
+
+# pihole
+pihole_admin_port: 8080

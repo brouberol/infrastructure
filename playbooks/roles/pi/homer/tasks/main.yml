@@ -1,0 +1,25 @@
+- name: Create the homer directory
+  file:
+    path: "{{ homer_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Render and copy the homer configuration file
+  template:
+    src: config.yml.j2
+    dest: "{{ homer_home }}/config.yml"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Run the homer docker container
+  docker_container:
+    name: homer
+    image: b4bz/homer:latest
+    state: started
+    pull: yes
+    published_ports:
+      - "{{ ansible_default_ipv4.address }}:80:8080/tcp"
+    volumes:
+      - "{{ homer_home }}:/www/assets"
+    restart_policy: unless-stopped
