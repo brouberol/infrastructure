@@ -4,7 +4,7 @@ subtitle: "Des services qu'ils sont bien"
 icon: "fas fa-hotel"
 
 header: true # Set to false to hide the header
-footer: false
+footer: '<p>Created with <a href="https://github.com/bastienwirtz/homer">Homer</a>. Make changes on <a href="https://github.com/brouberol/infrastructure/blob/master/playbooks/roles/pi/homer/templates/config.yml.j2"><i class="fab fa-github-alt"></i></a>.</p>'
 
 columns: "2" # "auto" or number (must be a factor of 12: 1, 2, 3, 4, 6, 12)
 connectivityCheck: true # whether you want to display a message when the apps are not accessible anymore (VPN disconnected for example)
@@ -45,7 +45,7 @@ services:
         url: "http://192.168.100.131:5000/?launchApp=SYNO.Foto.AppInstance"
         target: "_blank"
       - name: "Sosh"
-        subtitle: "Web admin of Sosh router"
+        subtitle: "Web admin of the Sosh router"
         icon: "fas fa-ethernet"
         url: "http://192.168.1.1"
         target: "_blank"
@@ -80,9 +80,9 @@ services:
       - name: "Pastebin"
         icon: "fas fa-file-code"
         subtitle: "Save and send snippets"
-        url: "https://{{ pastebin_domain }}" 
+        url: "https://{{ pastebin_domain }}"
       - name: "Fathom"
-        icon: "fas fa-signal"
+        icon: "fas fa-chart-bar"
         subtitle: "Stats on blog visits"
         url: "https://{{ fathom_domain }}"
       - name: "Wallabag"
