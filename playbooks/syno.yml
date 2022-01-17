@@ -7,3 +7,4 @@
   - { role: ssh, tags: ['ssh'] }
   - { role: backups, tags: ['backups'] }
   - { role: motd, tags: ['motd'] }
+  - { role: webhooks, tags: ['webhooks'] }

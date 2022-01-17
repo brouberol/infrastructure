@@ -1,0 +1,7 @@
+- name: "Render and copy the webhook configuration file"
+  template:
+    src: synowebhook.conf.j2
+    dest: /usr/syno/etc/synowebhook.conf
+    owner: root
+    group: root
+    mode: '0600'
