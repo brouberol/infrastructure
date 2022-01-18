@@ -15,6 +15,14 @@
   notify:
     - restart ssh
 
+- name: "Disable password authentication"
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication yes$"
+    replace: "PasswordAuthentication no"
+  notify:
+    - restart ssh
+
 - name: Enable the ssh service
   systemd:
     name: sshd
