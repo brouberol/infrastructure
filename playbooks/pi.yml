@@ -22,3 +22,4 @@
   - { role: homer, tags: ['homer'] }
   - { role: sonarr, tags: ['sonarr'] }
   - { role: jackett, tags: ['jackett'] }
+  - { role: bazarr, tags: ['bazarr'] }

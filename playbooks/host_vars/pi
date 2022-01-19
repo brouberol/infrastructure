@@ -46,3 +46,7 @@ sonarr_series_dir: "{{ nas_mount_point }}/series"
 # jackett
 jackett_home: "{{ user_home }}/jackett"
 jackett_port: 9117
+
+# bazarr
+bazarr_home: "{{ user_home }}/bazarr"
+bazarr_port: 6767
