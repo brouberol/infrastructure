@@ -1,0 +1,24 @@
+- name: "Create the sonarr home config"
+  file:
+    path: "{{ jackett_home }}"
+    state: directory
+    owner: debian-transmission
+    group: debian-transmission
+
+- name: "Run the jackett container"
+  docker_container:
+    name: jackett
+    image: lscr.io/linuxserver/jackett:latest
+    state: started
+    pull: yes
+    published_ports:
+      - "{{ ansible_default_ipv4.address }}:{{ jackett_port }}:{{ jackett_port }}/tcp"
+    env:
+      PUID: "{{ transmission_uid | quote }}"
+      PGID: "{{ transmission_gid | quote }}"
+      TZ: "Europe/Paris"
+    dns_servers: "{{ ansible_default_ipv4.address }}" # use pi-hole to circumvent blocked domains
+    volumes:
+      - "{{ jackett_home }}:/config"
+      - "{{ transmission_download_dir }}:/downloads"
+    restart_policy: unless-stopped

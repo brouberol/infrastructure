@@ -42,3 +42,7 @@ pihole_admin_port: 8080
 sonarr_home: "{{ user_home }}/sonarr"
 sonarr_port: 8989
 sonarr_series_dir: "{{ nas_mount_point }}/series"
+
+# jackett
+jackett_home: "{{ user_home }}/jackett"
+jackett_port: 9117
