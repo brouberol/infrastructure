@@ -79,7 +79,7 @@ services:
         target: "_blank"
         type: "PiHole"
         icon: "fas fa-stop-circle"
-        url: "http://{{ ansible_default_ipv4['address'] }}:{{ pihole_admin_port }}/admin"
+        url: "http://pi.lan:{{ pihole_admin_port }}/admin"
   - name: "External"
     icon: "fas fa-cloud"
     items:
