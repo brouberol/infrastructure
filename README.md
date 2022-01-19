@@ -2,6 +2,8 @@ This project defines my personal infrastucture as a set of terraform manifests a
 
 The main idea is to centralize all configuration, whether they apply to instances or cloud services, and make it easy to add new services, secure and monitor them properly.
 
+![infra](https://user-images.githubusercontent.com/480131/150144356-3c6f946e-bb21-4f7e-8964-5cdca8deb473.png)
+
 ## Terraforming the cloud resources
 
 ### Credentials setup
