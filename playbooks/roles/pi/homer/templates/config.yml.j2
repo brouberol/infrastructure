@@ -6,7 +6,7 @@ icon: "fas fa-hotel"
 header: true # Set to false to hide the header
 footer: '<p>Created with <a href="https://github.com/bastienwirtz/homer">Homer</a>. Make changes on <a href="https://github.com/brouberol/infrastructure/blob/master/playbooks/roles/pi/homer/templates/config.yml.j2"><i class="fab fa-github-alt"></i></a>.</p>'
 
-columns: "2" # "auto" or number (must be a factor of 12: 1, 2, 3, 4, 6, 12)
+columns: "auto" # "auto" or number (must be a factor of 12: 1, 2, 3, 4, 6, 12)
 connectivityCheck: true # whether you want to display a message when the apps are not accessible anymore (VPN disconnected for example)
 
 # Optional: Proxy / hosting option
@@ -26,8 +26,8 @@ links: []
 # First level array represents a group.
 # Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
 services:
-  - name: "In-house"
-    icon: "fas fa-house-user"
+  - name: "In-house media"
+    icon: "fas fa-couch"
     items:
       - name: "Transmission"
         icon: "fas fa-download"
@@ -36,7 +36,7 @@ services:
         target: "_blank"
       - name: "Sonarr"
         icon: "fas fa-broadcast-tower"
-        subtitle: "Automatical series downloader"
+        subtitle: "Automatic series downloader"
         url: "http://{{ ansible_default_ipv4['address'] }}:{{ sonarr_port }}"
         target: "_blank"
       - name: "Jackett"
@@ -59,6 +59,9 @@ services:
         icon: "fas fa-images"
         url: "http://192.168.100.131:5000/?launchApp=SYNO.Foto.AppInstance"
         target: "_blank"
+  - name: "In-house network"
+    icon: "fas fa-house-user"
+    items:
       - name: "Sosh"
         subtitle: "Web admin of the Sosh router"
         icon: "fas fa-ethernet"
