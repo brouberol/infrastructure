@@ -33,7 +33,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup wallabag db"
-      "rsync --rsync-path=/usr/bin/rsync {{ user_home }}/wallabag/data/db/wallabag.sqlite syno:{{ syno_user_home }}/backups/wallabag/wallabag.sqlite"
+      "{{ syno_rsync }} {{ user_home }}/wallabag/data/db/wallabag.sqlite syno:{{ syno_user_home }}/backups/wallabag/wallabag.sqlite"
     user: "{{ user }}"
 
 - name: "Schedule the backup of the calibre metadata database"
@@ -44,7 +44,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup calibre metadata db"
-      "rsync --rsync-path=/usr/bin/rsync -r {{ user_home }}/calibre/books/metadata.db syno:{{ syno_user_home }}/backups/calibre/metadata.db"
+      "{{ syno_rsync }} -r {{ user_home }}/calibre/books/metadata.db syno:{{ syno_user_home }}/backups/calibre/metadata.db"
     user: "{{ user }}"
 
 
@@ -56,7 +56,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup calibre db"
-      "rsync --rsync-path=/usr/bin/rsync -r {{ user_home }}/calibre/config/app.db syno:{{ syno_user_home }}/backups/calibre/app.db"
+      "{{ syno_rsync }} -r {{ user_home }}/calibre/config/app.db syno:{{ syno_user_home }}/backups/calibre/app.db"
     user: "{{ user }}"
 
 - name: "Schedule the backup of the isso database"
@@ -67,7 +67,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup isso db"
-      "rsync --rsync-path=/usr/bin/rsync -r {{ isso_home }}/db/comments.db syno:{{ syno_user_home }}/backups/isso/comments.db"
+      "{{ syno_rsync }} -r {{ isso_home }}/db/comments.db syno:{{ syno_user_home }}/backups/isso/comments.db"
     user: "{{ user }}"
 
 - name: "Schedule the backup of radicale files"
@@ -78,7 +78,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup radicale files"
-      "rsync --rsync-path=/usr/bin/rsync -r {{ user_home }}/radicale syno:{{ syno_user_home }}/backups/radicale"
+      "{{ syno_rsync }} -r {{ user_home }}/radicale syno:{{ syno_user_home }}/backups/radicale"
     user: "{{ user }}"
 
 - name: "Schedule paperless backups"
@@ -89,5 +89,5 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup paperless db"
-      "rsync --rsync-path=/usr/bin/rsync {{ paperless_home }}/data/db.sqlite3 syno:{{ syno_user_home }}/backups/paperless"
+      "{{ syno_rsync }} {{ paperless_home }}/data/db.sqlite3 syno:{{ syno_user_home }}/backups/paperless"
     user: "{{ user }}"

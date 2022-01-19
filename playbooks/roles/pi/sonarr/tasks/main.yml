@@ -22,3 +22,11 @@
       - "{{ sonarr_series_dir }}:/tv"
       - "{{ transmission_download_dir }}:/downloads"
     restart_policy: unless-stopped
+
+- name: "Backup the sonarr database"
+  cron:
+    name: "Backup the sonarr database"
+    minute: "0"
+    hour: "1"
+    job: "{{ syno_rsync }} {{ sonarr_home }}/sonarr.db {{ user }}@{{ syno_internal_ip }}:~/backups/sonarr/sonarr.db"
+    user: "{{ user }}"

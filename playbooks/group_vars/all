@@ -50,3 +50,7 @@ datadog_http_check_days_critical: 7
 datadog_http_check_min_collection_interval: 1800
 datadog_config:
     dogstatsd_socket: /var/run/datadog/datadog-agent.socket
+
+# IPs
+syno_internal_ip: "192.168.100.131"
+syno_rsync: "rsync --rsync-path=/usr/bin/rsync"
