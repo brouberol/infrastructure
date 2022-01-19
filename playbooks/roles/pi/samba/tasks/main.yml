@@ -11,24 +11,35 @@
   file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ user }}"
-    group: "{{ group }}"
+    owner: "debian-transmission"
+    group: "debian-transmission"
   with_items:
   - "{{ nas_mount_point }}"
   - "{{ download_directory }}"
+  - "{{ sonarr_series_dir }}"
 
 
 - name: Render the samba credentials configuration file
   template:
-    src: smb.j2
-    dest: "{{ user_home }}/.smb"
+    src: "smb-{{ item }}.j2"
+    dest: "{{ user_home }}/.smb-{{ item }}"
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: "0600"
+  with_items:
+  - transmission
+  - sonarr
 
 - name: Auto mount the downloads samba volume
   lineinfile:
     path: /etc/fstab
     state: present
     regexp: '^//192.168.100.131/downloads/transmission'
-    line: "//192.168.100.131/downloads/transmission\t{{ download_directory }}\tcifs\tuid=0,credentials={{ user_home }}/.smb,iocharset=utf8,vers=3.0,noperm 0 0"
+    line: "//192.168.100.131/downloads/transmission\t{{ download_directory }}\tcifs\tuid={{ transmission_uid }},gid={{ transmission_gid }},credentials={{ user_home }}/.smb-transmission,iocharset=utf8,vers=3.0,noperm 0 0"
+
+- name: Auto mount the series samba volume
+  lineinfile:
+    path: /etc/fstab
+    state: present
+    regexp: '^//192.168.100.131/video/Series'
+    line: "//192.168.100.131/video/Series\t{{ sonarr_series_dir }}\tcifs\tuid={{ transmission_uid }},gid={{ transmission_gid }},credentials={{ user_home }}/.smb-sonarr,iocharset=utf8,vers=3.0,noperm 0 0"

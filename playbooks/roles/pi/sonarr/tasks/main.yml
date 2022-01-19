@@ -1,0 +1,24 @@
+- name: "Create the sonarr home config"
+  file:
+    path: "{{ sonarr_home }}"
+    state: directory
+    owner: debian-transmission
+    group: debian-transmission
+
+- name: "Run the sonarr container"
+  docker_container:
+    name: sonarr
+    image: lscr.io/linuxserver/sonarr:latest
+    state: started
+    pull: yes
+    published_ports:
+      - "{{ ansible_default_ipv4.address }}:{{ sonarr_port }}:{{ sonarr_port }}/tcp"
+    env:
+      PUID: "{{ transmission_uid | quote }}"
+      PGID: "{{ transmission_gid | quote }}"
+      TZ: "Europe/Paris"
+    volumes:
+      - "{{ sonarr_home }}:/config"
+      - "{{ sonarr_series_dir }}:/tv"
+      - "{{ transmission_download_dir }}:/downloads"
+    restart_policy: unless-stopped

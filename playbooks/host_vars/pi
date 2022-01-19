@@ -29,9 +29,16 @@ download_directory: "{{ nas_mount_point }}/transmission"
 # transmission
 transmission_rpc_port: 9091
 transmission_download_dir: "{{ download_directory }}"
+transmission_uid: 109
+transmission_gid: 115
 
 # homer
 homer_home: "{{ user_home }}/homer"
 
 # pihole
 pihole_admin_port: 8080
+
+# sonarr
+sonarr_home: "{{ user_home }}/sonarr"
+sonarr_port: 8989
+sonarr_series_dir: "{{ nas_mount_point }}/series"
