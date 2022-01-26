@@ -20,18 +20,18 @@
 - name: Run the isso container
   docker_container:
     name: isso
-    image: "wonderfall/isso"
+    image: "mihokookayami/isso"
     state: started
     published_ports:
       - "{{ isso_host }}:{{ isso_port }}:{{ isso_docker_port }}"
     restart_policy: unless-stopped
     volumes:
-      - "{{ isso_home }}/config:/config"
+      - "{{ isso_home }}/config:/conf"
       - "{{ isso_home }}/db:/db"
     env:
       UID: "{{ user_uid | string }}"
       GID: "{{ user_gid | string }}"
-      ISSO_SETTINGS: "/config/isso.conf"
+      ISSO_SETTINGS: "/conf/isso.conf"
       CONFIG_CHECKSUM: "{{ isso_config.checksum }}"
 
 - name: "Copy isso sites-available nginx conf"
