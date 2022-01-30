@@ -12,3 +12,5 @@ terraform/global_vars/main.tf
 *.code-workspace
 *.swp
 terraform/global_vars/gitcrypt-key
+
+.DS_Store
