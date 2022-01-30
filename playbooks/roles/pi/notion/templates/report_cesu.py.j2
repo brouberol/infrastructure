@@ -2,13 +2,13 @@
 
 # {{ ansible_managed }}
 
-import logging
-import calendar
 import argparse
-import os.path
+import calendar
 import json
-
+import logging
+import os.path
 from datetime import date
+
 from notion.client import NotionClient
 
 MAX_MONTHLY_HOURS = 50
@@ -30,7 +30,7 @@ def parse_args():
     parser.add_argument("--year", type=int)
     parser.add_argument("--month", type=int, choices=range(1, 13))
     parser.add_argument("--max-monthly-hours", type=int, default=MAX_MONTHLY_HOURS)
-    parser.add_argument("-n", "--dry-run", action='store_true', default=False)
+    parser.add_argument("-n", "--dry-run", action="store_true", default=False)
     return parser.parse_args()
 
 
@@ -117,7 +117,9 @@ def find_next_month(current_month, offset):
 
 
 def get_max_monthly_hours_override(year, month):
-    override_filepath = os.path.join(os.path.expanduser("~"), "notion", "overrides.json")
+    override_filepath = os.path.join(
+        os.path.expanduser("~"), "notion", "overrides.json"
+    )
     try:
         with open(override_filepath) as override_f:
             override_data = json.load(override_f)
@@ -128,6 +130,7 @@ def get_max_monthly_hours_override(year, month):
             return override_data[str(year)][str(month)]
         else:
             return None
+
 
 def main():
     args = parse_args()
@@ -141,14 +144,18 @@ def main():
 
     max_monthly_hours_override = get_max_monthly_hours_override(args.year, args.month)
     if max_monthly_hours_override:
-        logging.info(f"Override set for {args.year}-{args.month} to {max_monthly_hours_override}h")
+        logging.info(
+            f"Override set for {args.year}-{args.month} to {max_monthly_hours_override}h"
+        )
         max_hours_for_current_month = max_monthly_hours_override
     else:
         max_hours_for_current_month = args.max_monthly_hours
 
     if total_h + already_reported_work_h > max_hours_for_current_month:
         if already_reported_work_h < args.max_monthly_hours:
-            report_total_hours_on_month(month_end, max_hours_for_current_month, args.dry_run)
+            report_total_hours_on_month(
+                month_end, max_hours_for_current_month, args.dry_run
+            )
             total_h = total_h + already_reported_work_h - max_hours_for_current_month
 
         i = 1
@@ -156,17 +163,23 @@ def main():
             next_month = find_next_month(args.month, i)
             next_year = args.year if (args.month + i) <= 12 else args.year + 1
             next_month_end_day = month_end_day(next_year, next_month)
-            already_reported_hours_for_next_month = get_month_total_hours(next_month_end_day, next_month_end_day)
+            already_reported_hours_for_next_month = get_month_total_hours(
+                next_month_end_day, next_month_end_day
+            )
             total_h += already_reported_hours_for_next_month
             if total_h > args.max_monthly_hours:
                 total_h -= args.max_monthly_hours
-                report_total_hours_on_month(next_month_end_day, args.max_monthly_hours, args.dry_run)
+                report_total_hours_on_month(
+                    next_month_end_day, args.max_monthly_hours, args.dry_run
+                )
             else:
                 report_total_hours_on_month(next_month_end_day, total_h, args.dry_run)
                 total_h = 0
             i += 1
     else:
-        report_total_hours_on_month(month_end, total_h + already_reported_work_h, args.dry_run)
+        report_total_hours_on_month(
+            month_end, total_h + already_reported_work_h, args.dry_run
+        )
 
 
 if __name__ == "__main__":
