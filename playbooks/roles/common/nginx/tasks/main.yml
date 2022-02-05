@@ -46,3 +46,8 @@
   file:
     path: "{{ web_home }}{{ web_acme_challenge_location }}"
     state: directory
+
+- name: install the certbot nginx plugin
+  apt:
+    name: python3-certbot-nginx
+    state: present

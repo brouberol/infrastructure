@@ -33,12 +33,11 @@
       /usr/local/bin/dd-cron-event
       "Cleanup docker images and containers"
       "echo y | docker system prune"
-  become: "{{ user }}"
+    user: "{{ user }}"
 
-- name: Install the python docker library
+- name: Install the python docker-compose library
   pip:
     name:
-    - docker
     - docker-compose
     state: present
 

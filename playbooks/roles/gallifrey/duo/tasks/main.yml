@@ -1,19 +1,22 @@
 - name: "Add duo apt repository"
   apt_repository:
-    repo: "deb http://pkg.duosecurity.com/Ubuntu {{ ansible_distribution_release }} main"
+    repo: "deb [arch=amd64] https://pkg.duosecurity.com/Ubuntu {{ ansible_distribution_release }} main"
     state: present
     filename: duosecurity
+  become: yes
 
 - name: "Install duo apt-key"
   apt_key:
-    url: https://duo.com/APT-GPG-KEY-DUO
+    url: https://duo.com/DUO-GPG-PUBLIC-KEY.asc
     state: present
+  become: yes
 
 - name: "Install duo package"
   apt:
     update_cache: yes
     name: duo-unix
     state: present
+  become: yes
 
 - name: "Create /lib/security directory"
   file:
