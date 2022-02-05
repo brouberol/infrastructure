@@ -4,7 +4,7 @@
     state: restarted
   listen: "restart nginx"
 
-- name: 'reload nginx service'
+- name: 'reload nginx'
   service:
     name: nginx
     state: reloaded

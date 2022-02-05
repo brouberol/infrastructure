@@ -25,11 +25,11 @@
     dest: /etc/nginx/sites-available/wallabag.conf
     owner: root
     group: root
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Link wallabag sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/wallabag.conf
     dest: /etc/nginx/sites-enabled/wallabag.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"

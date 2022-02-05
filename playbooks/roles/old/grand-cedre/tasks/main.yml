@@ -33,14 +33,14 @@
     dest: /etc/nginx/sites-available/grand-cedre.conf
     owner: root
     group: root
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Link the grand-cedre sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/grand-cedre.conf
     dest: /etc/nginx/sites-enabled/grand-cedre.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Start the grand_cedre container"
   become: "{{ user }}"

@@ -61,11 +61,11 @@
     dest: /etc/nginx/sites-available/paperless-nginx.conf
     owner: root
     group: root
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Link paperless sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/paperless-nginx.conf
     dest: /etc/nginx/sites-enabled/paperless-nginx.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"

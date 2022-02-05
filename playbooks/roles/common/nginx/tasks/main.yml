@@ -40,7 +40,7 @@
     src: /etc/nginx/sites-available/default.conf
     dest: /etc/nginx/sites-enabled/default.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Create ACME test directory"
   file:

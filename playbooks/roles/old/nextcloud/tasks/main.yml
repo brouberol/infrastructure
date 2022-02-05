@@ -34,11 +34,11 @@
     dest: /etc/nginx/sites-available/nextcloud.conf
     owner: root
     group: root
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Link nextcloud sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/nextcloud.conf
     dest: /etc/nginx/sites-enabled/nextcloud.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"

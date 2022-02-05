@@ -108,11 +108,11 @@
     dest: /etc/nginx/sites-available/sophrologie.conf
     owner: root
     group: root
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Link sophrologie sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/sophrologie.conf
     dest: /etc/nginx/sites-enabled/sophrologie.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"

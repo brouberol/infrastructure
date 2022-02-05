@@ -38,11 +38,11 @@
     dest: /etc/nginx/sites-available/5e.conf
     owner: root
     group: root
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Link 5e sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/5e.conf
     dest: /etc/nginx/sites-enabled/5e.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"

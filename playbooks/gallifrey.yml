@@ -40,3 +40,14 @@
       text: "The deployment playbook ran successfully"
     delegate_to: localhost
     become: no
+
+  handlers:
+  - name: restart ssh
+    ansible.builtin.service:
+      name: ssh
+      state: restarted
+
+  - name: reload nginx
+    ansible.builtin.service:
+      name: nginx
+      state: reloaded

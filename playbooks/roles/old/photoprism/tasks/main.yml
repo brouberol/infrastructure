@@ -35,14 +35,14 @@
     dest: /etc/nginx/sites-available/photoprism.conf
     owner: root
     group: root
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Link photoprism sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/photoprism.conf
     dest: /etc/nginx/sites-enabled/photoprism.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Install jpegoptim"
   apt:
