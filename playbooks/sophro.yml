@@ -7,10 +7,10 @@
   roles:
   - { role: setup, tags: ['setup'] }
   - { role: security, tags: ['security'] }
-  - { role: datadog-agent, tags: ['datadog-agent', 'datadog'] }
+  - { role: datadog.datadog, tags: ['datadog-agent', 'datadog'] }
   - { role: datadogpy, tags: ['datadogpy', 'datadog'] }
   - { role: nginx, tags: ['nginx', 'web'] }
-  - { role: certbot, tags: ['certbot', 'web'] }
+  - { role: geerlingguy.certbot, tags: ['certbot', 'web'] }
   - { role: sophro-www, tags: ['sophro-www'] }
 
   post_tasks:

@@ -1,0 +1,6 @@
+---
+roles:
+  - name: datadog.datadog
+    version: 4.13.0
+  - name: geerlingguy.certbot
+    version: 5.0.1

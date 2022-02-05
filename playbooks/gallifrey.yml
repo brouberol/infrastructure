@@ -11,10 +11,10 @@
   - { role: security, tags: ['security'] }
   - { role: duo, tags: ['duo'] }
   - { role: git, tags: ['git'] }
-  - { role: datadog-agent, tags: ['datadog-agent', 'datadog'] }
+  - { role: datadog.datadog, tags: ['datadog-agent', 'datadog'] }
   - { role: datadogpy, tags: ['datadogpy', 'datadog'] }
   - { role: nginx, tags: ['nginx', 'web'] }
-  - { role: certbot, tags: ['certbot', 'web'] }
+  - { role: geerlingguy.certbot, tags: ['certbot', 'web'] }
   - { role: page, tags: ['page', 'web'] }
   - { role: blog, tags: ['blog', 'web'] }
   - { role: myip, tags: ['myip', 'services'] }
@@ -30,9 +30,6 @@
   - { role: 5e, tags: ['5e'] }
 
   post_tasks:
-  - include_vars:
-      file: roles/common/datadog-agent/vars/main.yml
-
   - name: "Send datadog event"
     datadog_event:
       api_key: "{{ datadog_api_key }}"
