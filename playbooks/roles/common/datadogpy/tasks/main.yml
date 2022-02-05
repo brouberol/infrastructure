@@ -1,10 +1,12 @@
-- name: "Install the datadog python library"
-  pip:
-    name: datadog
-    state: present
-    version: "0.29.3"
-
 - name: "Render the dogrc config file"
   template:
     src: dogrc.j2
     dest: "{{ user_home }}/.dogrc"
+
+- name: "Render a script allowing to easily send a dd event from within a croned command"
+  template:
+    src: dd-cron-event.j2
+    dest: /usr/local/bin/dd-cron-event
+    owner: root
+    group: root
+    mode: 0755
