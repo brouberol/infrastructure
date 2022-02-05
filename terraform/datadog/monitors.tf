@@ -113,7 +113,7 @@ resource "datadog_monitor" "hosts_disk_usage" {
   name     = "Disk is filling up"
   type     = "metric alert"
   message  = module.global_vars.dd_discord_webhook
-  query    = "avg(last_4h):avg:system.disk.in_use{!host:${module.global_vars.pi_server_name}} by {host,device} > 0.85"
+  query    = "avg(last_4h):avg:system.disk.in_use{!host:${module.global_vars.pi_server_name},!device:/dev/loop*} by {host,device} > 0.85"
   priority = 3
 
   monitor_thresholds {
