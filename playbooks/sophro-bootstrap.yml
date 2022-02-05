@@ -1,5 +1,0 @@
----
-- hosts: sophro
-  user: root
-  roles:
-  - first-deploy

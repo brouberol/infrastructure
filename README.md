@@ -60,9 +60,6 @@ HostName home.balthazar-rouberol.com
 
 Host gallifrey
 HostName balthazar-rouberol.com
-
-Host sophro
-HostName sophrologie-chalon.com
 ```
 
 and list the hosts in `/etc/ansible/hosts`:
