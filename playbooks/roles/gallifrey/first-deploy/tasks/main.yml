@@ -35,21 +35,3 @@
   file:
     path: /home/ubuntu/.ssh/authorized_keys
     state: absent
-
-- name: "Create external disks mountpoints"
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: root
-    group: root
-  with_items:
-  - /mnt/data
-
-- name: "Mount external disks"
-  lineinfile:
-    path: /etc/fstab
-    line: "{{ item }}"
-    regexp: "{{ item }}"
-    state: present
-  with_items:
-  - "UUID=ef993b56-c230-4595-a9a9-185ca207f5e6 /mnt/data ext4 defaults 0 0
