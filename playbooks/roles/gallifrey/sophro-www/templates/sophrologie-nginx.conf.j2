@@ -1,18 +1,4 @@
-server {
-    listen 443 default;
-
-    ssl_certificate /etc/letsencrypt/live/{{ sophro_domain }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ sophro_domain }}/privkey.pem;
-    ssl_session_cache shared:SSL:10m;
-    ssl_session_timeout 10m;
-    ssl on;
-
-    # Return no information to the client and close the connection
-    return 444;
-}
-
-
-# Rerite all URLs containing www to the "{{ sophro_domain }}" server
+# Rewrite all URLs containing www to the "{{ sophro_domain }}" server
 server {
     listen       80;
     listen       443;
@@ -33,10 +19,10 @@ server {
 
     index index.php;
 
-    include global/restrictions.conf;
+    include sophrologie-chalon/restrictions.conf;
 
     # Only include one of the files below.
-    include global/wordpress.conf;
+    include sophrologie-chalon/wordpress.conf;
 
     # Letsencrypt challange
     location /.well-known/acme-challenge/ {

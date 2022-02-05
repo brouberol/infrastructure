@@ -2,8 +2,8 @@
   apt:
     name:
       - mysql-common
-      - mysql-client-5.7
-      - mysql-server-5.7
+      - mysql-client
+      - mysql-server
       - php-cli
       - php-common
       - php-fpm
@@ -15,7 +15,7 @@
 - name: "Copy the php-fpm config files"
   copy:
     src: "{{ item }}"
-    dest: "/etc/php/7.2/fpm/{{ item }}"
+    dest: "/etc/php/7.4/fpm/{{ item }}"
     owner: root
     group: root
     mode: 0644
@@ -90,10 +90,17 @@
       "Backup sophro website"
       /root/scripts/backup-wordpress.sh
 
+- name: "Create the sophro nginx directory"
+  file:
+    path: /etc/nginx/sophrologie-chalon
+    state: directory
+    owner: root
+    group: root
+
 - name: "Copy the global nginx config files"
   copy:
     src: "{{ item }}"
-    dest: "/etc/nginx/global/{{ item }}"
+    dest: "/etc/nginx/sophrologie-chalon/{{ item }}"
     owner: root
     group: root
     mode: 0644
