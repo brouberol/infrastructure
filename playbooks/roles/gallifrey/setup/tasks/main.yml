@@ -7,13 +7,12 @@
   apt:
     name:
     - htop
-    - python-pip
-    - python-virtualenv
     - python3
     - python3-pip
     - python3-virtualenv
     - vim
     - tmux
+    - zip
     state: present
 
 - name: "Remove un-needed packages"

@@ -242,3 +242,6 @@ paperless_version: "1.4.4"
 _5e_tools_version: "1.134.0"
 _5e_tools_home: "/var/www/5e"
 _5e_tools_domain: "5e.{{ main_domain }}"
+
+# Sophro
+sophro_www_home: /var/www/sophrologie-chalon

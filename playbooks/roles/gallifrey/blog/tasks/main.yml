@@ -40,11 +40,11 @@
     dest: /etc/nginx/sites-available/blog.conf
     owner: root
     group: root
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Link blog sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/blog.conf
     dest: /etc/nginx/sites-enabled/blog.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"

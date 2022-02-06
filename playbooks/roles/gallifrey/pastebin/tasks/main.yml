@@ -27,11 +27,11 @@
     dest: /etc/nginx/sites-available/pastebin.conf
     owner: root
     group: root
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Link pastebin sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/pastebin.conf
     dest: /etc/nginx/sites-enabled/pastebin.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"

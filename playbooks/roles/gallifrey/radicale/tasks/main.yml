@@ -8,6 +8,7 @@
 - name: "Install radicale"
   pip:
     name: "radicale[bcrypt]"
+    version: "3.1.4"
     state: present
     executable: pip3
 
@@ -33,7 +34,6 @@
     group: "{{ group }}"
   with_items:
     - permissions
-    - logging
 
 - name: "Configure radicale admin account"
   htpasswd:

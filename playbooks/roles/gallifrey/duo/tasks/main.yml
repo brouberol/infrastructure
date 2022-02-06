@@ -1,19 +1,22 @@
 - name: "Add duo apt repository"
   apt_repository:
-    repo: "deb http://pkg.duosecurity.com/Ubuntu {{ ansible_distribution_release }} main"
+    repo: "deb [arch=amd64] https://pkg.duosecurity.com/Ubuntu {{ ansible_distribution_release }} main"
     state: present
     filename: duosecurity
+  become: yes
 
 - name: "Install duo apt-key"
   apt_key:
-    url: https://duo.com/APT-GPG-KEY-DUO
+    url: https://duo.com/DUO-GPG-PUBLIC-KEY.asc
     state: present
+  become: yes
 
 - name: "Install duo package"
   apt:
     update_cache: yes
     name: duo-unix
     state: present
+  become: yes
 
 - name: "Create /lib/security directory"
   file:
@@ -50,6 +53,8 @@
   notify:
     - restart ssh
 
+# See https://duo.com/docs/duounix
+
 - name: "Setup PAM ssh for duo"
   lineinfile:
     regexp: "^@include common-auth"
@@ -62,7 +67,7 @@
 
 - name: "Setup PAM common-auth for duo"
   lineinfile:
-    regexp: "^auth  [success=1 default=ignore]      pam_unix.so nullok_secure"
+    regexp: "^auth  [success=1 default=ignore]      pam_unix.so nullok"
     line: |
       auth  requisite pam_unix.so nullok_secure
       auth  [success=1 default=ignore] pam_duo.so

@@ -1,0 +1,50 @@
+#!/bin/bash
+
+NOW=$(date +"%Y-%m-%d")
+BACKUP_USER={{ user }}
+FILE="sophrologiechalon.$NOW.tar"
+_BACKUP_DIR="home/$BACKUP_USER/backups/sophro"
+BACKUP_DIR="/$_BACKUP_DIR"
+_WWW_DIR="{{ sophro_www_home }}"
+_NGINX_DIR=etc/nginx
+_PHP_FPM_DIR=etc/php7/fpm
+_SCRIPTS_DIR=root/scripts
+KEEP_LAST=30
+
+DB_USER="{{ sophro_www_mysql_user }}"
+DB_PASS="{{ sophro_www_mysql_password }}"
+DB_NAME="{{ sophro_www_mysql_db }}"
+DB_FILE="sophrologiechalon.$NOW.sql"
+
+if [ ! -d $BACKUP_DIR ];then
+    mkdir $BACKUP_DIR;
+    chown $BACKUP_USER:$BACKUP_USER $BACKUP_DIR;
+fi
+
+# Create the base archive containing the wordpress files
+tar -cvf $BACKUP_DIR/$FILE --transform "s,^$_WWW_DIR,www," --exclude="*.mp3" /$_WWW_DIR
+
+# Add the MySQL dump to the archive
+mysqldump --no-tablespaces -u$DB_USER -p$DB_PASS $DB_NAME > $BACKUP_DIR/$DB_FILE
+tar --append --file=$BACKUP_DIR/$FILE --transform "s,^$_BACKUP_DIR,db," $BACKUP_DIR/$DB_FILE
+rm $BACKUP_DIR/$DB_FILE
+
+# Add the nginx config files to the archive
+tar --append --file=$BACKUP_DIR/$FILE --transform "s,^$_NGINX_DIR,nginx," --recursion /$_NGINX_DIR
+
+# Add the phpfpm ini file
+tar --append --file=$BACKUP_DIR/$FILE --transform "s,$_PHP_FPM_DIR,fpm," /$_PHP_FPM_DIR/php.ini
+
+# Add the backup scripts themselves
+tar --append --file=$BACKUP_DIR/$FILE --transform "s,^$_SCRIPTS_DIR,scripts," --recursion /$_SCRIPTS_DIR
+
+# zip and chmod result backup file
+gzip -9 -f $BACKUP_DIR/$FILE
+# chown $BACKUP_USER:$BACKP_USER $BACKUP_DIR/$FILE.gz
+
+# Keep the last n backups
+OLD_BACKUPS=$(ls -1t $BACKUP_DIR | awk "NR>$KEEP_LAST")
+if [ -n "$OLD_BACKUPS" ]; then
+    cd $BACKUP_DIR
+    rm $OLD_BACKUPS
+fi

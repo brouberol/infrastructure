@@ -91,23 +91,14 @@ test = ["pytest (>=6.2.0)", "pytest-cov", "pytest-subtests", "pytest-xdist", "pr
 
 [[package]]
 name = "datadog"
-version = "0.41.0"
+version = "0.43.0"
 description = "The Datadog Python library"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-decorator = ">=3.3.2"
 requests = ">=2.6.0"
-
-[[package]]
-name = "decorator"
-version = "5.1.0"
-description = "Decorators for Humans"
-category = "main"
-optional = false
-python-versions = ">=3.5"
 
 [[package]]
 name = "idna"
@@ -357,12 +348,8 @@ cryptography = [
     {file = "cryptography-36.0.0.tar.gz", hash = "sha256:52f769ecb4ef39865719aedc67b4b7eae167bafa48dbc2a26dd36fa56460507f"},
 ]
 datadog = [
-    {file = "datadog-0.41.0-py2.py3-none-any.whl", hash = "sha256:ab79ed38fb09ff1942c341e32849c4eeaf8b2e4d467b9e6bb1c6071808f454d6"},
-    {file = "datadog-0.41.0.tar.gz", hash = "sha256:3de1a43b8a8d5f6b19d162ec1b482dc5ab2636c59cf65e60589702304510a689"},
-]
-decorator = [
-    {file = "decorator-5.1.0-py3-none-any.whl", hash = "sha256:7b12e7c3c6ab203a29e157335e9122cb03de9ab7264b137594103fd4a683b374"},
-    {file = "decorator-5.1.0.tar.gz", hash = "sha256:e59913af105b9860aa2c8d3272d9de5a56a4e608db9a2f167a8480b323d529a7"},
+    {file = "datadog-0.43.0-py2.py3-none-any.whl", hash = "sha256:fe82d6c1d74a713371768f1851b004c8df7ec074bae10ad4509036601f84b605"},
+    {file = "datadog-0.43.0.tar.gz", hash = "sha256:1f2123083d9e1add6f238c62714b76ac2fc134d7d1c435cd82b976487b191b96"},
 ]
 idna = [
     {file = "idna-3.3-py3-none-any.whl", hash = "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff"},

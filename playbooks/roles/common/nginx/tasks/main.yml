@@ -40,9 +40,14 @@
     src: /etc/nginx/sites-available/default.conf
     dest: /etc/nginx/sites-enabled/default.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Create ACME test directory"
   file:
     path: "{{ web_home }}{{ web_acme_challenge_location }}"
     state: directory
+
+- name: install the certbot nginx plugin
+  apt:
+    name: python3-certbot-nginx
+    state: present

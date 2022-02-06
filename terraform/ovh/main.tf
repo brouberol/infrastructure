@@ -93,21 +93,3 @@ resource "ovh_domain_zone_record" "grand_cedre_subdomain" {
     depends_on = [ovh_domain_zone_record.root_domain]
 
 }
-
-resource "ovh_domain_zone_record" "recyclette_domain" {
-    zone = module.global_vars.recyclette_domain
-    fieldtype = "A"
-    ttl = "0"
-    target = module.global_vars.shopify_ip
-}
-
-
-resource "ovh_domain_zone_record" "recyclette_domain_cname" {
-    zone = module.global_vars.recyclette_domain
-    subdomain = "www"
-    fieldtype = "CNAME"
-    ttl = "0"
-    target = "${module.global_vars.shopify_domain}."
-
-    depends_on = [ovh_domain_zone_record.recyclette_domain]
-}

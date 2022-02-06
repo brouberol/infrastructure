@@ -34,11 +34,11 @@
     dest: /etc/nginx/sites-available/fathom.conf
     owner: root
     group: root
-  notify: "reload nginx service"
+  notify: "reload nginx"
 
 - name: "Link fathom sites-enabled nginx conf"
   file:
     src: /etc/nginx/sites-available/fathom.conf
     dest: /etc/nginx/sites-enabled/fathom.conf
     state: link
-  notify: "reload nginx service"
+  notify: "reload nginx"

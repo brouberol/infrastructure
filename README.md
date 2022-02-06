@@ -60,9 +60,6 @@ HostName home.balthazar-rouberol.com
 
 Host gallifrey
 HostName balthazar-rouberol.com
-
-Host sophro
-HostName sophrologie-chalon.com
 ```
 
 and list the hosts in `/etc/ansible/hosts`:
@@ -71,7 +68,6 @@ and list the hosts in `/etc/ansible/hosts`:
 $ cat /etc/ansible/hosts
 gallifrey
 pi
-sophro
 ```
 
 To bootstrap a given instance (`gallifrey` in that example), run its bootstrap playbook (the first time only):

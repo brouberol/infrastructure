@@ -1,8 +1,0 @@
-{
-    "workspaces": {
-        {% for workspace, token in slack_tokens.items() %}
-        "{{ workspace }}": "{{ token }}"{% if not loop.last %},{% endif %}
-
-        {% endfor %}
-    }
-}

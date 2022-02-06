@@ -12,8 +12,8 @@ endif
 
 
 PLAYBOOKS := playbooks
-ANSIBLE_COMMON_ROLES := roles/common
-ANSIBLE_OPTS := -v
+ANSIBLE_COMMON_ROLES := $$HOME/.ansible/roles:roles/common
+ANSIBLE_OPTS := -v --vault-password-file tmp.txt
 ANSIBLE_syno_OPTS = --ask-become-pass
 ANSIBLE_PLAYBOOK_CMD=poetry run ansible-playbook
 
@@ -69,8 +69,9 @@ terraform-apply:  ## Apply all terraform workspaces
 	done
 
 
-install:  ## Install python dependencies
+install:  ## Install python and ansible dependencies
 	@poetry install
+	@poetry run ansible-galaxy install -r playbooks/requirements.yaml
 
 help:
 	@grep -E '^[%a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-22s\033[0m %s\n", $$1, $$2}'
