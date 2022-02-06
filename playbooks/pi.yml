@@ -7,7 +7,7 @@
   roles:
   - { role: pi-setup, tags: ['setup'] }
   - { role: docker, tags: ['docker'] }
-  - { role: certbot, tags: ['certbot'] }
+  - { role: geerlingguy.certbot, tags: ['certbot'] }
   - { role: pi-datadog-agent, tags: ['datadog-agent', 'datadog'] }
   - { role: datadog.datadog, tags: ['datadog-agent', 'datadog'] }
   - { role: datadogpy, tags: ['datadogpy', 'datadog'] }
