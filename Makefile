@@ -69,7 +69,7 @@ terraform-apply:  ## Apply all terraform workspaces
 	done
 
 
-install:  ## Install python dependencies
+install:  ## Install python and ansible dependencies
 	@poetry install
 	@poetry run ansible-galaxy install -r playbooks/requirements.yaml
 
