@@ -134,6 +134,7 @@ services:
         tag: gallifrey
       - name: "Paperless"
         icon: "fas fa-file-invoice"
-        subtitle: "Invoice manager"
         url: "https://{{ paperless_domain }}"
         tag: gallifrey
+        type: PaperlessNG
+        apikey: "{{ paperless_api_key }}"
