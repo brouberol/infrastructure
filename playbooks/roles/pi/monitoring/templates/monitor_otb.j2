@@ -15,8 +15,8 @@ USERNAME = "{{ otb_username }}"
 PASSWORD = "{{ otb_password }}"
 
 with requests.Session() as s:
-    s.post("http://192.168.100.1/cgi-bin/luci", data={"luci_username": USERNAME, "luci_password": PASSWORD})
-    data = s.get("http://192.168.100.1/cgi-bin/luci/admin/overthebox/interfaces_status").json()
+    s.post("http://{{ otb_internal_ip }}/cgi-bin/luci", data={"luci_username": USERNAME, "luci_password": PASSWORD})
+    data = s.get("http://{{ otb_internal_ip }}/cgi-bin/luci/admin/overthebox/interfaces_status").json()
     for wan in data['wans']:
         value = 1 if wan['status'] == 'OK' else 0
         tags = ['isp:%s' % (wan['label']), 'ip:%s' % (wan['wanip'])]
