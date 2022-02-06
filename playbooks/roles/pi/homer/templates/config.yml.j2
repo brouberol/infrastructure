@@ -40,6 +40,8 @@ services:
         subtitle: "Automatic series downloader"
         url: "http://{{ ansible_default_ipv4['address'] }}:{{ sonarr_port }}"
         tag: "pi"
+        type: Sonarr
+        apikey: "{{ sonarr_api_key }}"
         target: "_blank"
       - name: "Jackett"
         icon: "fas fa-hat-cowboy"
@@ -98,12 +100,12 @@ services:
       - name: "Blog"
         icon: "fas fa-blog"
         subtitle: "Personal blog"
-        url: "https://{{ blog_domain }}" 
+        url: "https://{{ blog_domain }}"
         tag: gallifrey
       - name: "Isso"
         icon: "fas fa-comments"
         subtitle: "Comments manager"
-        url: "https://{{ isso_domain }}/admin" 
+        url: "https://{{ isso_domain }}/admin"
         tag: gallifrey
       - name: "Pastebin"
         icon: "fas fa-file-code"
@@ -118,7 +120,7 @@ services:
       - name: "Wallabag"
         icon: "fas fa-save"
         subtitle: "Save pages for later"
-        url: "https://{{ wallabag_domain }}" 
+        url: "https://{{ wallabag_domain }}"
         tag: gallifrey
       - name: "Radicale"
         icon: "fas fa-id-card-alt"
