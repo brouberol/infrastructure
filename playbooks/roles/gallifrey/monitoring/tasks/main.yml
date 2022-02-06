@@ -10,21 +10,20 @@
 
 - name: render monitoring scripts
   template:
-    src: "{{ item }}"
-    dest: "/etc/cron.hourly/{{ item }}"
+    src: "monitor_{{ item }}"
+    dest: "/etc/cron.hourly/monitor_{{ item }}"
     owner: root
     group: root
     mode: 0755
   with_items:
-  - monitor_blog
-  - monitor_blog_comments
-  - monitor_devto
-  - monitor_lobsters
-  - monitor_mailchimp
-  - monitor_scaleway
-  - monitor_ovh
-  - monitor_reddit
-  - monitor_rain
+  - blog
+  - blog_comments
+  - devto
+  - lobsters
+  - mailchimp
+  - ovh
+  - reddit
+  - rain
 
 - name: "Copy the river level monitoring script to a bindir"
   copy:

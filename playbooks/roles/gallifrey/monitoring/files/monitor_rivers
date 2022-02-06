@@ -68,7 +68,7 @@ def monitor_river(river_name, station_name):
     statsd.gauge(
         "river.level",
         value=value,
-        tags=["station:%s" % (station_name), "river:%s" % (river_name)],
+        tags=[f"station:{station_name}", f"river:{river_name}"],
     )
 
 

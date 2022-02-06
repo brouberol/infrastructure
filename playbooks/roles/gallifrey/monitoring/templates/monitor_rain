@@ -21,7 +21,7 @@ def monitor_rain_volume(station_name):
     rain_level_h5 = soup.find_all("h5")[h5_index].text
     rain_level = float(rain_level_h5.split("dernier cumul horaire ")[1].split(" ")[0])
     statsd.gauge(
-        "weather.rain.hourly", tags=["station:%s" % (station_name)], value=rain_level
+        "weather.rain.hourly", tags=[f"station:{station_name}"], value=rain_level
     )
 
 

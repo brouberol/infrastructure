@@ -6,16 +6,16 @@ from datadog.dogstatsd import DogStatsd
 
 
 ESSENTIAL_TOOLS = [
-    'customizing-your-shell',
+    "customizing-your-shell",
 ]
 
-statsd = DogStatsd(socket_path='/var/run/datadog/datadog-agent.socket')
+statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
 
-stories = requests.get('https://lobste.rs/newest/brouberol.json').json()
+stories = requests.get("https://lobste.rs/newest/brouberol.json").json()
 for story in stories:
-    url = story['url'].split('/')[-1].replace('.html', '')
-    tags = ['article:%s' % (url)]
+    url = story["url"].split("/")[-1].replace(".html", "")
+    tags = [f"article:{url}"]
     if url in ESSENTIAL_TOOLS:
-        tags.append('campaign:essential-tools')
-    statsd.gauge('lobsters.post.score', value=story['score'], tags=tags)
-    statsd.gauge('lobsters.post.comments', value=story['comment_count'], tags=tags)
+        tags.append("campaign:essential-tools")
+    statsd.gauge("lobsters.post.score", value=story["score"], tags=tags)
+    statsd.gauge("lobsters.post.comments", value=story["comment_count"], tags=tags)

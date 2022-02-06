@@ -12,7 +12,7 @@ session.headers.update({"api-key": "{{ devto_api_key }}"})
 
 for article in session.get("https://dev.to/api/articles/me").json():
     clean_slug = "-".join(article["slug"].split("-")[:-1])
-    tags = ["campaign:essential-tools", "article:%s" % (clean_slug)]
+    tags = ["campaign:essential-tools", f"article:{clean_slug}"]
     statsd.gauge("devto.audience.views", value=article["page_views_count"], tags=tags)
     statsd.gauge(
         "devto.audience.likes", value=article["positive_reactions_count"], tags=tags

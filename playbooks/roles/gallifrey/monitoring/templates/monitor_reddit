@@ -29,7 +29,7 @@ for post in reddit.user.me().submissions.new():
     if BLOG_DOMAIN not in post["url"]:
         continue
     slug = post["url"].split("/")[-1].replace(".html", "")
-    tags = ["subreddit:%s" % (post["subreddit"].display_name), "article:%s" % (slug)]
+    tags = ["subreddit:%s" % (post["subreddit"].display_name), f"article:{slug}"]
     if post["domain"] == BLOG_DOMAIN:
         for url in ESSENTIAL_TOOLS_URL:
             if url in post["url"]:

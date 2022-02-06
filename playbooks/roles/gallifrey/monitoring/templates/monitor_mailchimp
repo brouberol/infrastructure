@@ -25,7 +25,7 @@ mc_list = mailchimp.lists.get(MAILCHIMP_LIST_ID)
 for field in tracked_fields:
     value = mc_list["stats"][field]
     statsd.gauge(
-        "mailchimp.list.%s" % (field), value=value, tags=["campaign:essential-tools"]
+        f"mailchimp.list.{field}", value=value, tags=["campaign:essential-tools"]
     )
 
 members_per_location = Counter()
@@ -38,5 +38,5 @@ for country_code, members in members_per_location.items():
     statsd.gauge(
         "mailchimp.members_per_country",
         value=members,
-        tags=["country:%s" % (country_code), "campaign:essential-tools"],
+        tags=[f"country:{country_code}", "campaign:essential-tools"],
     )
