@@ -14,7 +14,7 @@ endif
 PLAYBOOKS := playbooks
 ANSIBLE_COMMON_ROLES := $$HOME/.ansible/roles:roles/common
 ANSIBLE_OPTS := -v --vault-password-file tmp.txt
-ANSIBLE_syno_OPTS = --ask-become-pass
+ANSIBLE_chambonas_OPTS = --ask-become-pass
 ANSIBLE_PLAYBOOK_CMD=poetry run ansible-playbook
 
 
