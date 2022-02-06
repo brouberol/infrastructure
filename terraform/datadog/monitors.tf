@@ -173,7 +173,7 @@ resource "datadog_monitor" "new_blog_comment" {
   name     = "New comment received on blog"
   type     = "metric alert"
   message  = "A new comment has been issued on the blog. Visit the Isso admin to review. {{#is_alert}}@webhook-Discord-warning{{/is_alert}}"
-  query    = "change(max(last_2h),last_4h):default_zero(sum:blog.comments{*}) >= 1"
+  query    = "change(max(last_2h),last_4h):default_zero(avg:blog.comments{*}) >= 1"
   priority = 5
 
   monitor_thresholds {
