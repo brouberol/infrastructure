@@ -27,7 +27,6 @@
   - { role: calibre, tags: ['calibre'] }
   - { role: monitoring, tags: ['monitoring'] }
   - { role: paperless-ng, tags: ['paperless-ng'] }
-  - { role: 5e, tags: ['5e'] }
   - { role: sophro-www, tags: ['sophro-www'] }
 
   post_tasks:
