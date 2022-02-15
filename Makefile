@@ -10,19 +10,25 @@ else
 	ECHO = echo -e
 endif
 
-
+VAULT_PASSWORD_FILEPATH =
 PLAYBOOKS := playbooks
 ANSIBLE_COMMON_ROLES := $$HOME/.ansible/roles:roles/common
 ANSIBLE_OPTS := -v
 ANSIBLE_chambonas_OPTS = --ask-become-pass
 ANSIBLE_PLAYBOOK_CMD=poetry run ansible-playbook
 
+ifneq ("$(wildcard playbooks/vault-password.txt)","")
+    ANSIBLE_EXTRA_OPTS = --vault-pass-file vault-password.txt
+else
+	ANSIBLE_EXTRA_OPTS =
+endif
+
 
 playbook-%-bootstrap:  ## Bootstrap an instance. Replace '%' by the instance playbook you want to run
-	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* ANSIBLE_CONFIG=./ansible-bootstrap.cfg $(ANSIBLE_PLAYBOOK_CMD) --ask-pass $*-bootstrap.yml $(ANSIBLE_OPTS)
+	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* ANSIBLE_CONFIG=./ansible-bootstrap.cfg $(ANSIBLE_PLAYBOOK_CMD) $*-bootstrap.yml $(ANSIBLE_OPTS)
 
 playbook-%:  ## Configure an instance. Replace '%' by the instance playbook you want to run
-	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* $(ANSIBLE_PLAYBOOK_CMD) $*.yml $(ANSIBLE_OPTS) $(ANSIBLE_$*_OPTS) $(target)
+	@cd $(PLAYBOOKS) && ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* $(ANSIBLE_PLAYBOOK_CMD) $*.yml $(ANSIBLE_OPTS) $(ANSIBLE_EXTRA_OPTS) $(ANSIBLE_$*_OPTS) $(target)
 
 playbook-lint:  ## Lint role directories and playbook files
 	@cd $(PLAYBOOKS) && \
