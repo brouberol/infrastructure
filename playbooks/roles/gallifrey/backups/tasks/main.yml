@@ -83,7 +83,7 @@
 
 - name: "Schedule paperless backups"
   cron:
-    name: "backup paperless DB"
+    name: "backup paperless"
     minute: "0"
     hour: "0"
     job: >
