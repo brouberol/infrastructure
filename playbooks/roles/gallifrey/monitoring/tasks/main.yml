@@ -5,6 +5,7 @@
     - mailchimp3
     - ovh
     - beautifulsoup4
+    - datadog
     state: present
     executable: pip3
 
