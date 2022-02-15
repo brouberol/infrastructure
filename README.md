@@ -81,3 +81,9 @@ Once bootstraped, the instance can be configured via its regular playbook, run b
 ```console
 $ make playbook-gallifrey
 ```
+
+To run the playbook for a given set of tags, you can add `tags=<comma-separated-tags>` to the `make` command:
+
+```console
+% make playbook-gallifrey tags=monitoring
+```

@@ -18,9 +18,9 @@ ANSIBLE_chambonas_OPTS = --ask-become-pass
 ANSIBLE_PLAYBOOK_CMD=poetry run ansible-playbook
 
 ifneq ("$(wildcard playbooks/vault-password.txt)","")
-    ANSIBLE_EXTRA_OPTS = --vault-pass-file vault-password.txt
+    VAULT_PASS_OPTS = --vault-pass-file vault-password.txt
 else
-	ANSIBLE_EXTRA_OPTS =
+	VAULT_PASS_OPTS =
 endif
 
 
@@ -34,14 +34,16 @@ playbook-%-bootstrap:  ## Bootstrap an instance. Replace '%' by the instance pla
 
 
 playbook-%:  ## Configure an instance. Replace '%' by the instance playbook you want to run
-	@cd $(PLAYBOOKS) && \
+	@TAGS_OPTS=""
+	@if [[ -n "${tags}" ]]; then TAGS_OPTS="-t ${tags}"; fi && \
+		cd $(PLAYBOOKS) && \
 		ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* \
-		$(ANSIBLE_PLAYBOOK_CMD) \
-		$*.yml \
-		$(ANSIBLE_OPTS) \
-		$(ANSIBLE_EXTRA_OPTS) \
-		$(ANSIBLE_$*_OPTS) \
-		$(target)
+			$(ANSIBLE_PLAYBOOK_CMD) \
+			$*.yml \
+			$(ANSIBLE_OPTS) \
+			$(VAULT_PASS_OPTS) \
+			$(ANSIBLE_$*_OPTS) \
+			$$TAGS_OPTS
 
 playbook-lint:  ## Lint role directories and playbook files
 	@cd $(PLAYBOOKS) && \
