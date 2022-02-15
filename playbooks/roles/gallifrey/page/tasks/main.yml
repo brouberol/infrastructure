@@ -8,6 +8,8 @@
   command: "git init --bare {{ page_repo }}"
   args:
     creates: "{{ page_repo }}"
+  become: yes
+  become_user: "{{ git_user }}"
 
 - name: "Change user/group of the page git repo"
   file:
