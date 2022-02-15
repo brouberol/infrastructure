@@ -1,14 +1,14 @@
+- name: "Install duo apt-key"
+  apt_key:
+    url: https://duo.com/DUO-GPG-PUBLIC-KEY.asc
+    state: present
+  become: yes
+
 - name: "Add duo apt repository"
   apt_repository:
     repo: "deb [arch=amd64] https://pkg.duosecurity.com/Ubuntu {{ ansible_distribution_release }} main"
     state: present
     filename: duosecurity
-  become: yes
-
-- name: "Install duo apt-key"
-  apt_key:
-    url: https://duo.com/DUO-GPG-PUBLIC-KEY.asc
-    state: present
   become: yes
 
 - name: "Install duo package"
