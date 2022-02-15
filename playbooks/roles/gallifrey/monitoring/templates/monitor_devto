@@ -5,7 +5,7 @@ import requests
 from datadog.dogstatsd import DogStatsd
 
 
-statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+statsd = DogStatsd(socket_path="{{ datadog_config['dogstatsd_socket'] }}")
 
 session = requests.Session()
 session.headers.update({"api-key": "{{ devto_api_key }}"})

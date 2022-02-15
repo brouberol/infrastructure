@@ -32,7 +32,7 @@ class Stats:
         return str(tuple([self.views, self.visitors, self.entries]))
 
 
-statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+statsd = DogStatsd(socket_path="{{ datadog_config['dogstatsd_socket'] }}")
 conn = sqlite3.connect("/home/br/fathom/fathom.db")
 
 now = datetime.datetime.utcnow()

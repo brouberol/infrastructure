@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 URL = "https://prixfioul.fr/prix-du-fioul-ardeche-07-departement.html"
 
-statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+statsd = DogStatsd(socket_path="{{ datadog_config['dogstatsd_socket'] }}")
 
 
 def monitor_prixfioul():

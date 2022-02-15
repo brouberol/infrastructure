@@ -6,7 +6,7 @@ from enum import Enum
 from bs4 import BeautifulSoup
 from datadog.dogstatsd import DogStatsd
 
-statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+statsd = DogStatsd(socket_path="{{ datadog_config['dogstatsd_socket'] }}")
 
 VIGICRUE_STATION_IDS = {
     "chaulet": "V504881301",

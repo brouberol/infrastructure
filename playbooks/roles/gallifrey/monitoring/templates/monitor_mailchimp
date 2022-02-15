@@ -9,7 +9,7 @@ from datadog.dogstatsd import DogStatsd
 MAILCHIMP_API_KEY = "{{ mailchimp_api_key }}"
 MAILCHIMP_LIST_ID = "{{ mailchimp_list_id }}"
 
-statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+statsd = DogStatsd(socket_path="{{ datadog_config['dogstatsd_socket'] }}")
 mailchimp = MailChimp(mc_api=MAILCHIMP_API_KEY)
 
 tracked_fields = (

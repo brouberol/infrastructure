@@ -6,7 +6,7 @@ import re
 from ovh.client import Client as OvhClient
 from datadog.dogstatsd import DogStatsd
 
-statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+statsd = DogStatsd(socket_path="{{ datadog_config['dogstatsd_socket'] }}")
 
 ovh = OvhClient(
     endpoint="{{ ovh_endpoint }}",

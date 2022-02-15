@@ -25,10 +25,11 @@
   - ovh
   - reddit
   - rain
+  - fioul
 
 - name: "Copy the river level monitoring script to a bindir"
-  copy:
-    src: files/monitor_rivers
+  template:
+    src: monitor_rivers
     dest: /usr/local/bin/monitor_rivers
     mode: 0755
     owner: root
@@ -40,11 +41,3 @@
     minute: "*/5"
     job: /usr/local/bin/monitor_rivers
     user: "{{ user }}"
-
-- name: "Monitor fioul price every day"
-  copy:
-    src: monitor_fioul
-    dest: /etc/cron.daily/monitor_fioul
-    owner: root
-    group: root
-    mode: 0755

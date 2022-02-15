@@ -5,7 +5,7 @@ import sqlite3
 from datadog.dogstatsd import DogStatsd
 
 
-statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+statsd = DogStatsd(socket_path="{{ datadog_config['dogstatsd_socket'] }}")
 conn = sqlite3.connect("/home/br/isso/db/comments.db")
 
 ESSENTIAL_TOOLS_THREADS = [

@@ -9,7 +9,7 @@ ESSENTIAL_TOOLS = [
     "customizing-your-shell",
 ]
 
-statsd = DogStatsd(socket_path="/var/run/datadog/datadog-agent.socket")
+statsd = DogStatsd(socket_path="{{ datadog_config['dogstatsd_socket'] }}")
 
 stories = requests.get("https://lobste.rs/newest/brouberol.json").json()
 for story in stories:
