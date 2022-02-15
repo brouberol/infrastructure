@@ -40,6 +40,9 @@
     src: motd
     dest: /etc/motd
 
+- name: "Remove dynamic updates to the motd"
+  shell: "chmod -x /etc/update-motd.d/*"
+
 - name: "Setup profile"
   copy:
     src: profile
