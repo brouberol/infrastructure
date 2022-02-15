@@ -88,7 +88,7 @@
     hour: "0"
     job: >
       /usr/local/bin/dd-cron-event
-      "Backup paperless db"
+      "Backup paperless"
       "{{ syno_rsync }} -r {{ paperless_home }} syno:{{ syno_user_home }}/backups/paperless"
     user: "{{ user }}"
 
