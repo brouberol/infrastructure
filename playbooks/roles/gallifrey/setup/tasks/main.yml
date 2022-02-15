@@ -31,7 +31,6 @@
 - name: "Install python packages"
   pip:
     name:
-    - docker-py
     - bcrypt
     - passlib
     state: present
