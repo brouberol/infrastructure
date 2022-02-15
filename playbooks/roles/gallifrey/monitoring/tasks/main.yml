@@ -1,3 +1,11 @@
+- name: "Make sure that the directory containing the datadog socket exists"
+  file:
+    path: "/var/run/datadog"
+    state: directory
+    owner: dd-agent
+    group: dd-agent
+  notify: "restart datadog-agent"
+
 - name: Install python libraries required by monitoring scripts
   pip:
     name:

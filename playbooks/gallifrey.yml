@@ -52,3 +52,8 @@
     ansible.builtin.service:
       name: nginx
       state: reloaded
+
+  - name: restart datadog-agent
+    ansible.builtin.service:
+      name: datadog-agent
+      state: restarted
