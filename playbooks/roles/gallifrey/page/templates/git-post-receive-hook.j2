@@ -9,7 +9,7 @@ TMP_PAGE_CLONE=$HOME/page-tmp
 PAGE_GIT={{ page_repo }}
 PAGE=$TMP_PAGE_CLONE/index.html
 
-CURRENT_AGE=`python3 -c 'from datetime import date;print((date.today() - date(1990, 11, 4)).days / 365)'`
+CURRENT_AGE=`python3 -c 'from datetime import date;print(round((date.today() - date(1990, 11, 4)).days / 365))'`
 CURRENT_YEAR=`date +%Y`
 
 
