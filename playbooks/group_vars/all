@@ -41,7 +41,7 @@ web_acme_challenge_location: /.well-known/acme-challenge/
 web_datadog_agent_nginx_check_location: /basic_status
 
 # systemd
-user_systemd_dir: "{{ user_home }}/.config/systemd/user"
+user_systemd_dir: "{{ user_home }}/.config/systemd/user/default.target.wants"
 
 # datadog
 datadog_api_key: !vault |
