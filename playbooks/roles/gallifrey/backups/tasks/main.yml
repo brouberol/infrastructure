@@ -89,5 +89,16 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup paperless db"
-      "{{ syno_rsync }} {{ paperless_home }}/data/db.sqlite3 syno:{{ syno_user_home }}/backups/paperless"
+      "{{ syno_rsync }} -r {{ paperless_home }} syno:{{ syno_user_home }}/backups/paperless"
+    user: "{{ user }}"
+
+- name: "Schedule fathom backups"
+  cron:
+    name: "backup fathom DB"
+    minute: "0"
+    hour: "0"
+    job: >
+      /usr/local/bin/dd-cron-event
+      "Backup fathom db"
+      "{{ syno_rsync }} {{ fathom_home }}/fathom.db syno:{{ syno_user_home }}/backups/fathom"
     user: "{{ user }}"
