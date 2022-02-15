@@ -11,8 +11,9 @@
   command: "git init --bare {{ blog_repo }}"
   args:
     creates: "{{ blog_repo }}"
-  become: yes
-  become_user: "{{ git_user }}"
+
+- name: "Change owner of the repo"
+  command: "chown -R {{ git_user }}:{{ git_group }} {{ blog_repo }}"
 
 - name: "Change user/group of the blog git repo"
   file:
