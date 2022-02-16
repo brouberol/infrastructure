@@ -6,22 +6,22 @@
     group: debian-transmission
 
 - name: "Run the jackett container"
-  docker_container:
-    name: jackett
-    image: lscr.io/linuxserver/jackett:latest
-    state: started
-    pull: yes
-    published_ports:
+  include_role:
+    name: mhutter.docker-systemd-service
+  vars:
+    container_name: jackett
+    container_image: lscr.io/linuxserver/jackett:latest
+    # container_docker_pull: yes
+    container_ports:
       - "{{ ansible_default_ipv4.address }}:{{ jackett_port }}:{{ jackett_port }}/tcp"
-    env:
+    container_env:
       PUID: "{{ transmission_uid | quote }}"
       PGID: "{{ transmission_gid | quote }}"
       TZ: "Europe/Paris"
-    dns_servers: "{{ ansible_default_ipv4.address }}" # use pi-hole to circumvent blocked domains
-    volumes:
+    container_args: "--dns {{ ansible_default_ipv4.address }}" # use pi-hole to circumvent blocked domains
+    container_volumes:
       - "{{ jackett_home }}:/config"
       - "{{ transmission_download_dir }}:/downloads"
-    restart_policy: unless-stopped
 
 - name: "Backup the jackett config"
   cron:

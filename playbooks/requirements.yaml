@@ -4,3 +4,5 @@ roles:
     version: 4.13.0
   - name: geerlingguy.certbot
     version: 5.0.1
+  - name: mhutter.docker-systemd-service
+    version: 2.5.1

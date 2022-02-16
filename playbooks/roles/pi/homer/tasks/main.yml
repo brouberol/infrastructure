@@ -13,13 +13,13 @@
     group: "{{ group }}"
 
 - name: Run the homer docker container
-  docker_container:
-    name: homer
-    image: b4bz/homer:latest
-    state: started
-    pull: yes
-    published_ports:
+  include_role:
+    name: mhutter.docker-systemd-service
+  vars:
+    container_name: homer
+    container_image: b4bz/homer:latest
+    container_docker_pull: yes
+    container_ports:
       - "{{ ansible_default_ipv4.address }}:80:8080/tcp"
-    volumes:
+    container_volumes:
       - "{{ homer_home }}:/www/assets"
-    restart_policy: unless-stopped

@@ -9,28 +9,25 @@
   become: yes
 
 - name: Run the pihole docker container
-  docker_container:
-    name: pihole
-    image: pihole/pihole:latest
-    state: started
-    pull: yes
-    published_ports:
+  include_role:
+    name: mhutter.docker-systemd-service
+  vars:
+    container_name: pihole
+    container_image: pihole/pihole:latest
+    container_docker_pull: yes
+    container_ports:
       - 127.0.0.1:53:53/udp
       - "{{ ansible_default_ipv4.address }}:53:53/udp"
       - 0.0.0.0:67:67/udp
       - "0.0.0.0:{{ pihole_admin_port }}:80/tcp"
       - 0.0.0.0:443:443/tcp
-    volumes:
+    container_volumes:
       - "/etc/pihole:/etc/pihole/"
-    restart_policy: unless-stopped
-    dns_servers:
-      - "127.0.0.1"
-      - "1.1.1.1"
-    env:
+    container_args: "--dns 127.0.0.1 --dns 1.1.1.1 --log-driver none"
+    container_env:
       TZ: UTC
       WEBPASSWORD: "{{ pihole_web_password }}"
       DNS1: "1.1.1.1"
       DNS2: "1.0.0.1"
       DNSSEC: "true"
       ServerIP: "{{ ansible_default_ipv4.address }}"
-    log_driver: "none"  # no logging to save off the SD
