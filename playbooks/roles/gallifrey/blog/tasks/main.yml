@@ -2,10 +2,10 @@
 - name: "Install python packages"
   pip:
     name:
-    - pelican
-    - markdown
+    - poetry
     state: present
-    executable: pip3
+    virtualenv: "{{ git_home }}/.blog.venv"
+    virtualenv_python: python3
 
 - name: "Create blog git bare repo"
   command: "git init --bare {{ blog_repo }}"
@@ -13,7 +13,10 @@
     creates: "{{ blog_repo }}"
 
 - name: "Change owner of the repo"
-  command: "chown -R {{ git_user }}:{{ git_group }} {{ blog_repo }}"
+  command: "chown -R {{ git_user }}:{{ git_group }} {{ item }}"
+  with_items:
+  - "{{ blog_repo }}"
+  - "{{ git_home }}/.blog.venv"
 
 - name: "Change user/group of the blog git repo"
   file:

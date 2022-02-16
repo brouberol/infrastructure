@@ -29,6 +29,8 @@ cd $TMP_BLOG_CLONE
 git clone https://github.com/getpelican/pelican-plugins
 
 # Make and deploy
+source {{ git_home }}/.blog.venv/bin/activate
+poetry install
 make html
 cp -r output/* $BLOG_DIR
 
