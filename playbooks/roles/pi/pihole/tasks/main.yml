@@ -23,11 +23,10 @@
       - 0.0.0.0:443:443/tcp
     container_volumes:
       - "/etc/pihole:/etc/pihole/"
-    container_args: "--dns 127.0.0.1 --dns 1.1.1.1 --log-driver none"
+    container_args: "--log-driver none"
     container_env:
       TZ: UTC
       WEBPASSWORD: "{{ pihole_web_password }}"
-      DNS1: "1.1.1.1"
-      DNS2: "1.0.0.1"
+      PIHOLE_DNS_: "172.17.0.1#{{ cloudflared_port }}" # docker bridge gateway IP from within the container
       DNSSEC: "true"
       ServerIP: "{{ ansible_default_ipv4.address }}"

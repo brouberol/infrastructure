@@ -12,7 +12,8 @@
   - { role: datadog.datadog, tags: ['datadog-agent', 'datadog'] }
   - { role: datadogpy, tags: ['datadogpy', 'datadog'] }
   - { role: nginx, tags: ['nginx', 'web'] }
-  - { role: pihole, tags: ['pihole'] }
+  - { role: cloudflared, tags: ['cloudflared', 'dns'] }
+  - { role: pihole, tags: ['pihole', 'dns'] }
   - { role: wireguard, tags: ['wireguard'] }
   - { role: samba, tags: ['samba'] }
   - { role: transmission, tags: ['transmission'] }

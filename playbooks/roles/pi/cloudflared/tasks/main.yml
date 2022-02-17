@@ -1,0 +1,35 @@
+- name: "Create the cloudflared user"
+  user:
+    name: cloudflared
+    state: present
+    shell: /bin/false
+    create_home: no
+
+- name: "Download the cloudflared binary"
+  get_url:
+    url: https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm
+    dest: /usr/local/bin/cloudflared
+    owner: cloudflared
+    group: root
+    mode: '0774'
+
+- name: "Render the cloudflared configuration file"
+  template:
+    dest: /etc/default/cloudflared
+    src: cloudflared.j2
+    owner: root
+    group: root
+  notify: "restart cloudflared"  
+
+- name: "Render the cloudflared systemd service unit file"
+  template:
+    dest: /etc/systemd/system/cloudflared.service
+    src: cloudflared.service.j2
+    owner: root
+    group: root
+
+- name: "Enable and start the cloudflared service"
+  systemd:
+    name: cloudflared
+    state: started
+    enabled: yes

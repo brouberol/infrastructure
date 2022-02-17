@@ -1,0 +1,5 @@
+- name: 'restart cloudflared'
+  service:
+    name: cloudflared
+    state: restarted
+  listen: "restart cloudflared"
