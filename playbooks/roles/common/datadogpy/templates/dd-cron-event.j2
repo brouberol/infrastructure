@@ -6,7 +6,7 @@ event_title=$1
 cmd=$2
 shift 2
 
-# Add some jitter to avoid havung everyting executing at the same time
+# Add some jitter to avoid having everyting executing at the same time
 sleep $[ ($RANDOM % 60) + 1 ]
 
 /usr/local/bin/dogwrap \
