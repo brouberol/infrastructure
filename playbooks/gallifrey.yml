@@ -6,6 +6,7 @@
 
   roles:
   - { role: setup, tags: ['setup'] }
+  - { role: inputrc, tags: ['setup', 'inputrc'] }
   - { role: docker, tags: ['docker'] }
   - { role: setup-user-systemd, tags: ['setup-user-systemd'] }
   - { role: security, tags: ['security'] }

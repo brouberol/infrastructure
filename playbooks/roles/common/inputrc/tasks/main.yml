@@ -1,0 +1,6 @@
+- name: "Copy inputrc"
+  copy:
+    src: inputrc
+    dest: "{{ user_home }}/.inputrc"
+    owner: "{{ user }}"
+    group: "{{ group }}"
