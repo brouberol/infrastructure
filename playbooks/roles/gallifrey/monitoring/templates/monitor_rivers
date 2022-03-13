@@ -38,7 +38,7 @@ def monitor_alert_level(river_name):
     )
     html = requests.get(url).text
     soup = BeautifulSoup(html, features="html.parser")
-    alert_text = soup.find("button", id=RIVER_TO_CSS_ID[river_name]).parent.p.text
+    alert_text = soup.find("button", id=RIVER_TO_CSS_ID[river_name]).parent.find_all(class_='basin-item-vigilance')[0].text
     alert_level = None
     if "Vert" in alert_text:
         alert_level = AlertLevel.GREEN
