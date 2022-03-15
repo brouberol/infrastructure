@@ -12,10 +12,10 @@ def main():
             "https://info-coupure.p.web-enedis.fr/framed/particulier/#coupure",
             data={"ville": "07140 Chambonas", "villecp": "07140", "villecoords": "07050"})
     soup = BeautifulSoup(r.text, features="html.parser")
-    result_text = soup.find_all(class_="col-12 bg_grey bor-success p-16 m-t-20")[0].\
-        find("div").\
-        find("span").\
-        text
+    result_text = soup.find_all(class_="col-12 bg_grey bor-success p-16 m-t-20")[0]\
+        .find("div")\
+        .find("span")\
+        .text
     status = DogStatsd.OK if "Pas de coupure" in result_text else DogStatsd.CRITICAL
     statsd.service_check("enedis.grid.online", status=status, tags=['location:chambonas'])
 
