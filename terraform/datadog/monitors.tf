@@ -1,27 +1,3 @@
-resource "datadog_monitor" "gallifrey_services" {
-  name     = "${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is down"
-  type     = "service check"
-  message  = "{{#is_alert}}${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is down{{/is_alert}} \n{{#is_alert_recovery}}${title(element(module.global_vars.datadog_gallifrey_monitored_processes, count.index))} is back up{{/is_alert_recovery}}  @slack-notifications"
-  query    = "\"process.up\".over(\"host:gallifrey\",\"process:${element(module.global_vars.datadog_gallifrey_monitored_processes, count.index)}\").last(4).count_by_status()"
-  priority = 3
-
-  monitor_thresholds {
-    ok       = 3
-    critical = 3
-  }
-
-  notify_no_data    = false
-  renotify_interval = 360
-
-  notify_audit = false
-  timeout_h    = 60
-  include_tags = true
-
-  tags = ["host:gallifrey"]
-
-  count = length(module.global_vars.datadog_gallifrey_monitored_processes)
-}
-
 resource "datadog_monitor" "nginx_can_connect" {
   name     = "Web service nginx config is running"
   type     = "service check"
