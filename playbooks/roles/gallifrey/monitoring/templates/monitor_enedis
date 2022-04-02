@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import requests
+
+from bs4 import BeautifulSoup
+from datadog.dogstatsd import DogStatsd
+
+statsd = DogStatsd(socket_path="{{ datadog_config['dogstatsd_socket'] }}")
+
+def main():
+    r = requests.post(
+            "https://info-coupure.p.web-enedis.fr/framed/particulier/#coupure",
+            data={"ville": "07140 Chambonas", "villecp": "07140", "villecoords": "07050"})
+    soup = BeautifulSoup(r.text, features="html.parser")
+    result_text = soup.find_all(class_="col-12 bg_grey bor-success p-16 m-t-20")[0]\
+        .find("div")\
+        .find("span")\
+        .text
+    status = DogStatsd.OK if "Pas de coupure" in result_text else DogStatsd.CRITICAL
+    statsd.service_check("enedis.grid.online", status=status, tags=['location:chambonas'])
+
+
+if __name__ == "__main__":
+    main()
+

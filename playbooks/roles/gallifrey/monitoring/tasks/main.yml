@@ -34,6 +34,7 @@
   - reddit
   - rain
   - fioul
+  - enedis
 
 - name: "Copy the river level monitoring script to a bindir"
   template:
