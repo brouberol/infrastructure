@@ -123,6 +123,24 @@ resource "datadog_monitor" "backups" {
   tags = ["role:backup"]
 }
 
+resource "datadog_monitor" "failed_backups_events" {
+  name     = "Backup failed"
+  type     = "event-v2 alert"
+  message  = "{{#is_alert}}@webhook-Discord-alert{{/is_alert}}"
+  query    = "events(\"source:my_apps status:error Backup\").rollup(\"count\").last(\"5m\") > 0"
+  priority = 3
+
+  notify_no_data      = false
+  renotify_interval   = 0
+  require_full_window = false
+
+  notify_audit = false
+  timeout_h    = 0
+  include_tags = true
+
+  tags = ["task:backup"]
+}
+
 resource "datadog_monitor" "ovh_service_expiry" {
   name     = "OVH service is close to expiry"
   type     = "metric alert"
@@ -238,25 +256,6 @@ resource "datadog_monitor" "fioul_price_is_low" {
   include_tags = true
   priority     = 4
   tags         = []
-}
-
-
-resource "datadog_monitor" "cesu_reporting" {
-  name     = "CESU reporting failed"
-  type     = "event alert"
-  message  = "{{#is_alert}}@webhook-Discord-alert{{/is_alert}}"
-  query    = "events('sources:apps priority:all status:error \"CESU\"').rollup('count').last('5m') > 0"
-  priority = 3
-
-  notify_no_data      = false
-  renotify_interval   = 0
-  require_full_window = false
-
-  notify_audit = false
-  timeout_h    = 0
-  include_tags = true
-
-  tags = []
 }
 
 
