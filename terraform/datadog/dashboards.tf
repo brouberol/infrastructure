@@ -893,8 +893,8 @@ resource "datadog_dashboard_json" "web_services_dash" {
                             {
                                 "formula": "query1",
                                 "limit": {
-                                    "count": 25,
-                                    "order": "asc"
+                                    "count": 500,
+                                    "order": "desc"
                                 }
                             }
                         ],
@@ -921,7 +921,7 @@ resource "datadog_dashboard_json" "web_services_dash" {
                                 "query": "avg:http.ssl.days_left{$instance} by {instance}",
                                 "data_source": "metrics",
                                 "name": "query1",
-                                "aggregator": "avg"
+                                "aggregator": "last"
                             }
                         ]
                     }
@@ -946,52 +946,25 @@ resource "datadog_dashboard_json" "web_services_dash" {
                     {
                         "formulas": [
                             {
-                                "alias": "gallifrey-block-storage",
-                                "formula": "query1"
-                            },
-                            {
-                                "alias": "gallifrey-local-data",
-                                "formula": "query2"
-                            },
-                            {
-                                "alias": "gallifrey-root-device",
-                                "formula": "query3"
-                            },
-                            {
-                                "alias": "sophro-root-device",
-                                "formula": "query4"
-                            },
-                            {
                                 "alias": "pi-root-device",
                                 "formula": "query5"
+                            },
+                            {
+                                "alias": "galiifrey-root-device",
+                                "formula": "query1"
                             }
                         ],
                         "response_format": "timeseries",
                         "queries": [
                             {
-                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/sda}",
-                                "data_source": "metrics",
-                                "name": "query1"
-                            },
-                            {
-                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/vdb}",
-                                "data_source": "metrics",
-                                "name": "query2"
-                            },
-                            {
-                                "query": "avg:system.disk.in_use{host:gallifrey,device:/dev/vda1}",
-                                "data_source": "metrics",
-                                "name": "query3"
-                            },
-                            {
-                                "query": "avg:system.disk.in_use{host:sophro,device:/dev/vda1}",
-                                "data_source": "metrics",
-                                "name": "query4"
-                            },
-                            {
                                 "query": "avg:system.disk.in_use{host:retropie,device:/dev/mmcblk0p1}",
                                 "data_source": "metrics",
                                 "name": "query5"
+                            },
+                            {
+                                "query": "avg:system.disk.in_use{host:gallifrey}",
+                                "data_source": "metrics",
+                                "name": "query1"
                             }
                         ],
                         "style": {
@@ -1017,86 +990,6 @@ resource "datadog_dashboard_json" "web_services_dash" {
                     {
                         "value": "0.90 < y < 1",
                         "display_type": "error dashed"
-                    }
-                ]
-            }
-        },
-        {
-            "id": 7013452597179762,
-            "definition": {
-                "title": "Scaleway s3 bucket usage (GB)",
-                "title_size": "16",
-                "title_align": "left",
-                "show_legend": true,
-                "legend_layout": "auto",
-                "legend_columns": [
-                    "avg",
-                    "min",
-                    "max",
-                    "value",
-                    "sum"
-                ],
-                "type": "timeseries",
-                "requests": [
-                    {
-                        "formulas": [
-                            {
-                                "alias": "bucket-usage",
-                                "formula": "query1"
-                            }
-                        ],
-                        "response_format": "timeseries",
-                        "on_right_yaxis": false,
-                        "queries": [
-                            {
-                                "query": "avg:scaleway.s3.bucket.used_gb{*} by {bucket}.rollup(avg, 3600)",
-                                "data_source": "metrics",
-                                "name": "query1"
-                            }
-                        ],
-                        "style": {
-                            "palette": "dog_classic",
-                            "line_type": "solid",
-                            "line_width": "normal"
-                        },
-                        "display_type": "bars"
-                    },
-                    {
-                        "formulas": [
-                            {
-                                "alias": "total",
-                                "formula": "query0"
-                            }
-                        ],
-                        "response_format": "timeseries",
-                        "on_right_yaxis": false,
-                        "queries": [
-                            {
-                                "query": "avg:scaleway.s3.total.used_gb{*}.rollup(avg, 3600)",
-                                "data_source": "metrics",
-                                "name": "query0"
-                            }
-                        ],
-                        "style": {
-                            "palette": "warm",
-                            "line_type": "solid",
-                            "line_width": "normal"
-                        },
-                        "display_type": "line"
-                    }
-                ],
-                "yaxis": {
-                    "include_zero": true,
-                    "scale": "linear",
-                    "label": "",
-                    "min": "auto",
-                    "max": "auto"
-                },
-                "markers": [
-                    {
-                        "label": " $$$ ",
-                        "value": "y > 75",
-                        "display_type": "warning dashed"
                     }
                 ]
             }
