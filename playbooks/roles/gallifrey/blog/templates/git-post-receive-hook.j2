@@ -7,7 +7,9 @@ set -e
 BLOG_DIR={{ web_home }}/blog
 TMP_BLOG_CLONE=$HOME/blog-tmp
 BLOG_GIT={{ git_home }}/blog.git
-CSS_DIR=themes/pelican-hss/static/css
+THEME=pelican-hss
+THEME_DIR=themes/${THEME}
+CSS_DIR=${THEME_DIR}/static/css
 
 
 function cleanup {
@@ -26,6 +28,12 @@ cd $TMP_BLOG_CLONE
 
 # Minify all CSS files and replace plain CSS files by their
 # minify versions in the theme template
+for file in $(ls -1 $CSS_DIR); do
+    minified_file="$(basename "$file" .css).min.css"
+    cssmin <$TMP_BLOG_CLONE/$CSS_DIR/$file > $TMP_BLOG_CLONE/$CSS_DIR/$minified_file
+    replace $file $minified_file ${THEME_DIR}/templates/base.html
+done
+
 git clone https://github.com/getpelican/pelican-plugins
 
 # Make and deploy
