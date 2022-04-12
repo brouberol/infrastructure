@@ -10,16 +10,6 @@
     owner: "{{ user }}"
     group: "{{ group }}"
 
-- name: "Install python dependencies in a virtualenv"
-  pip:
-    name: "{{ item }}"
-    state: present
-    virtualenv: "{{ user_home }}/notion/.env"
-    virtualenv_command: "/usr/bin/python3 -m venv"
-  with_items:
-  - wheel
-  - git+https://github.com/jamalex/notion-py.git@refs/pull/352/merge
-
 - name: "Render the script"
   template:
     src: report_cesu.py.j2

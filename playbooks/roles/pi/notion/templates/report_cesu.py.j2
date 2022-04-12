@@ -1,15 +1,15 @@
-#!{{ user_home }}/notion/.env/bin/python
+#!/usr/bin/env python3
 
 # {{ ansible_managed }}
 
-import argparse
-import calendar
-import json
 import logging
+import calendar
+import argparse
 import os.path
-from datetime import date
+import json
+import requests
 
-from notion.client import NotionClient
+from datetime import date, datetime
 
 MAX_MONTHLY_HOURS = 50
 
@@ -18,11 +18,79 @@ logging.basicConfig(
 )
 
 tok = "{{ notion_token }}"
+database_id = "{{ notion_database_id }}"
 
-calendar_url = "{{ notion_cesu_calendar_url }}"
 
-notion = NotionClient(token_v2=tok)
-cal = notion.get_collection_view(calendar_url)
+class NotionClient:
+
+    def __init__(self, database_id, token):
+        self.database_id = database_id
+        self.token = token
+        self.session = requests.Session()
+        self.session.headers.update({"Authorization": f"Bearer {self.token}"})
+        self.session.headers.update({"Notion-Version": "2022-02-22"})
+        self.session.headers.update({"Content-Type": "application/json"})
+        self.base_url = "https://api.notion.com/v1"
+
+    @property
+    def db_url(self):
+        return f"{self.base_url}/databases/{self.database_id}"
+
+    @property
+    def page_url(self):
+        return f"{self.base_url}/pages"
+
+    def query_database(self, filters, sorts):
+        resp = self.session.post(
+            f"{self.db_url}/query",
+            data=json.dumps({"filter": filters, "sorts": sorts}))
+        resp.raise_for_status()
+        return resp.json()
+
+    def update_page(self, page_id, duration):
+        resp = self.session.patch(
+            f"{self.page_url}/{page_id}",
+            data=json.dumps({"properties": {"Duration": {"number": duration}}}))
+        resp.raise_for_status()
+        return resp.json()
+
+    def create_page(self, title, date, duration):
+        data = {
+            "parent": {"database_id": self.database_id},
+            "properties": {
+                "Name": {"title": [{"text": {"content": title}}]},
+                "Date": {"date": {"start": str(date)}},
+                "Duration": {"number": duration},
+            }
+        }
+        resp = self.session.post(
+            self.page_url,
+            data=json.dumps(data)
+        )
+        resp.raise_for_status()
+        return resp
+
+
+class Row:
+    def __init__(self, data):
+        self.data = data
+
+    @property
+    def duration(self):
+        duration_data = self.data['properties'].get("Duration")
+        if not duration_data:
+            return None
+        return duration_data['number']
+
+    @property
+    def start_date(self):
+        return datetime.strptime(
+            self.data['properties']['Date']['date']['start'],
+            "%Y-%m-%d"
+        ).date()
+
+
+notion = NotionClient(database_id, tok)
 
 
 def parse_args():
@@ -30,7 +98,7 @@ def parse_args():
     parser.add_argument("--year", type=int)
     parser.add_argument("--month", type=int, choices=range(1, 13))
     parser.add_argument("--max-monthly-hours", type=int, default=MAX_MONTHLY_HOURS)
-    parser.add_argument("-n", "--dry-run", action="store_true", default=False)
+    parser.add_argument("-n", "--dry-run", action='store_true', default=False)
     return parser.parse_args()
 
 
@@ -46,68 +114,63 @@ def month_end_day(year, month):
 
 def get_month_total_hours(month_start, month_end):
     for row in filter_rows(title="CESU", start_date=month_start, end_date=month_end):
-        return row.get_property("duration") or 0
+        return row.duration
     return 0
 
 
 def filter_rows(title, start_date, end_date):
-    rows = cal.collection.query(
-        filter={
-            "operator": "and",
-            "filters": [
+    items = notion.query_database(
+        filters={
+            "and": [
                 {
-                    "property": "c=qu",
-                    "filter": {
-                        "operator": "date_is_on_or_after",
-                        "value": {
-                            "type": "exact",
-                            "value": {"type": "date", "start_date": str(start_date)},
-                        },
-                    },
+                    "property": "Date",
+                    "date": {"on_or_after": str(start_date)}
                 },
                 {
-                    "property": "c=qu",
-                    "filter": {
-                        "operator": "date_is_on_or_before",
-                        "value": {
-                            "type": "exact",
-                            "value": {"type": "date", "start_date": str(end_date)},
-                        },
-                    },
-                },
-            ],
-        }
+                    "property": "Date",
+                    "date": {"on_or_before": str(end_date)}
+                }
+            ]
+        },
+        sorts=[{'property': 'Date', 'direction': 'ascending'}]
     )
-    return [row for row in rows if title in row.title]
+    rows = []
+
+    for item in items['results']:
+        item_titles = item['properties']['Name']['title']
+        if not item_titles:
+            continue
+        item_title = item_titles[0]['plain_text']
+        if title in item_title:
+            rows.append(Row(item))
+    return rows
 
 
 def month_total_work_hours(month_start, month_end):
-    # total_h = get_extra_hours(month_start, month_end)
     total_h = 0
     for row in filter_rows(title="Nicolas", start_date=month_start, end_date=month_end):
-        work_h = row.get_property("duration")
+        work_h = row.duration
         if not work_h:
             continue
         total_h += work_h
-        logging.info(f"{work_h}h of work were reported on {row.date.start}")
+        logging.info(f"{work_h}h of work were reported on {row.start_date}")
     return total_h
 
 
-def create_or_update_row(title, date, **properties):
-    for row in cal.collection.get_rows(search=title):
-        if row.date.start == date:
-            # already exists
-            for prop, val in properties.items():
-                row.set_property(prop, val)
-            return
-    cal.collection.add_row(title=title, date=date, **properties)
+def create_or_update_row(title, date, total_h):
+    rows = filter_rows(title, start_date=date, end_date=date)
+    if rows:
+        # already exists
+        notion.update_page(page_id=rows[0].data['id'], duration=total_h)
+    else:
+        notion.create_page(title=title, date=date, duration=total_h)
 
 
 def report_total_hours_on_month(month_end, total_h, dry_run):
     prefix = "[DRY RUN] " if dry_run else ""
     logging.info(f"{prefix}Reporting {total_h}h to the CESU row of {month_end}")
     if not dry_run:
-        create_or_update_row("🔔 CESU", month_end, duration=total_h)
+        create_or_update_row("🔔 CESU", month_end, total_h)
 
 
 def find_next_month(current_month, offset):
@@ -117,9 +180,7 @@ def find_next_month(current_month, offset):
 
 
 def get_max_monthly_hours_override(year, month):
-    override_filepath = os.path.join(
-        os.path.expanduser("~"), "notion", "overrides.json"
-    )
+    override_filepath = os.path.join(os.path.expanduser("~"), "notion", "overrides.json")
     try:
         with open(override_filepath) as override_f:
             override_data = json.load(override_f)
@@ -139,23 +200,20 @@ def main():
     total_h = month_total_work_hours(month_start, month_end)
     already_reported_work_h = get_month_total_hours(month_start, month_end)
     logging.info(
-        f"Total work hours for {calendar.month_name[month_start.month]}: {total_h}, already reported {already_reported_work_h}h"
+        f"Total work hours for {calendar.month_name[month_start.month]}: {total_h}, "
+        f"already reported {already_reported_work_h}h"
     )
 
     max_monthly_hours_override = get_max_monthly_hours_override(args.year, args.month)
     if max_monthly_hours_override:
-        logging.info(
-            f"Override set for {args.year}-{args.month} to {max_monthly_hours_override}h"
-        )
+        logging.info(f"Override set for {args.year}-{args.month} to {max_monthly_hours_override}h")
         max_hours_for_current_month = max_monthly_hours_override
     else:
         max_hours_for_current_month = args.max_monthly_hours
 
     if total_h + already_reported_work_h > max_hours_for_current_month:
         if already_reported_work_h < args.max_monthly_hours:
-            report_total_hours_on_month(
-                month_end, max_hours_for_current_month, args.dry_run
-            )
+            report_total_hours_on_month(month_end, max_hours_for_current_month, args.dry_run)
             total_h = total_h + already_reported_work_h - max_hours_for_current_month
 
         i = 1
@@ -164,22 +222,17 @@ def main():
             next_year = args.year if (args.month + i) <= 12 else args.year + 1
             next_month_end_day = month_end_day(next_year, next_month)
             already_reported_hours_for_next_month = get_month_total_hours(
-                next_month_end_day, next_month_end_day
-            )
+                next_month_end_day, next_month_end_day)
             total_h += already_reported_hours_for_next_month
             if total_h > args.max_monthly_hours:
                 total_h -= args.max_monthly_hours
-                report_total_hours_on_month(
-                    next_month_end_day, args.max_monthly_hours, args.dry_run
-                )
+                report_total_hours_on_month(next_month_end_day, args.max_monthly_hours, args.dry_run)
             else:
                 report_total_hours_on_month(next_month_end_day, total_h, args.dry_run)
                 total_h = 0
             i += 1
     else:
-        report_total_hours_on_month(
-            month_end, total_h + already_reported_work_h, args.dry_run
-        )
+        report_total_hours_on_month(month_end, total_h + already_reported_work_h, args.dry_run)
 
 
 if __name__ == "__main__":
