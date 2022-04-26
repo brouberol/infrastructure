@@ -58,3 +58,17 @@ resource "aws_s3_bucket" "balthazar-backups" {
     }
   }
 }
+
+resource "aws_s3_bucket" "github-brouberol-coverage" {
+  bucket        = module.global_vars.github_coverage_bucket_name
+  provider      = aws.euwest
+  acl           = "public-read"
+  force_destroy = false
+  versioning {
+    enabled    = false
+    mfa_delete = false
+  }
+  website {
+    index_document = "index.html"
+  }
+}
