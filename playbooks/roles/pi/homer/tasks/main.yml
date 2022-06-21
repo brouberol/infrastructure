@@ -2,15 +2,15 @@
   file:
     path: "{{ homer_home }}"
     state: directory
-    owner: "{{ user }}"
-    group: "{{ group }}"
+    owner: 911
+    group: 911
 
 - name: Render and copy the homer configuration file
   template:
     src: config.yml.j2
     dest: "{{ homer_home }}/config.yml"
-    owner: "{{ user }}"
-    group: "{{ group }}"
+    owner: 911
+    group: 911
 
 - name: Run the homer docker container
   include_role:
