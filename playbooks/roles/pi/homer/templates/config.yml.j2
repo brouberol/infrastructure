@@ -43,6 +43,14 @@ services:
         type: Sonarr
         apikey: "{{ sonarr_api_key }}"
         target: "_blank"
+      - name: "Radarr"
+        icon: "fas fa-video"
+        subtitle: "Automatic movie downloader"
+        url: "http://{{ ansible_default_ipv4['address'] }}:{{ radarr_port }}"
+        tag: "pi"
+        type: Radarr
+        apikey: "{{ radarr_api_key }}"
+        target: "_blank"
       - name: "Jackett"
         icon: "fas fa-hat-cowboy"
         subtitle: "Torrent tracker manager"

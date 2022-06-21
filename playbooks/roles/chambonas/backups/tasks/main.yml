@@ -5,14 +5,15 @@
     owner: "{{ user }}"
     group: "{{ group }}"
   with_items:
-    - wallabag
-    - isso
-    - calibre
-    - grand-cedre
-    - radicale
-    - paperless
-    - sophro
-    - sonarr
-    - jackett
     - bazarr
+    - calibre
     - fathom
+    - grand-cedre
+    - isso
+    - jackett
+    - paperless
+    - radarr
+    - radicale
+    - sonarr
+    - sophro
+    - wallabag

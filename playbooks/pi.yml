@@ -22,5 +22,6 @@
   - { role: monitoring, tags: ['monitoring'] }
   - { role: homer, tags: ['homer'] }
   - { role: sonarr, tags: ['sonarr'] }
+  - { role: radarr, tags: ['radarr'] }
   - { role: jackett, tags: ['jackett'] }
   - { role: bazarr, tags: ['bazarr'] }
