@@ -58,3 +58,6 @@ bazarr_port: 6767
 
 # cloudflared
 cloudflared_port: 5053
+
+# homer
+homer_version: 22.02.2
