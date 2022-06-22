@@ -22,6 +22,7 @@
       - "{{ radarr_home }}:/config"
       - "{{ radarr_films_dir }}:/tv"
       - "{{ transmission_download_dir }}:/downloads"
+    container_args: "--cpus 1 --memory 150m" # 150 MB
 
 - name: "Backup the radarr database"
   cron:

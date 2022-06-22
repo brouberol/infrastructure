@@ -11,3 +11,6 @@
     line: "UUID=3bcb0db3-8e65-4790-81c3-23547c8157c1 /mnt/data ext4 defaults,noatime,uid={{ user_uid }} 0 2"
     regexp: "/mnt/data"
     state: present
+
+- name: "Enable memory limits in cgroups in the kernel"
+  shell: "grep 'cgroup_enable=memory cgroup_memory=1 swapaccount=1' /boot/cmdline.txt || echo 'cgroup_enable=memory cgroup_memory=1 swapaccount=1' >> /boot/cmdline.txt"
