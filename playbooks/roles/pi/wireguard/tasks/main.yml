@@ -28,10 +28,19 @@
     name: wireguard
     state: present
 
-- name: Configure the wireguard interface
+- name: Configure the wg0 wireguard interface
   template:
     src: wg0.conf.j2
     dest: /etc/wireguard/wg0.conf
     mode: '0600'
     owner: root
     group: root
+
+- name: Configure the wg1 wireguard interface
+  template:
+    src: wg1.conf.j2
+    dest: /etc/wireguard/wg1.conf
+    mode: '0600'
+    owner: root
+    group: root
+  notify: "restart wg-quick@w1"

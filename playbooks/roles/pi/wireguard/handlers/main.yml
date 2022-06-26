@@ -1,0 +1,6 @@
+- name: "restart wg-quick@w1"
+  service:
+    name: wg-quick@wg1.service
+    state: restarted
+    enabled: yes
+  listen: "restart wg-quick@w1"
