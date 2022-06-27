@@ -23,3 +23,18 @@
       - "{{ ansible_default_ipv4.address }}:80:8080/tcp"
     container_volumes:
       - "{{ homer_home }}:/www/assets"
+
+- name: "Clone the custom homer theme repo"
+  git:
+    repo: 'https://github.com/walkxcode/homer-theme.git'
+    dest: "{{ user_home }}/homer-theme"
+
+- name: "Copy theme assets into the homer assets volume"
+  shell: |
+    cp -r \
+      {{ user_home }}/homer-theme/assets/custom.css \
+      {{ user_home }}/homer-theme/assets/fonts \
+      {{ user_home }}/homer-theme/assets/icons \
+      {{ user_home }}/homer-theme/assets/wallpaper* \
+      {{ homer_home }} && \
+    chown -R 911:911 {{ homer_home }}
