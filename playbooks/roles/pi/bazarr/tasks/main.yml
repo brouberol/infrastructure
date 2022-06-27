@@ -20,7 +20,8 @@
       TZ: "Europe/Paris"
     container_volumes:
       - "{{ bazarr_home }}:/config"
-      - "{{ sonarr_series_dir }}:/tv"
+      - "{{ sonarr_series_dir }}:/tv/series"
+      - "{{ radarr_films_dir }}:/tv/films"
       - "{{ transmission_download_dir }}:/downloads"
 
 - name: "Backup the bazarr database"
