@@ -1,4 +1,4 @@
-- name: "Create the bazarr home config"
+- name: "Create the bazarr home directory"
   file:
     path: "{{ bazarr_home }}"
     state: directory

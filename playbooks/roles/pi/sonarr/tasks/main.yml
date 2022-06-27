@@ -1,4 +1,4 @@
-- name: "Create the sonarr home config"
+- name: "Create the sonarr home directory"
   file:
     path: "{{ sonarr_home }}"
     state: directory

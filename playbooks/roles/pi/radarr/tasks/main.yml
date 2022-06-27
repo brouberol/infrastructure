@@ -1,4 +1,4 @@
-- name: "Create the radarr home config"
+- name: "Create the radarr home directory"
   file:
     path: "{{ radarr_home }}"
     state: directory
