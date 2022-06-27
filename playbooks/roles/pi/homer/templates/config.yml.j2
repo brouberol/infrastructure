@@ -97,6 +97,11 @@ services:
         icon: "fas fa-stop-circle"
         url: "http://pi.lan:{{ pihole_admin_port }}/admin"
         tag: pi
+      - name: "Network map"
+        target: "_blank"
+        icon: "fas fa-map"
+        url: "http://pi.lan/assets/tannerie-net.svg"
+        subtitle: "How things are wired at home"
   - name: "External"
     icon: "fas fa-cloud"
     items:
