@@ -23,6 +23,15 @@
       - "{{ sonarr_series_dir }}:/tv"
       - "{{ transmission_download_dir }}:/downloads"
 
+- name: Make sure sonarr gets started after the NAS volumes are mounted
+  lineinfile:
+    path: "/etc/systemd/system/sonarr_container.service"
+    regex: "^{{ item }}=docker.service$"
+    line: "{{ item }}=docker.service mnt-nas-series.mount mnt-nas-transmission.mount"
+  with_items:
+  - "After"
+  - "Requires"
+
 - name: "Backup the sonarr database"
   cron:
     name: "Backup the sonarr database"

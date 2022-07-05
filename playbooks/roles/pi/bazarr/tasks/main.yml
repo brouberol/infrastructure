@@ -24,6 +24,15 @@
       - "{{ radarr_films_dir }}:/tv/films"
       - "{{ transmission_download_dir }}:/downloads"
 
+- name: Make sure bazarr gets started after the NAS volumes are mounted
+  lineinfile:
+    path: "/etc/systemd/system/bazarr_container.service"
+    regex: "^{{ item }}=docker.service$"
+    line: "{{ item }}=docker.service mnt-nas-series.mount mnt-nas-films.mount mnt-nas-transmission.mount"
+  with_items:
+  - "After"
+  - "Requires"
+
 - name: "Backup the bazarr database"
   cron:
     name: "Backup the bazarr database"
