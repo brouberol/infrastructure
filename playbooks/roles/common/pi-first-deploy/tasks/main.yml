@@ -40,7 +40,7 @@
   notify:
     - restart ssh
 
-- name: "Remove any ssh authorized_keys"
+- name: "Remove any ssh authorized_keys for the pi user"
   file:
     path: /home/pi/.ssh/authorized_keys
     state: absent
@@ -50,3 +50,6 @@
     name: ssh
     enabled: yes
     masked: no
+
+- name: "Enable memory limits in cgroups in the kernel"
+  shell: "grep 'cgroup_enable=memory cgroup_memory=1 swapaccount=1' /boot/cmdline.txt || echo 'cgroup_enable=memory cgroup_memory=1 swapaccount=1' >> /boot/cmdline.txt"
