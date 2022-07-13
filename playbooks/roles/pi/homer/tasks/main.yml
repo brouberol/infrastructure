@@ -23,6 +23,7 @@
       - "{{ ansible_default_ipv4.address }}:80:8080/tcp"
     container_volumes:
       - "{{ homer_home }}:/www/assets"
+    container_args: "--log-driver none"
 
 - name: "Clone the custom homer theme repo"
   git:
