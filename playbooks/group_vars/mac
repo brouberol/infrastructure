@@ -12,5 +12,12 @@ homebrew_installed_packages:
 - git
 - git-delta
 - jq
+- python3
+- poetry
 - zsh-autosuggestions
 - zsh-syntax-highlighting
+
+pip_installed_packages:
+- black
+- mypy
+- wheel
