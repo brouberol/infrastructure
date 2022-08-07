@@ -1,0 +1,14 @@
+homebrew_installed_packages:
+- bat
+- direnv
+- exa
+- fzf
+- gh
+- git
+- git-crypt
+- git-delta
+- jq
+- poetry
+- tfenv
+- zsh-autosuggestions
+- zsh-syntax-highlighting

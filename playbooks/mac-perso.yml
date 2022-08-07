@@ -1,0 +1,6 @@
+---
+- hosts: mac-perso
+  user: "{{ user }}"
+
+  roles:
+  - { role: geerlingguy.mac.homebrew, tags: ['brew'] }
