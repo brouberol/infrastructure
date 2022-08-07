@@ -13,4 +13,5 @@
 - name: "Run the install script"
   shell: ./install.sh
   args:
+    # this install script is idempotent
     chdir: "{{ code_dir }}/dotfiles"
