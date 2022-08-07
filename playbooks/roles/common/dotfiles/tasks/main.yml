@@ -1,0 +1,16 @@
+- name: "Create the code directory"
+  file:
+    name: "{{ code_dir }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Clone the brouberol/dotfiles repo"
+  git:
+    repo: git@github.com:brouberol/dotfiles.git
+    dest: "{{ code_dir }}/dotfiles"
+
+- name: "Run the install script"
+  shell: ./install.sh
+  args:
+    chdir: "{{ code_dir }}/dotfiles"

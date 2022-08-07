@@ -1,3 +1,8 @@
+user: br
+group: staff
+user_home: "/Users/{{ user}}"
+code_dir: "{{ user_home }}/code"
+
 homebrew_installed_packages:
 - bat
 - direnv

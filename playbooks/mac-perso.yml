@@ -10,3 +10,4 @@
 
   roles:
   - { role: geerlingguy.mac.homebrew, tags: ['brew'] }
+  - { role: dotfiles, tags: ['dotfiles'] }
