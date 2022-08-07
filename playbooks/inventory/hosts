@@ -4,4 +4,8 @@ sophro
 chambonas
 
 [mac]
-mac-perso ansible_remote_tmp=/private/tmp/ ansible_connection=local
+mac-perso
+
+[mac:vars]
+ansible_remote_tmp=/private/tmp/
+ansible_connection=local
