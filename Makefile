@@ -13,8 +13,9 @@ endif
 VAULT_PASSWORD_FILEPATH =
 PLAYBOOKS := playbooks
 ANSIBLE_COMMON_ROLES := $$HOME/.ansible/roles:roles/common
-ANSIBLE_OPTS := -v
+ANSIBLE_OPTS := -v --inventory inventory/hosts
 ANSIBLE_chambonas_OPTS = --ask-become-pass
+ANSIBLE_mac-perso_OPTS = --ask-become-pass
 ANSIBLE_PLAYBOOK_CMD=poetry run ansible-playbook
 
 ifneq ("$(wildcard playbooks/vault-password.txt)","")
