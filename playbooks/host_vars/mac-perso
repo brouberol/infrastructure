@@ -1,0 +1,4 @@
+host_homebrew_installed_packages:
+- git-crypt
+- poetry
+- tfenv

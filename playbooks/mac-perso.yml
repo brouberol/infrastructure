@@ -2,5 +2,11 @@
 - hosts: mac-perso
   user: "{{ user }}"
 
+  pre_tasks:
+  - name: Combine group and host brew installed packages
+    set_fact:
+      homebrew_installed_packages: "{{ homebrew_installed_packages + host_homebrew_installed_packages }}"
+    when: host_homebrew_installed_packages is defined
+
   roles:
   - { role: geerlingguy.mac.homebrew, tags: ['brew'] }
