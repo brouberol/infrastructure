@@ -14,7 +14,7 @@
 
 - name: "Change owner of the repo"
   command: "chown -R {{ git_user }}:{{ git_group }} {{ item }}"
-  with_items:
+  loop:
   - "{{ blog_repo }}"
   - "{{ git_home }}/.blog.venv"
 

@@ -4,7 +4,7 @@
   iptables:
     chain: "{{ item }}"
     policy: ACCEPT
-  with_items:
+  loop:
     - INPUT
     - OUTPUT
 
@@ -45,7 +45,7 @@
     source: 0.0.0.0/0
     jump: ACCEPT
     comment: ansible managed
-  with_items:
+  loop:
     - 22
     - 80
     - 443

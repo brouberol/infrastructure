@@ -32,7 +32,7 @@
     dest: "/etc/radicale/{{ item }}.conf"
     owner: "{{ user }}"
     group: "{{ group }}"
-  with_items:
+  loop:
     - permissions
 
 - name: "Configure radicale admin account"

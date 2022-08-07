@@ -4,7 +4,7 @@
     state: directory
   become: yes
   become_user: "{{ user }}"
-  with_items:
+  loop:
     - sophro
 
 - name: "Specificy ssh port for synology NAS"

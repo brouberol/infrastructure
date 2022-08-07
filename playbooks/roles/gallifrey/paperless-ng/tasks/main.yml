@@ -4,7 +4,7 @@
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
-  with_items:
+  loop:
   - data
   - media
   - export

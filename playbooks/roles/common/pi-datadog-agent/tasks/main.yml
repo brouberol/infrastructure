@@ -36,7 +36,7 @@
     state: directory
     owner: dd-agent
     group: dd-agent
-  with_items:
+  loop:
     - /etc/datadog-agent
     - /etc/datadog-agent/conf.d
     - /etc/datadog-agent/checks.d

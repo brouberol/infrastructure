@@ -21,7 +21,7 @@
   file:
     path: "/etc/nginx/sites-{{ item }}/default"
     state: absent
-  with_items:
+  loop:
     - available
     - enabled
 

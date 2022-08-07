@@ -19,7 +19,7 @@
     owner: root
     group: root
     mode: 0644
-  with_items:
+  loop:
     - php.ini
     - php-fpm.conf
   notify: start php-fpm
@@ -104,7 +104,7 @@
     owner: root
     group: root
     mode: 0644
-  with_items:
+  loop:
     - restrictions.conf
     - wordpress.conf
   notify: reload nginx

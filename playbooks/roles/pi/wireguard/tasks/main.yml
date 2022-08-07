@@ -4,7 +4,7 @@
   apt_key:
     keyserver: hkp://p80.pool.sks-keyservers.net:80
     id: "{{ item }}"
-  with_items:
+  loop:
     - 04EE7237B7D453EC
     - 648ACFD622F3D138
 

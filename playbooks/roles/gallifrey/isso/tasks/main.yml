@@ -4,7 +4,7 @@
     state: directory
     owner: "{{ user }}"
     group: "{{ group }}"
-  with_items:
+  loop:
   - "{{ isso_home }}"
   - "{{ isso_home }}/config"
   - "{{ isso_home }}/db"

@@ -2,7 +2,7 @@
   file:
     path: "{{ item }}"
     state: directory
-  with_items:
+  loop:
     - "{{ calibre_home }}"
     - "{{ calibre_home }}/config"
     - "{{ calibre_home }}/books"

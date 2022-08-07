@@ -29,7 +29,7 @@
     path: "/etc/systemd/system/radarr_container.service"
     regex: "^{{ item }}=docker.service$"
     line: "{{ item }}=docker.service mnt-nas-films.mount mnt-nas-transmission.mount"
-  with_items:
+  loop:
   - "After"
   - "Requires"
 

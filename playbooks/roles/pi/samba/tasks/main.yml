@@ -13,7 +13,7 @@
     state: directory
     owner: "debian-transmission"
     group: "debian-transmission"
-  with_items:
+  loop:
   - "{{ nas_mount_point }}"
   - "{{ download_directory }}"
   - "{{ sonarr_series_dir }}"
@@ -27,7 +27,7 @@
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: "0600"
-  with_items:
+  loop:
   - transmission
   - sonarr
   - radarr
