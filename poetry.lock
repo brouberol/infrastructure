@@ -1,17 +1,17 @@
 [[package]]
 name = "ansible"
-version = "5.3.0"
+version = "6.2.0"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
 python-versions = ">=3.8"
 
 [package.dependencies]
-ansible-core = ">=2.12.2,<2.13.0"
+ansible-core = ">=2.13.2,<2.14.0"
 
 [[package]]
 name = "ansible-core"
-version = "2.12.2"
+version = "2.13.2"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
@@ -19,10 +19,10 @@ python-versions = ">=3.8"
 
 [package.dependencies]
 cryptography = "*"
-jinja2 = "*"
+jinja2 = ">=3.0.0"
 packaging = "*"
-PyYAML = "*"
-resolvelib = ">=0.5.3,<0.6.0"
+PyYAML = ">=5.1"
+resolvelib = ">=0.5.3,<0.9.0"
 
 [[package]]
 name = "certifi"
@@ -246,14 +246,16 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "c63ddebfbcd3d0da88b928d239a811a29d0e4d01f80bdea193beeef87f8ccc03"
+content-hash = "685128994811b9240dc79518a21d2ede56f73a0d46c6d7b78d0dc648237b12b6"
 
 [metadata.files]
 ansible = [
-    {file = "ansible-5.3.0.tar.gz", hash = "sha256:50020dab43f6c59debdeb57f45c90ec6db78d4fa574edc6d75bc52e05cbd3639"},
+    {file = "ansible-6.2.0-py3-none-any.whl", hash = "sha256:20625109c4e9c79e9e23bff6d1e32a780d13935007369111261a7ddfd3cf75b1"},
+    {file = "ansible-6.2.0.tar.gz", hash = "sha256:bdaf2b2fd926ff189fbde2fefe7234733f32c36fc413033fa5d93945fbdc06a6"},
 ]
 ansible-core = [
-    {file = "ansible-core-2.12.2.tar.gz", hash = "sha256:bc79e1723a5a92cbc105d581b25b66840d15bb5f4c98925c936ef5a71f92e7c3"},
+    {file = "ansible-core-2.13.2.tar.gz", hash = "sha256:b779d0e55a97717c0ee5e86b486aa67c07c2809ef477be2ac84ad091a8dd2ddb"},
+    {file = "ansible_core-2.13.2-py3-none-any.whl", hash = "sha256:331b869cf3bf9bab875f62b9a8586257bbcfb95b1db6c8d43424d70804996143"},
 ]
 certifi = [
     {file = "certifi-2021.10.8-py2.py3-none-any.whl", hash = "sha256:d62a0163eb4c2344ac042ab2bdf75399a71a2d8c7d47eac2e2ee91b9d6339569"},
