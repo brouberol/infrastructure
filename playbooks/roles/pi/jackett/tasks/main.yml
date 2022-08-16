@@ -22,6 +22,9 @@
     container_volumes:
       - "{{ jackett_home }}:/config"
       - "{{ transmission_download_dir }}:/downloads"
+    service_systemd_unit_options:
+      After: "docker.service pihole_container.service"
+      Requires: "docker.service pihole_container.service"
 
 - name: "Backup the jackett config"
   cron:

@@ -23,8 +23,8 @@
       - "{{ sonarr_series_dir }}:/tv"
       - "{{ transmission_download_dir }}:/downloads"
     service_systemd_unit_options:
-      After: "docker.service mnt-nas-series.mount mnt-nas-transmission.mount"
-      Requires: "docker.service mnt-nas-series.mount mnt-nas-transmission.mount"
+      After: "docker.service mnt-nas-series.mount mnt-nas-transmission.mount jackett_container.service"
+      Requires: "docker.service mnt-nas-series.mount mnt-nas-transmission.mount jackett_container.service"
 
 - name: "Backup the sonarr database"
   cron:
