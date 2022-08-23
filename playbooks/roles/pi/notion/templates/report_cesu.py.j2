@@ -194,7 +194,7 @@ def get_max_monthly_hours_override(year, month):
     except FileNotFoundError:
         return None
     else:
-        if override_data.get(str(year)) and override_data[str(year)].get(str(month)):
+        if override_data.get(str(year)) and override_data[str(year)].get(str(month)) is not None:
             return override_data[str(year)][str(month)]
         else:
             return None
@@ -212,7 +212,7 @@ def main():
     )
 
     max_monthly_hours_override = get_max_monthly_hours_override(args.year, args.month)
-    if max_monthly_hours_override:
+    if max_monthly_hours_override is not None:
         logging.info(f"Override set for {args.year}-{args.month} to {max_monthly_hours_override}h")
         max_hours_for_current_month = max_monthly_hours_override
     else:
