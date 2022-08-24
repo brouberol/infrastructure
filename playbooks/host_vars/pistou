@@ -1,0 +1,6 @@
+hostname: pistou
+
+# radarr
+radarr_home: "{{ user_home }}/radarr"
+radarr_port: 7878
+radarr_films_dir: "{{ nas_mount_point }}/films"

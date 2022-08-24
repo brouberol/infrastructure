@@ -1,0 +1,7 @@
+---
+- hosts: pistou
+  user: pi
+  become: yes
+  become_method: sudo
+  roles:
+  - pi-first-deploy

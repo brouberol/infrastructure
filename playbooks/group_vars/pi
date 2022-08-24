@@ -1,0 +1,6 @@
+nas_mount_point: /mnt/nas
+download_directory: "{{ nas_mount_point }}/transmission"
+transmission_uid: 109
+transmission_gid: 115
+transmission_download_dir: "{{ download_directory }}"
+pistou_ip: 192.168.5.144

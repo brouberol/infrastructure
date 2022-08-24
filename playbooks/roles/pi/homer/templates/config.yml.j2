@@ -79,8 +79,8 @@ services:
       - name: "Radarr"
         icon: "fas fa-video"
         subtitle: "Automatic movie downloader"
-        url: "http://{{ ansible_default_ipv4['address'] }}:{{ radarr_port }}"
-        tag: "pi"
+        url: "http://{{ pistou_ip }}:{{ radarr_port }}"
+        tag: "pistou"
         type: Radarr
         apikey: "{{ radarr_api_key }}"
         target: "_blank"
