@@ -30,8 +30,8 @@ playbook-%-bootstrap:  ## Bootstrap an instance. Replace '%' by the instance pla
 		ANSIBLE_ROLES_PATH=$(ANSIBLE_COMMON_ROLES):roles/$* \
 		ANSIBLE_CONFIG=./ansible-bootstrap.cfg \
 		$(ANSIBLE_PLAYBOOK_CMD) \
-		$*-bootstrap.yml
-		$(ANSIBLE_OPTS) \
+		$*-bootstrap.yml \
+		$(ANSIBLE_OPTS)
 
 
 playbook-%:  ## Configure an instance. Replace '%' by the instance playbook you want to run
