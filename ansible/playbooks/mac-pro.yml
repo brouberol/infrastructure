@@ -1,0 +1,26 @@
+---
+- hosts: mac-pro
+  user: "{{ user }}"
+
+  pre_tasks:
+  - name: Combine group and host brew installed packages
+    set_fact:
+      homebrew_installed_packages: "{{ homebrew_installed_packages + host_homebrew_installed_packages }}"
+    when: host_homebrew_installed_packages is defined
+
+  - name: Combine group and host pip installed packages
+    set_fact:
+      pip_installed_packages: "{{ pip_installed_packages + host_pip_installed_packages }}"
+    when: host_pip_installed_packages is defined
+
+  roles:
+  - { role: geerlingguy.mac.homebrew, tags: ['brew'] }
+  - { role: dotfiles, tags: ['dotfiles'] }
+
+  tasks:
+  - name: "Install python packages via global pip"
+    pip:
+      name: "{{ item }}"
+      state: present
+      executable: /usr/bin/pip3
+    loop: "{{ pip_installed_packages }}"
