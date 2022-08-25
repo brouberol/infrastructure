@@ -17,7 +17,7 @@
   - "{{ nas_mount_point }}"
   - "{{ download_directory }}"
   - "{{ radarr_films_dir }}"
-
+  - "{{ sonarr_series_dir }}"
 
 - name: Render the samba credentials configuration file
   template:
@@ -29,6 +29,7 @@
   loop:
   - transmission
   - radarr
+  - sonarr
 
 - name: Auto mount the downloads samba volume
   lineinfile:
@@ -43,3 +44,10 @@
     state: present
     regexp: '^//{{ syno_internal_ip }}/video/Films'
     line: "//{{ syno_internal_ip }}/video/Films\t{{ radarr_films_dir }}\tcifs\tuid={{ transmission_uid }},gid={{ transmission_gid }},credentials={{ user_home }}/.smb-radarr,iocharset=utf8,vers=3.0,noperm 0 0"
+
+- name: Auto mount the series samba volume
+  lineinfile:
+    path: /etc/fstab
+    state: present
+    regexp: '^//{{ syno_internal_ip }}/video/Series'
+    line: "//{{ syno_internal_ip }}/video/Series\t{{ sonarr_series_dir }}\tcifs\tuid={{ transmission_uid }},gid={{ transmission_gid }},credentials={{ user_home }}/.smb-sonarr,iocharset=utf8,vers=3.0,noperm 0 0"

@@ -32,24 +32,6 @@ homer_home: "{{ user_home }}/homer"
 # pihole
 pihole_admin_port: 8080
 
-# sonarr
-sonarr_home: "{{ user_home }}/sonarr"
-sonarr_port: 8989
-sonarr_series_dir: "{{ nas_mount_point }}/series"
-
-# radarr
-radarr_home: "{{ user_home }}/radarr"
-radarr_port: 7878
-radarr_films_dir: "{{ nas_mount_point }}/films"
-
-# jackett
-jackett_home: "{{ user_home }}/jackett"
-jackett_port: 9117
-
-# bazarr
-bazarr_home: "{{ user_home }}/bazarr"
-bazarr_port: 6767
-
 # cloudflared
 cloudflared_port: 5053
 

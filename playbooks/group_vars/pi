@@ -4,3 +4,8 @@ transmission_uid: 109
 transmission_gid: 115
 transmission_download_dir: "{{ download_directory }}"
 pistou_ip: 192.168.5.144
+pi_ip: 192.168.100.16
+radarr_port: 7878
+sonarr_port: 8989
+bazarr_port: 6767
+jackett_port: 9117

@@ -5,12 +5,15 @@
   become_method: sudo
 
   roles:
-  # - { role: pi-setup, tags: ['setup'] }
-  # - { role: layereight.wifi, tags: ['wifi'] }
-  # - { role: inputrc, tags: ['setup', 'inputrc'] }
-  # - { role: docker, tags: ['docker'] }
+  - { role: pi-setup, tags: ['setup'] }
+  - { role: layereight.wifi, tags: ['wifi'] }
+  - { role: inputrc, tags: ['setup', 'inputrc'] }
+  - { role: docker, tags: ['docker'] }
   - { role: samba, tags: ['samba'] }
-  - { role: radarr, tags: ['radarr'] }
+  - { role: radarr, tags: ['radarr', 'rr'] }
+  - { role: sonarr, tags: ['sonarr', 'rr'] }
+  - { role: jackett, tags: ['jackett', 'rr'] }
+  - { role: bazarr, tags: ['bazarr', 'rr'] }
 
   handlers:
   - name: restart ssh

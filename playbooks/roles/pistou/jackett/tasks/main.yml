@@ -11,20 +11,19 @@
   vars:
     container_name: jackett
     container_image: lscr.io/linuxserver/jackett:latest
-    # container_docker_pull: yes
     container_ports:
       - "{{ ansible_default_ipv4.address }}:{{ jackett_port }}:{{ jackett_port }}/tcp"
     container_env:
       PUID: "{{ transmission_uid | quote }}"
       PGID: "{{ transmission_gid | quote }}"
       TZ: "Europe/Paris"
-    container_args: "--dns {{ ansible_default_ipv4.address }}" # use pi-hole to circumvent blocked domains
+    container_args: "--dns {{ pi_ip }} --cpus 1 --memory 150m" # use pi-hole to circumvent blocked domains
     container_volumes:
       - "{{ jackett_home }}:/config"
       - "{{ transmission_download_dir }}:/downloads"
     service_systemd_unit_options:
-      After: "docker.service pihole_container.service"
-      Requires: "docker.service pihole_container.service"
+      After: "docker.service mnt-nas-transmission.mount"
+      Requires: "docker.service mnt-nas-transmission.mount"
 
 - name: "Backup the jackett config"
   cron:

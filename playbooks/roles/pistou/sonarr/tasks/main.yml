@@ -11,7 +11,6 @@
   vars:
     container_name: sonarr
     container_image: lscr.io/linuxserver/sonarr:latest
-    container_docker_pull: no
     container_ports:
       - "{{ ansible_default_ipv4.address }}:{{ sonarr_port }}:{{ sonarr_port }}/tcp"
     container_env:
@@ -22,6 +21,7 @@
       - "{{ sonarr_home }}:/config"
       - "{{ sonarr_series_dir }}:/tv"
       - "{{ transmission_download_dir }}:/downloads"
+    container_args: "--cpus 1 --memory 150m"
     service_systemd_unit_options:
       After: "docker.service mnt-nas-series.mount mnt-nas-transmission.mount jackett_container.service"
       Requires: "docker.service mnt-nas-series.mount mnt-nas-transmission.mount jackett_container.service"
