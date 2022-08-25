@@ -5,6 +5,7 @@ code_dir: "{{ user_home }}/code"
 
 homebrew_installed_packages:
 - bat
+- coreutils
 - direnv
 - exa
 - fzf
