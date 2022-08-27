@@ -5,6 +5,7 @@ code_dir: "{{ user_home }}/code"
 
 homebrew_installed_packages:
 - bat
+- black
 - coreutils
 - direnv
 - exa
@@ -13,12 +14,10 @@ homebrew_installed_packages:
 - git
 - git-delta
 - jq
-- python3
+- mypy
 - poetry
+- python3
 - zsh-autosuggestions
 - zsh-syntax-highlighting
 
-pip_installed_packages:
-- black
-- mypy
-- wheel
+pip_installed_packages: []
