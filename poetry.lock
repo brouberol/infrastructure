@@ -1,17 +1,17 @@
 [[package]]
 name = "ansible"
-version = "5.3.0"
+version = "6.3.0"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
 python-versions = ">=3.8"
 
 [package.dependencies]
-ansible-core = ">=2.12.2,<2.13.0"
+ansible-core = ">=2.13.3,<2.14.0"
 
 [[package]]
 name = "ansible-core"
-version = "2.12.2"
+version = "2.13.3"
 description = "Radically simple IT automation"
 category = "main"
 optional = false
@@ -19,10 +19,10 @@ python-versions = ">=3.8"
 
 [package.dependencies]
 cryptography = "*"
-jinja2 = "*"
+jinja2 = ">=3.0.0"
 packaging = "*"
-PyYAML = "*"
-resolvelib = ">=0.5.3,<0.6.0"
+PyYAML = ">=5.1"
+resolvelib = ">=0.5.3,<0.9.0"
 
 [[package]]
 name = "certifi"
@@ -83,11 +83,11 @@ cffi = ">=1.12"
 
 [package.extras]
 docs = ["sphinx (>=1.6.5,!=1.8.0,!=3.1.0,!=3.1.1)", "sphinx-rtd-theme"]
-docstest = ["pyenchant (>=1.6.11)", "twine (>=1.12.0)", "sphinxcontrib-spelling (>=4.0.1)"]
+docstest = ["pyenchant (>=1.6.11)", "sphinxcontrib-spelling (>=4.0.1)", "twine (>=1.12.0)"]
 pep8test = ["black", "flake8", "flake8-import-order", "pep8-naming"]
 sdist = ["setuptools_rust (>=0.11.4)"]
 ssh = ["bcrypt (>=3.1.5)"]
-test = ["pytest (>=6.2.0)", "pytest-cov", "pytest-subtests", "pytest-xdist", "pretend", "iso8601", "pytz", "hypothesis (>=1.11.4,!=3.79.2)"]
+test = ["hypothesis (>=1.11.4,!=3.79.2)", "iso8601", "pretend", "pytest (>=6.2.0)", "pytest-cov", "pytest-subtests", "pytest-xdist", "pytz"]
 
 [[package]]
 name = "datadog"
@@ -240,20 +240,22 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
 
 [package.extras]
 brotli = ["brotlipy (>=0.6.0)"]
-secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "ipaddress"]
+secure = ["certifi", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "ipaddress", "pyOpenSSL (>=0.14)"]
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "c63ddebfbcd3d0da88b928d239a811a29d0e4d01f80bdea193beeef87f8ccc03"
+content-hash = "3a1647d8a49a9e32b034c482d3500006cc20fb04d9b64aa07e80b1a7feb572da"
 
 [metadata.files]
 ansible = [
-    {file = "ansible-5.3.0.tar.gz", hash = "sha256:50020dab43f6c59debdeb57f45c90ec6db78d4fa574edc6d75bc52e05cbd3639"},
+    {file = "ansible-6.3.0-py3-none-any.whl", hash = "sha256:74f5c3bd7441dcdb7cace8a3c2a44b0be7002be346bf8137e5c67fd8ba743fd3"},
+    {file = "ansible-6.3.0.tar.gz", hash = "sha256:d5fa9fc15a8d45c8d5247a9645b0b48f995d735b12c4da655666d48506273526"},
 ]
 ansible-core = [
-    {file = "ansible-core-2.12.2.tar.gz", hash = "sha256:bc79e1723a5a92cbc105d581b25b66840d15bb5f4c98925c936ef5a71f92e7c3"},
+    {file = "ansible-core-2.13.3.tar.gz", hash = "sha256:eec5042530ff1c0c8d13a36fa047c6dd9157efeefd464a856b4ce38be4cd1988"},
+    {file = "ansible_core-2.13.3-py3-none-any.whl", hash = "sha256:449dbcfbfe18e4f23dec0c29b9aa60d76d205657a8e136484f4edea49faf7614"},
 ]
 certifi = [
     {file = "certifi-2021.10.8-py2.py3-none-any.whl", hash = "sha256:d62a0163eb4c2344ac042ab2bdf75399a71a2d8c7d47eac2e2ee91b9d6339569"},
