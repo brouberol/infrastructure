@@ -20,7 +20,7 @@ ANSIBLE_mac-perso_OPTS = --ask-become-pass
 ANSIBLE_mac-pro_OPTS = --ask-become-pass
 ANSIBLE_PLAYBOOK_CMD=poetry run ansible-playbook
 
-ifneq ("$(wildcard playbooks/vault-password.txt)","")
+ifneq ("$(wildcard $(ANSIBLE_DIR)/vault-password.txt)","")
     VAULT_PASS_OPTS = --vault-pass-file vault-password.txt
 else
 	VAULT_PASS_OPTS =
