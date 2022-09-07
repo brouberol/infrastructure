@@ -17,6 +17,7 @@ homebrew_installed_packages:
 - mypy
 - poetry
 - python3
+- ripgrep
 - zsh-autosuggestions
 - zsh-syntax-highlighting
 
