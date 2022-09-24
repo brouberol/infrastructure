@@ -279,3 +279,53 @@ resource "datadog_monitor" "isp_router_is_down" {
   priority     = 2
   tags         = []
 }
+
+resource "datadog_monitor" "mysql_is_down" {
+  name    = "MySQL is down"
+  type    = "process alert"
+  message = "{{#is_alert}}@webhook-Discord-alert{{/is_alert}}\n{{#is_recovery}}@webhook-Discord-recovery{{/is_recovery}}\n{{#is_no_data}}@webhook-Discord-nodata{{/is_no_data}}\n{{#is_no_data_recovery}}@webhook-Discord-recovery{{/is_no_data_recovery}}"
+  query   = "processes('/usr/sbin/mysqld').over('host:gallifrey').rollup('count').last('5m') < 1"
+
+  monitor_thresholds {
+    critical = 1
+  }
+  notify_no_data      = true
+  require_full_window = false
+  no_data_timeframe   = 0
+  renotify_interval   = 360
+  renotify_statuses = [
+    "alert",
+    "no data",
+  ]
+
+  notify_audit = false
+  timeout_h    = 0
+  include_tags = true
+  priority     = 2
+  tags         = []
+}
+
+resource "datadog_monitor" "sophrologie_chalon_is_down" {
+  name    = "sophrologie-chalon.com is down"
+  type    = "synthetics alert"
+  message = "{{#is_alert}}@webhook-Discord-alert{{/is_alert}}\n{{#is_recovery}}@webhook-Discord-recovery{{/is_recovery}}\n{{#is_no_data}}@webhook-Discord-nodata{{/is_no_data}}\n{{#is_no_data_recovery}}@webhook-Discord-recovery{{/is_no_data_recovery}}"
+  query   = "no_query"
+
+  notify_no_data      = false
+  require_full_window = false
+  no_data_timeframe   = 0
+  renotify_interval   = 360
+
+
+  notify_audit = false
+  timeout_h    = 0
+  include_tags = true
+  priority     = 2
+  tags = [
+    "check_status:live",
+    "check_type:api",
+    "ci_execution_rule:skipped",
+    "probe_dc:aws:eu-west-3",
+    "site:sophrologie-chalon.com",
+  ]
+}
