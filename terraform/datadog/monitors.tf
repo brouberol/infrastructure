@@ -14,7 +14,7 @@ resource "datadog_monitor" "nginx_can_connect" {
   renotify_interval = 360
 
   notify_audit = false
-  timeout_h    = 60
+  timeout_h    = 0
   include_tags = true
 
   tags = ["role:web"]
@@ -35,7 +35,7 @@ resource "datadog_monitor" "http_can_connect" {
   renotify_interval = 360
 
   notify_audit = false
-  timeout_h    = 60
+  timeout_h    = 0
   include_tags = true
 
   tags = ["role:web"]
@@ -57,7 +57,7 @@ resource "datadog_monitor" "ssl_certificates_expiration" {
   renotify_interval = 360
 
   notify_audit = false
-  timeout_h    = 60
+  timeout_h    = 0
   include_tags = true
 
   tags = ["role:web"]
@@ -80,7 +80,7 @@ resource "datadog_monitor" "hosts_up" {
   renotify_interval = 360
 
   notify_audit = false
-  timeout_h    = 60
+  timeout_h    = 0
   include_tags = true
 
 }
@@ -101,15 +101,15 @@ resource "datadog_monitor" "hosts_disk_usage" {
   renotify_interval = 360
 
   notify_audit = false
-  timeout_h    = 60
+  timeout_h    = 0
   include_tags = true
 }
 
 resource "datadog_monitor" "backups" {
   name     = "Backup failed"
-  type     = "event alert"
+  type     = "event-v2 alert"
   message  = "{{#is_alert}}@webhook-Discord-alert{{/is_alert}}"
-  query    = "events('sources:apps priority:all status:error \"Backup\"').rollup('count').last('5m') > 0"
+  query    = "events(\"source:my_apps status:error Backup\").rollup(\"count\").last(\"5m\") > 0"
   priority = 3
 
   notify_no_data      = false
@@ -120,7 +120,7 @@ resource "datadog_monitor" "backups" {
   timeout_h    = 0
   include_tags = true
 
-  tags = ["role:backup"]
+  tags = ["task:backup"]
 }
 
 resource "datadog_monitor" "failed_backups_events" {
@@ -157,7 +157,7 @@ resource "datadog_monitor" "ovh_service_expiry" {
   renotify_interval = 360
 
   notify_audit = false
-  timeout_h    = 60
+  timeout_h    = 0
   include_tags = true
 
   tags = []
@@ -166,8 +166,8 @@ resource "datadog_monitor" "ovh_service_expiry" {
 resource "datadog_monitor" "new_blog_comment" {
   name     = "New comment received on blog"
   type     = "metric alert"
-  message  = "A new comment has been issued on the blog. Visit the Isso admin to review. {{#is_alert}}@webhook-Discord-warning{{/is_alert}}"
-  query    = "change(max(last_2h),last_4h):default_zero(avg:blog.comments{*}) >= 1"
+  message  = "A new comment has been issued on article {{article.name}} . Visit the Isso admin to review. {{#is_alert}}@webhook-Discord-warning{{/is_alert}}"
+  query    = "change(max(last_2h),last_4h):default_zero(sum:blog.comments{*} by {article}) >= 1"
   priority = 5
 
   monitor_thresholds {
@@ -179,7 +179,7 @@ resource "datadog_monitor" "new_blog_comment" {
 
   notify_audit = false
   timeout_h    = 0
-  include_tags = false
+  include_tags = true
 
   tags = []
 }
