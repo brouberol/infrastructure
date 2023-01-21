@@ -129,38 +129,36 @@ def filter_rows(title, start_date, end_date):
     items = notion.query_database(
         filters={
             "and": [
-                {
-                    "property": "Date",
-                    "date": {"on_or_after": str(start_date)}
-                },
-                {
-                    "property": "Date",
-                    "date": {"on_or_before": str(end_date)}
-                }
+                {"property": "Date", "date": {"on_or_after": str(start_date)}},
+                {"property": "Date", "date": {"on_or_before": str(end_date)}},
             ]
         },
-        sorts=[{'property': 'Date', 'direction': 'ascending'}]
+        sorts=[{"property": "Date", "direction": "ascending"}],
     )
     rows = []
 
-    for item in items['results']:
-        item_titles = item['properties']['Name']['title']
+    for item in items["results"]:
+        item_titles = item["properties"]["Name"]["title"]
         if not item_titles:
             continue
-        item_title = item_titles[0]['plain_text']
+        item_title = item_titles[0]["plain_text"]
         if title in item_title:
             rows.append(Row(item))
     return rows
 
 
 def month_total_work_hours(month_start, month_end):
-    total_h = 0
+    worked_h, extra_h = 0, 0
     for row in filter_rows(title="Nicolas", start_date=month_start, end_date=month_end):
         work_h = row.duration
         if not work_h:
             continue
-        total_h += work_h
+        worked_h += work_h
         logging.info(f"{work_h}h of work were reported on {row.start_date}")
+        extra_h += 1
+    logging.info(f"Adding {extra_h} extra hours to account for car rides")
+    total_h = worked_h + extra_h
+    logging.info(f"Total worked hours: {total_h}h")
     return total_h
 
 
