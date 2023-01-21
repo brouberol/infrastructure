@@ -24,7 +24,6 @@ database_id = "{{ notion_database_id }}"
 
 
 class NotionClient:
-
     def __init__(self, database_id, token):
         self.database_id = database_id
         self.token = token
@@ -35,9 +34,7 @@ class NotionClient:
         self.session.headers.update({"Notion-Version": "2022-02-22"})
         self.session.headers.update({"Content-Type": "application/json"})
         retry_strategy = Retry(
-            total=3,
-            status_forcelist=[429, 500, 502, 503, 504],
-            backoff_factor=2
+            total=3, status_forcelist=[429, 500, 502, 503, 504], backoff_factor=2
         )
         self.session.mount("https://", HTTPAdapter(max_retries=retry_strategy))
 
@@ -50,21 +47,23 @@ class NotionClient:
         return f"{self.base_url}/pages"
 
     def _request(self, method, url, data):
-        resp = getattr(self.session, method)(url, data=json.dumps(data), timeout=self.timeout)
+        resp = getattr(self.session, method)(
+            url, data=json.dumps(data), timeout=self.timeout
+        )
         resp.raise_for_status()
         return resp.json()
 
     def query_database(self, filters, sorts):
         return self._request(
-            "post",
-            f"{self.db_url}/query",
-            data={"filter": filters, "sorts": sorts})
+            "post", f"{self.db_url}/query", data={"filter": filters, "sorts": sorts}
+        )
 
     def update_page(self, page_id, duration):
         return self._request(
             "patch",
             f"{self.page_url}/{page_id}",
-            data={"properties": {"Duration": {"number": duration}}})
+            data={"properties": {"Duration": {"number": duration}}},
+        )
 
     def create_page(self, title, date, duration):
         data = {
@@ -73,7 +72,7 @@ class NotionClient:
                 "Name": {"title": [{"text": {"content": title}}]},
                 "Date": {"date": {"start": str(date)}},
                 "Duration": {"number": duration},
-            }
+            },
         }
         return self._request("post", self.page_url, data=data)
 
@@ -84,16 +83,15 @@ class Row:
 
     @property
     def duration(self):
-        duration_data = self.data['properties'].get("Duration")
+        duration_data = self.data["properties"].get("Duration")
         if not duration_data:
             return None
-        return duration_data['number']
+        return duration_data["number"]
 
     @property
     def start_date(self):
         return datetime.strptime(
-            self.data['properties']['Date']['date']['start'],
-            "%Y-%m-%d"
+            self.data["properties"]["Date"]["date"]["start"], "%Y-%m-%d"
         ).date()
 
 
@@ -105,7 +103,7 @@ def parse_args():
     parser.add_argument("--year", type=int)
     parser.add_argument("--month", type=int, choices=range(1, 13))
     parser.add_argument("--max-monthly-hours", type=int, default=MAX_MONTHLY_HOURS)
-    parser.add_argument("-n", "--dry-run", action='store_true', default=False)
+    parser.add_argument("-n", "--dry-run", action="store_true", default=False)
     return parser.parse_args()
 
 
@@ -166,7 +164,7 @@ def create_or_update_row(title, date, total_h):
     rows = filter_rows(title, start_date=date, end_date=date)
     if rows:
         # already exists
-        notion.update_page(page_id=rows[0].data['id'], duration=total_h)
+        notion.update_page(page_id=rows[0].data["id"], duration=total_h)
     else:
         notion.create_page(title=title, date=date, duration=total_h)
 
@@ -185,14 +183,19 @@ def find_next_month(current_month, offset):
 
 
 def get_max_monthly_hours_override(year, month):
-    override_filepath = os.path.join(os.path.expanduser("~"), "notion", "overrides.json")
+    override_filepath = os.path.join(
+        os.path.expanduser("~"), "notion", "overrides.json"
+    )
     try:
         with open(override_filepath) as override_f:
             override_data = json.load(override_f)
     except FileNotFoundError:
         return None
     else:
-        if override_data.get(str(year)) and override_data[str(year)].get(str(month)) is not None:
+        if (
+            override_data.get(str(year))
+            and override_data[str(year)].get(str(month)) is not None
+        ):
             return override_data[str(year)][str(month)]
         else:
             return None
@@ -211,14 +214,18 @@ def main():
 
     max_monthly_hours_override = get_max_monthly_hours_override(args.year, args.month)
     if max_monthly_hours_override is not None:
-        logging.info(f"Override set for {args.year}-{args.month} to {max_monthly_hours_override}h")
+        logging.info(
+            f"Override set for {args.year}-{args.month} to {max_monthly_hours_override}h"
+        )
         max_hours_for_current_month = max_monthly_hours_override
     else:
         max_hours_for_current_month = args.max_monthly_hours
 
     if total_h + already_reported_work_h > max_hours_for_current_month:
         if already_reported_work_h < args.max_monthly_hours:
-            report_total_hours_on_month(month_end, max_hours_for_current_month, args.dry_run)
+            report_total_hours_on_month(
+                month_end, max_hours_for_current_month, args.dry_run
+            )
             total_h = total_h + already_reported_work_h - max_hours_for_current_month
 
         i = 1
@@ -227,17 +234,22 @@ def main():
             next_year = args.year if (args.month + i) <= 12 else args.year + 1
             next_month_end_day = month_end_day(next_year, next_month)
             already_reported_hours_for_next_month = get_month_total_hours(
-                next_month_end_day, next_month_end_day)
+                next_month_end_day, next_month_end_day
+            )
             total_h += already_reported_hours_for_next_month
             if total_h > args.max_monthly_hours:
                 total_h -= args.max_monthly_hours
-                report_total_hours_on_month(next_month_end_day, args.max_monthly_hours, args.dry_run)
+                report_total_hours_on_month(
+                    next_month_end_day, args.max_monthly_hours, args.dry_run
+                )
             else:
                 report_total_hours_on_month(next_month_end_day, total_h, args.dry_run)
                 total_h = 0
             i += 1
     else:
-        report_total_hours_on_month(month_end, total_h + already_reported_work_h, args.dry_run)
+        report_total_hours_on_month(
+            month_end, total_h + already_reported_work_h, args.dry_run
+        )
 
 
 if __name__ == "__main__":
