@@ -40,3 +40,9 @@
     - /etc/datadog-agent
     - /etc/datadog-agent/conf.d
     - /etc/datadog-agent/checks.d
+    - /etc/systemd/system/datadog-agent.service.d/
+
+- name: "Create datadog systemd config override"
+  copy:
+    src: override.conf
+    dest: "/etc/systemd/system/datadog-agent.service.d/override.conf"
