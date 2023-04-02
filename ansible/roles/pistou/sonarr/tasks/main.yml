@@ -10,7 +10,7 @@
     name: mhutter.docker-systemd-service
   vars:
     container_name: sonarr
-    container_image: lscr.io/linuxserver/sonarr:latest
+    container_image: lscr.io/linuxserver/sonarr:arm32v7-develop
     container_ports:
       - "{{ ansible_default_ipv4.address }}:{{ sonarr_port }}:{{ sonarr_port }}/tcp"
     container_env:

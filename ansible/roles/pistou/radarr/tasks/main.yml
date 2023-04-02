@@ -10,7 +10,7 @@
     name: mhutter.docker-systemd-service
   vars:
     container_name: radarr
-    container_image: lscr.io/linuxserver/radarr:latest
+    container_image: lscr.io/linuxserver/radarr:arm32v7-develop
     container_ports:
       - "{{ ansible_default_ipv4.address }}:{{ radarr_port }}:{{ radarr_port }}/tcp"
     container_env:

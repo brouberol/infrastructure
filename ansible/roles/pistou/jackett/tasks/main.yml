@@ -10,7 +10,7 @@
     name: mhutter.docker-systemd-service
   vars:
     container_name: jackett
-    container_image: lscr.io/linuxserver/jackett:latest
+    container_image: lscr.io/linuxserver/jackett:arm32v7-latest
     container_ports:
       - "{{ ansible_default_ipv4.address }}:{{ jackett_port }}:{{ jackett_port }}/tcp"
     container_env:
