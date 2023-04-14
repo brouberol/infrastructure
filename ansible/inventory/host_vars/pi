@@ -36,4 +36,4 @@ pihole_admin_port: 8080
 cloudflared_port: 5053
 
 # homer
-homer_version: 22.02.2
+homer_version: v23.02.2
