@@ -1,0 +1,42 @@
+import datadog
+import tinytuya
+import time
+
+datadog.initialize(api_key="{{ datadog_api_key }}", app_key="{{ datadog_app_key }}")
+
+plug = tinytuya.OutletDevice(
+    dev_id="{{ outlet_dev_id }}",
+    address="{{ outlet_ip }}",
+    local_key="{{ outlet_key }}",
+    version=3.3,
+)
+
+plug_status = plug.status()
+data = plug_status["dps"]
+current = data["18"]  # mA
+power = data["19"] / 10.0  # W
+voltage = data["20"] / 10.0  # V
+
+now = time.time()
+resp = datadog.api.Metric.send(
+    metrics=[
+        {
+            "metric": "solarpanel.current",
+            "type": "gauge",
+            "points": [(now, current)],
+            "tags": ["location:terrasse_1"],
+        },
+        {
+            "metric": "solarpanel.power",
+            "type": "gauge",
+            "points": [(now, power)],
+            "tags": ["location:terrasse_1"],
+        },
+        {
+            "metric": "solarpanel.voltage",
+            "type": "gauge",
+            "points": [(now, voltage)],
+            "tags": ["location:terrasse_1"],
+        },
+    ],
+)
