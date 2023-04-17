@@ -13,7 +13,7 @@
     name: mhutter.docker-systemd-service
   vars:
     container_name: pihole
-    container_image: pihole/pihole:latest
+    container_image: pihole/pihole:{{ pihole_tag }}
     container_docker_pull: yes
     container_ports:
       - 127.0.0.1:53:53/udp
