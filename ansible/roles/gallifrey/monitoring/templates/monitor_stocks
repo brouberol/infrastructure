@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import requests
+from datadog.dogstatsd import DogStatsd
+
+statsd = DogStatsd(socket_path="{{ datadog_config['dogstatsd_socket'] }}")
+
+tickers = ["ddog"]
+
+
+def main():
+    for ticker in tickers:
+        data = requests.get(
+            f"https://query1.finance.yahoo.com/v11/finance/quoteSummary/{ticker}",
+            params={"modules": "financialData"},
+            headers={"user-agent": "curl/7.87.0"},
+        ).json()
+        current_price = data["quoteSummary"]["result"][0]["financialData"][
+            "currentPrice"
+        ]["fmt"]
+        statsd.gauge("stock.price", value=current_price, tags=[f"ticker:{ticker}"])
+
+
+if __name__ == "__main__":
+    main()
