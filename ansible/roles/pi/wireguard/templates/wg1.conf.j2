@@ -4,6 +4,8 @@
 PrivateKey = {{ wg1_server_interface_private_key }}
 Address = {{ wg1_server_interface_address }}
 ListenPort = {{ wg1_server_interface_port }}
+PostUp = /etc/wireguard/wg1-postup.sh
+PostDown = /etc/wireguard/wg1-postdown.sh
 
 {% for peer in wg1_peers %}
 # {{ peer.comment }}

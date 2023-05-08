@@ -36,6 +36,17 @@
     owner: root
     group: root
 
+- name: Copy the postup/down iptables rules for wg1
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/wireguard/{{ item }}"
+    owner: root
+    group: root
+    mode: 0744
+  loop:
+  - wg1-postup.sh
+  - wg1-postdown.sh
+
 - name: Configure the wg1 wireguard interface
   template:
     src: wg1.conf.j2
