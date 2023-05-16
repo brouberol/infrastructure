@@ -1,0 +1,15 @@
+--- template.py	2023-05-16 15:09:45
++++ template.py	2023-05-16 15:12:07
+@@ -130,6 +130,12 @@
+                     newsearchpath.append(p)
+                 searchpath = newsearchpath
+
++                # Restore pre 2.2.1 search path to /project/roles
++                if self._task._role is not None:
++                    if C.DEFAULT_ROLES_PATH:
++                        searchpath.extend(C.DEFAULT_ROLES_PATH)
++                # End of patch
++
+                 # add ansible 'template' vars
+                 temp_vars = task_vars.copy()
+                 temp_vars.update(generate_ansible_template_vars(self._task.args.get('src', None), source, dest))

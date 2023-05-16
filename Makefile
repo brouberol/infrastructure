@@ -93,9 +93,16 @@ terraform-apply:  ## Apply all terraform workspaces
 	done
 
 
-install:  ## Install python and ansible dependencies
+dependencies:  ## Install python and ansible dependencies
 	@poetry install
 	@poetry run ansible-galaxy install -r $(ANSIBLE_DIR)/requirements.yaml
+
+
+patch-ansible:  ## Patch ansible to allow jinja templates to be discoverable in the ansible role path
+	# cf https://github.com/ansible/ansible/issues/20442#issuecomment-276091389
+	@patch $$(poetry run python -c 'import site;print(site.getsitepackages()[0])')/ansible/plugins/action/template.py < misc/ansible-role-searchpath.diff
+
+install: dependencies patch-ansible  ## Install all dependencies and setup ansible
 
 help:
 	@grep -E '^[%a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-22s\033[0m %s\n", $$1, $$2}'
