@@ -20,7 +20,7 @@
 - name: Run the isso container
   docker_container:
     name: isso
-    image: "mihokookayami/isso"
+    image: "ghcr.io/isso-comments/isso:{{ isso_version }}"
     state: started
     published_ports:
       - "{{ isso_host }}:{{ isso_port }}:{{ isso_docker_port }}"

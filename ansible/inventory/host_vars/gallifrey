@@ -212,6 +212,7 @@ isso_docker_port: 8080
 isso_port: 8006
 isso_home: "{{ user_home }}/isso"
 isso_domain: "comments.{{ main_domain }}"
+isso_version: "0.13.0"
 
 # calibre
 calibre_home: "{{ user_home }}/calibre"
