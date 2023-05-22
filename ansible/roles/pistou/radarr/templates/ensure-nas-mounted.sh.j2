@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eux
+set -eu
 
 if ! $(mount | grep -q {{ download_directory }} && mount | grep -q {{ radarr_films_dir }} && mount | grep -q {{ sonarr_series_dir }}); then
     systemctl stop {bazarr,sonarr,radarr}_container.service
