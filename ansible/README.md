@@ -6,7 +6,7 @@ Each host has a bootstrap and regular playbook:
 * the bootstrap playbook allows us to create the user used in the regular playbook, allow it to SSH, deny root ssh, etc
 * the regular playbook does the rest
 
-The ansible role layout is slighty different from a usual ansible layout:
+The project layout is slighty different from the usual one:
 
 ```
 ├── ansible-bootstrap.cfg   # ansible config file used for bootstrap playbooks
@@ -50,4 +50,4 @@ The ansible role layout is slighty different from a usual ansible layout:
 ...
 ```
 
-The ansible path is dynamically tweaked in the `Makefile` to include the roles for the host being deployed.
+The ansible path is dynamically tweaked in the `Makefile` to include the roles for the host being deployed, and we rely on an [unofficial patch](https://github.com/brouberol/infrastructure/blob/b55bd2737526dc2501fdf0b4fddf50d0c85a0f62/misc/ansible-role-searchpath.diff) to make the common macros discoverable from any role, after (what I think is) a regression in Ansible.
