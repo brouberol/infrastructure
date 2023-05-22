@@ -1,0 +1,8 @@
+#!/bin/bash
+set -eu
+
+if ! $(mount | grep -q {{ download_directory }}); then
+    mount {{ download_directory }}
+    systemctl restart transmission-daemon.service
+    transmission-remote {{ ansible_default_ipv4['address'] }} --start-paused
+fi

@@ -41,3 +41,18 @@
   notify:
     - restart networking
     - reload transmission-daemon
+
+- name: "Copy script ensuring the NAS download dir is mounted"
+  template:
+    src: ensure-nas-mounted.sh.j2
+    dest: /root/ensure-nas-mounted.sh
+    owner: root
+    group: root
+    mode: 0744
+
+- name: "Regularly try to mount the NAS and restart transmission (for when the pi start faster than the NAS)"
+  cron:
+    name: "ensure NAS is mounted"
+    minute: "*/5"
+    job: /root/ensure-nas-mounted.sh
+    user: root

@@ -1,0 +1,10 @@
+#!/bin/bash
+set -eux
+
+if ! $(mount | grep -q {{ download_directory }} && mount | grep -q {{ radarr_films_dir }} && mount | grep -q {{ sonarr_series_dir }}); then
+    systemctl stop {bazarr,sonarr,radarr}_container.service
+    sleep 10
+    systemctl start mnt-nas-{series,films,transmission}.mount
+    sleep 10
+    systemctl start {bazarr,sonarr,radarr}_container.service
+fi
