@@ -7,7 +7,7 @@ authors = ["Balthazar Rouberol <br@imap.cc>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 ansible = "^5.3.0"
-datadog = "^0.44.0"
+datadog = "^0.45.0"
 ovhcli = "^0.0.1"
 dnspython = "^2.2.1"
 
