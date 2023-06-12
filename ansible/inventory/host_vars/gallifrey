@@ -5,16 +5,19 @@ user_ssh_authorized:
 - "{{ git_user }}"
 
 # certbot
-certbot_list_of_certs_to_create:
-  - "{{ page_domain }}"
-  - "{{ blog_domain }}"
-  - "{{ fathom_domain }}"
-  - "{{ wallabag_domain }}"
-  - "{{ radicale_domain }}"
-  - "{{ pastebin_domain }}"
-  - "{{ isso_domain }}"
-  - "{{ calibre_domain }}"
-  - "{{ paperless_domain }}"
+certbot_create_if_missing: True
+certbot_create_method: standalone
+certbot_certs:
+  - domains: ["{{ page_domain }}"]
+  - domains: ["{{ blog_domain }}"]
+  - domains: ["{{ fathom_domain }}"]
+  - domains: ["{{ wallabag_domain }}"]
+  - domains: ["{{ radicale_domain }}"]
+  - domains: ["{{ pastebin_domain }}"]
+  - domains: ["{{ isso_domain }}"]
+  - domains: ["{{ calibre_domain }}"]
+  - domains: ["{{ paperless_domain }}"]
+  - domains: ["{{ _5esheets_domain }}"]
 
 # Datadog
 datadog_agent6: true
