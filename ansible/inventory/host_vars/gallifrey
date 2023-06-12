@@ -231,3 +231,7 @@ paperless_version: "1.5.0"
 
 # Sophro
 sophro_www_home: /var/www/sophrologie-chalon
+
+# 5esheets
+_5esheets_home: "{{ user_home }}/5esheets"
+_5esheets_port: 8012

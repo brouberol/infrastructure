@@ -1,0 +1,34 @@
+- name: "Clone the 5esheets repository"
+  git:
+    repo: https://github.com/brouberol/5esheets.git
+    dest: "{{ user_home }}/5esheets"
+
+- name: "Install dependencies in venv"
+  pip:
+    chdir: "{{ user_home }}/5esheets"
+    requirements: requirements.txt
+    virtualenv: "{{ user_home }}/5esheets/.venv"
+    virtualenv_python: python3
+
+- name: "Create systemd service for 5esheets"
+  template:
+    src: 5esheets-unit.conf.j2
+    dest: "{{ user_systemd_dir }}/5esheets.service"
+    dest: "{{ user_systemd_dir }}/5esheets.service"
+  notify:
+    - start 5esheets
+
+- name: "Copy 5esheets sites-available nginx conf"
+  template:
+    src: 5esheets.conf.j2
+    dest: /etc/nginx/sites-available/5esheets.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link 5esheets sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/5esheets.conf
+    dest: /etc/nginx/sites-enabled/5esheets.conf
+    state: link
+  notify: "reload nginx"

@@ -1,0 +1,4 @@
+{% from "macros/systemd_user_service.j2" import systemd_user_service with context %}
+{{ systemd_user_service("D&D 5e character sheets application") }}
+WorkingDirectory={{ _5esheets_home }}/5esheets
+ExecStart={{ _5esheets_home }}/.venv/bin/flask run --port {{ _5esheets_port }}

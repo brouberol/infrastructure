@@ -29,6 +29,7 @@
   - { role: monitoring, tags: ['monitoring'] }
   - { role: paperless-ng, tags: ['paperless-ng'] }
   - { role: sophro-www, tags: ['sophro-www'] }
+  - { role: 5esheets, tags: ['5esheets'] }
 
   post_tasks:
   - name: "Send datadog event"
