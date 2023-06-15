@@ -14,7 +14,7 @@
   vars:
     container_name: pihole
     container_image: pihole/pihole:{{ pihole_tag }}
-    container_docker_pull: yes
+    pull: yes
     container_ports:
       - 127.0.0.1:53:53/udp
       - "{{ ansible_default_ipv4.address }}:53:53/udp"

@@ -18,7 +18,7 @@
   vars:
     container_name: homer
     container_image: "b4bz/homer:{{ homer_version }}"
-    container_docker_pull: yes
+    pull: yes
     container_ports:
       - "{{ ansible_default_ipv4.address }}:80:8080/tcp"
     container_volumes:
