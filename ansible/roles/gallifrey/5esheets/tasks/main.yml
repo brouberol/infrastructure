@@ -1,22 +1,14 @@
-- name: "Clone the 5esheets repository"
-  git:
-    repo: https://github.com/brouberol/5esheets.git
-    dest: "{{ user_home }}/5esheets"
-
-- name: "Install dependencies in venv"
-  pip:
-    chdir: "{{ user_home }}/5esheets"
-    requirements: requirements.txt
-    virtualenv: "{{ user_home }}/5esheets/.venv"
-    virtualenv_python: python3
-
-- name: "Create systemd service for 5esheets"
-  template:
-    src: 5esheets-unit.conf.j2
-    dest: "{{ user_systemd_dir }}/5esheets.service"
-    dest: "{{ user_systemd_dir }}/5esheets.service"
-  notify:
-    - start 5esheets
+- name: "Start the 5esheets container"
+  docker_container:
+    name: 5esheets
+    image: "ghcr.io/brouberol/5esheets:main"
+    state: started
+    published_ports:
+      - "127.0.0.1:{{ _5esheets_port }}:8000"
+    restart_policy: unless-stopped
+    pull: yes
+    volumes:
+      - "{{ _5esheets_home }}/db:/usr/src/app/db"
 
 - name: "Copy 5esheets sites-available nginx conf"
   template:
