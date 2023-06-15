@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# {{ ansible_managed }}
+
+curl \
+	-H "Content-Type: application/json" \
+	-d "{\"username\": \"Transmission\", \"content\": \"\`${TR_TORRENT_NAME}\` finished downloading\"}" \
+    {{ discord_webhook_url }}

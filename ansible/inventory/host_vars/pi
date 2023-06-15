@@ -24,7 +24,7 @@ extra_ssh_authorized_keys:
 
 # transmission
 transmission_rpc_port: 9091
-
+transmission_post_download_script: "/usr/local/bin/transmission-post-dl"
 
 # homer
 homer_home: "{{ user_home }}/homer"

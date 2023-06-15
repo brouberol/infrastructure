@@ -27,6 +27,14 @@
   notify:
     - reload transmission-daemon
 
+- name: "Render the transmission post download script"
+  template:
+    src: transmission-post-dl.j2
+    dest: "{{ transmission_post_download_script }}"
+    owner: debian-transmission
+    group: debian-transmission
+    mode: '0744'
+
 - name: Setup the vpn routing table
   lineinfile:
     path: /etc/iproute2/rt_tables
