@@ -24,3 +24,14 @@
     dest: /etc/nginx/sites-enabled/5esheets.conf
     state: link
   notify: "reload nginx"
+
+- name: "Schedule the backup of the 5esheets database"
+  cron:
+    name: "backup 5esheets db"
+    minute: "0"
+    hour: "0"
+    job: >
+      /usr/local/bin/dd-cron-event
+      "Backup 5esheets db"
+      "{{ syno_rsync }} -r {{ _5esheets_home }}/db/5esheets.db syno:{{ syno_user_home }}/backups/5esheets/5esheets.db"
+    user: "{{ user }}"

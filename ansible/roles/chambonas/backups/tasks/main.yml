@@ -5,6 +5,7 @@
     owner: "{{ user }}"
     group: "{{ group }}"
   loop:
+    - 5esheets
     - bazarr
     - calibre
     - fathom
