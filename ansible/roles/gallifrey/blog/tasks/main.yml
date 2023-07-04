@@ -38,7 +38,7 @@
     state: directory
     owner: "{{ web_user }}"
     group: "{{ git_group }}"
-    mode: 0775
+    mode: 02775
 
 - name: "Copy blog sites-available nginx conf"
   template:
