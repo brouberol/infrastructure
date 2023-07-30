@@ -14,6 +14,10 @@ from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 
 MAX_MONTHLY_HOURS = 50
+NEW_MAX_MONTHLY_HOURS = 60
+NEW_MAX_MONTHLY_HOURS_DATE = date(2023, 10, 1)
+RAISE_START_DATE = date(2023, 9, 1)
+
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -21,6 +25,15 @@ logging.basicConfig(
 
 tok = "{{ notion_token }}"
 database_id = "{{ notion_database_id }}"
+today = datetime.today().date()
+
+
+def get_max_monthly_hours():
+    if today >= NEW_MAX_MONTHLY_HOURS_DATE:
+        logging.info("New max hours per month are in effect: 60")
+        return NEW_MAX_MONTHLY_HOURS_DATE
+    logging.info("Max hours per month: 50")
+    return MAX_MONTHLY_HOURS
 
 
 class NotionClient:
@@ -102,7 +115,9 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--year", type=int)
     parser.add_argument("--month", type=int, choices=range(1, 13))
-    parser.add_argument("--max-monthly-hours", type=int, default=MAX_MONTHLY_HOURS)
+    parser.add_argument(
+        "--max-monthly-hours", type=int, default=get_max_monthly_hours()
+    )
     parser.add_argument("-n", "--dry-run", action="store_true", default=False)
     return parser.parse_args()
 
@@ -154,6 +169,9 @@ def month_total_work_hours(month_start, month_end):
         worked_h += work_h
         logging.info(f"{work_h}h of work were reported on {row.start_date}")
         extra_h += 1
+        if today >= RAISE_START_DATE:
+            extra_h += 1
+    logging.info(f"Total of {worked_h} worked hours")
     logging.info(f"Adding {extra_h} extra hours to account for car rides")
     total_h = worked_h + extra_h
     logging.info(f"Consolidated total worked hours: {total_h}h")
