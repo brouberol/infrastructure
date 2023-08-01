@@ -9,8 +9,6 @@
 - name: Install python libraries required by monitoring scripts
   pip:
     name:
-    - praw
-    - mailchimp3
     - ovh
     - beautifulsoup4
     - datadog
@@ -27,13 +25,8 @@
   loop:
   - blog
   - blog_comments
-  - devto
-  - lobsters
-  - mailchimp
   - ovh
-  - reddit
   - rain
-  - fioul
   - enedis
 
 - name: "Copy the river level monitoring script to a bindir"
@@ -45,18 +38,10 @@
     group: root
   loop:
   - rivers
-  - stocks
 
 - name: "Monitor river level at different stations"
   cron:
     name: "monitor rivers"
     minute: "*/5"
     job: /usr/local/bin/monitor_rivers
-    user: "{{ user }}"
-
-- name: "Monitor stocks"
-  cron:
-    name: "monitor stocks"
-    minute: "*/5"
-    job: /usr/local/bin/monitor_stocks
     user: "{{ user }}"

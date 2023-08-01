@@ -6,7 +6,9 @@
 
 - name: "Add duo apt repository"
   apt_repository:
-    repo: "deb [arch=amd64] https://pkg.duosecurity.com/Ubuntu {{ ansible_distribution_release }} main"
+    # repo: "deb [arch=amd64] https://pkg.duosecurity.com/Ubuntu {{ ansible_distribution_release }} main"
+    # At the time, no repository was found for ubuntu lunar
+    repo: "deb [arch=amd64] https://pkg.duosecurity.com/Ubuntu jammy main"
     state: present
     filename: duosecurity
   become: yes
@@ -49,6 +51,14 @@
   lineinfile:
     regexp: "^ChallengeResponseAuthentication"
     line: "ChallengeResponseAuthentication yes"
+    dest: /etc/ssh/sshd_config
+  notify:
+    - restart ssh
+
+- name: "Enable ssh KbdInteractiveAuthentication"
+  lineinfile:
+    regexp: "^KbdInteractiveAuthentication no"
+    line: "KbdInteractiveAuthentication yes"
     dest: /etc/ssh/sshd_config
   notify:
     - restart ssh

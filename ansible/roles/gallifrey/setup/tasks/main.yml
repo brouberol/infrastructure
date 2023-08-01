@@ -23,6 +23,11 @@
     - lxcfs
     state: absent
 
+- name: Allow pip to install packages
+  file:
+    path: /usr/lib/python3.11/EXTERNALLY-MANAGED
+    state: absent
+
 - name: "Upgrade pip"
   pip:
     name: pip
@@ -33,6 +38,7 @@
     name:
     - bcrypt
     - passlib
+    - pyyaml>=6.0.0
     state: present
 
 - name: "Setup motd"

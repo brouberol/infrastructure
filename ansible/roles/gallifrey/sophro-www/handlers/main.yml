@@ -1,7 +1,7 @@
 ---
 - name: "start php-fpm"
   service:
-    name: php7.4-fpm
+    name: php8.1-fpm
     state: started
     enabled: yes
     daemon_reload: yes

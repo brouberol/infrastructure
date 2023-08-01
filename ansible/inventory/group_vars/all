@@ -26,7 +26,7 @@ user_home: "/home/{{ user }}"
 syno_user_home: "/var/services/homes/{{ user }}"
 syno_ssh_port: 2222
 user_xdg_runtime_dir: "/run/user/{{ user_uid }}"
-user_ssh_authorized_keys: "{{ lookup('file', '../misc/ssh_keys').split('\n')}}"
+user_ssh_authorized_keys: "{{ lookup('file', 'misc/ssh_keys').split('\n')}}"
 extra_ssh_authorized_keys: []
 user_ssh_authorized:
 - "{{ user }}"
@@ -42,7 +42,7 @@ web_acme_challenge_location: /.well-known/acme-challenge/
 web_datadog_agent_nginx_check_location: /basic_status
 
 # systemd
-user_systemd_dir: "{{ user_home }}/.config/systemd/user/default.target.wants"
+user_systemd_dir: "{{ user_home }}/.config/systemd/user"
 
 # datadog
 datadog_api_key: !vault |

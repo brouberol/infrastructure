@@ -15,7 +15,7 @@
 - name: "Copy the php-fpm config files"
   copy:
     src: "{{ item }}"
-    dest: "/etc/php/7.4/fpm/{{ item }}"
+    dest: "/etc/php/8.1/fpm/{{ item }}"
     owner: root
     group: root
     mode: 0644
@@ -31,32 +31,38 @@
     enabled: yes
     daemon_reload: yes
 
-# - name: "Change the root mysql password"
-#   mysql_user:
-#     name: root
-#     host: localhost
-#     password: "{{ sophro_www_mysql_root_password }}"
-#     check_implicit_admin: yes
-#     login_user: root
-#     login_password: ""
-#     state: present
-#   ignore_errors: yes
+- name: "Change the root mysql password"
+  mysql_user:
+    name: root
+    host: localhost
+    password: "{{ sophro_www_mysql_root_password }}"
+    check_implicit_admin: yes
+    login_user: root
+    login_password: ""
+    state: present
+  ignore_errors: yes
 
-# - name: "Create the MySQL database"
-#   mysql_db:
-#     name: "{{ sophro_www_mysql_db }}"
-#     state: present
-#     login_user: root
-#     login_password: "{{ sophro_www_mysql_root_password }}"
+# Connect to mysql using `sudo mysql` and run
+# `ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '<password>';
 
-# - name: "Create the MySQL user"
-#   mysql_user:
-#     name: "{{ sophro_www_mysql_user }}"
-#     host: localhost
-#     password: "{{ sophro_www_mysql_password }}"
-#     priv: '{{ sophro_www_mysql_db }}.*:ALL'
-#     login_user: root
-#     login_password: "{{ sophro_www_mysql_root_password }}"
+- name: "Create the MySQL database"
+  mysql_db:
+    name: "{{ sophro_www_mysql_db }}"
+    state: present
+    login_user: root
+    login_password: "{{ sophro_www_mysql_root_password }}"
+
+- name: "Create the MySQL user"
+  mysql_user:
+    name: "{{ sophro_www_mysql_user }}"
+    host: localhost
+    password: "{{ sophro_www_mysql_password }}"
+    priv: '{{ sophro_www_mysql_db }}.*:ALL'
+    login_user: root
+    login_password: "{{ sophro_www_mysql_root_password }}"
+
+# At that point, run
+# mysql -u sophro -p sophrologiechalon db/sophrologiechalon.<date>.sql
 
 - name: "Create the root scripts directory"
   file:
