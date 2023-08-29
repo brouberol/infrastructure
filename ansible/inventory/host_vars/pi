@@ -31,7 +31,7 @@ homer_home: "{{ user_home }}/homer"
 
 # pihole
 pihole_admin_port: 8080
-pihole_tag: "2023.03.1"
+pihole_tag: "2023.05.2"
 
 # cloudflared
 cloudflared_port: 5053
