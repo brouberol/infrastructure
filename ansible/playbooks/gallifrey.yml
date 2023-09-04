@@ -30,6 +30,7 @@
   - { role: paperless-ng, tags: ['paperless-ng'] }
   - { role: sophro-www, tags: ['sophro-www'] }
   - { role: 5esheets, tags: ['5esheets'] }
+  - { role: lounge, tags: ['lounge'] }
 
   post_tasks:
   - name: "Send datadog event"

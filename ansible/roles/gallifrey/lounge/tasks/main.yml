@@ -1,0 +1,32 @@
+- name: "Create the lounge directory"
+  file:
+    path: "{{ lounge_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Start the lounge container"
+  docker_container:
+    name: lounge
+    image: "thelounge/thelounge:{{ lounge_version }}"
+    state: started
+    published_ports:
+      - "{{ lounge_host }}:{{ lounge_port }}:9000"
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ lounge_home }}:/var/opt/thelounge"
+
+- name: "Copy lounge sites-available nginx conf"
+  template:
+    src: lounge.conf.j2
+    dest: /etc/nginx/sites-available/lounge.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link lounge sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/lounge.conf
+    dest: /etc/nginx/sites-enabled/lounge.conf
+    state: link
+  notify: "reload nginx"
