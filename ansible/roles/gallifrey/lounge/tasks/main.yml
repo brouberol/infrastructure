@@ -2,8 +2,8 @@
   file:
     path: "{{ lounge_home }}"
     state: directory
-    owner: "{{ user }}"
-    group: "{{ group }}"
+    owner: 1000
+    group: 1000
 
 - name: "Start the lounge container"
   docker_container:
