@@ -30,9 +30,9 @@ today = datetime.today().date()
 
 def get_max_monthly_hours():
     if today >= NEW_MAX_MONTHLY_HOURS_DATE:
-        logging.info("New max hours per month are in effect: 60")
-        return NEW_MAX_MONTHLY_HOURS_DATE
-    logging.info("Max hours per month: 50")
+        logging.info(f"New max hours per month are in effect: {NEW_MAX_MONTHLY_HOURS}")
+        return NEW_MAX_MONTHLY_HOURS
+    logging.info(f"Max hours per month: {MAX_MONTHLY_HOURS}")
     return MAX_MONTHLY_HOURS
 
 
