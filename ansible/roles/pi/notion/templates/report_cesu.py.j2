@@ -7,6 +7,7 @@ import calendar
 import json
 import logging
 import os.path
+from collections import defaultdict
 from datetime import date, datetime
 
 import requests
@@ -28,9 +29,11 @@ database_id = "{{ notion_database_id }}"
 today = datetime.today().date()
 
 
-def get_max_monthly_hours():
-    if today >= NEW_MAX_MONTHLY_HOURS_DATE:
-        logging.info(f"New max hours per month are in effect: {NEW_MAX_MONTHLY_HOURS}")
+def get_max_monthly_hours(month_start_date):
+    if month_start_date >= NEW_MAX_MONTHLY_HOURS_DATE:
+        logging.info(
+            f"New max hours per month are in effect as of {NEW_MAX_MONTHLY_HOURS_DATE}: {NEW_MAX_MONTHLY_HOURS}"
+        )
         return NEW_MAX_MONTHLY_HOURS
     logging.info(f"Max hours per month: {MAX_MONTHLY_HOURS}")
     return MAX_MONTHLY_HOURS
@@ -115,9 +118,6 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--year", type=int)
     parser.add_argument("--month", type=int, choices=range(1, 13))
-    parser.add_argument(
-        "--max-monthly-hours", type=int, default=get_max_monthly_hours()
-    )
     parser.add_argument("-n", "--dry-run", action="store_true", default=False)
     return parser.parse_args()
 
@@ -161,19 +161,20 @@ def filter_rows(title, start_date, end_date):
 
 
 def month_total_work_hours(month_start, month_end):
-    worked_h, extra_h = 0, 0
+    worked_h, extra_h = 0, defaultdict(int)
     for row in filter_rows(title="Nicolas", start_date=month_start, end_date=month_end):
         work_h = row.duration
         if not work_h:
             continue
         worked_h += work_h
         logging.info(f"{work_h}h of work were reported on {row.start_date}")
-        extra_h += 1
-        if today >= RAISE_START_DATE:
-            extra_h += 1
+        extra_h["car rides"] += 1
+        if month_start >= RAISE_START_DATE:
+            extra_h["raise"] += 1
     logging.info(f"Total of {worked_h} worked hours")
-    logging.info(f"Adding {extra_h} extra hours to account for car rides")
-    total_h = worked_h + extra_h
+    for reason, hours in extra_h.items():
+        logging.info(f"Adding {hours} extra hours to account for {reason}")
+    total_h = worked_h + sum(extra_h.values())
     logging.info(f"Consolidated total worked hours: {total_h}h")
     return total_h
 
@@ -223,6 +224,7 @@ def main():
     args = parse_args()
     month_start = month_start_day(args.year, args.month)
     month_end = month_end_day(args.year, args.month)
+    max_monthly_hours = get_max_monthly_hours(month_start)
     total_h = month_total_work_hours(month_start, month_end)
     already_reported_work_h = get_month_total_hours(month_start, month_end)
     logging.info(
@@ -237,10 +239,10 @@ def main():
         )
         max_hours_for_current_month = max_monthly_hours_override
     else:
-        max_hours_for_current_month = args.max_monthly_hours
+        max_hours_for_current_month = max_monthly_hours
 
     if total_h + already_reported_work_h > max_hours_for_current_month:
-        if already_reported_work_h < args.max_monthly_hours:
+        if already_reported_work_h < max_hours_for_current_month:
             report_total_hours_on_month(
                 month_end, max_hours_for_current_month, args.dry_run
             )
@@ -250,15 +252,19 @@ def main():
         while total_h > 0:
             next_month = find_next_month(args.month, i)
             next_year = args.year if (args.month + i) <= 12 else args.year + 1
+            next_month_start_day = month_start_day(next_year, next_month)
             next_month_end_day = month_end_day(next_year, next_month)
             already_reported_hours_for_next_month = get_month_total_hours(
                 next_month_end_day, next_month_end_day
             )
             total_h += already_reported_hours_for_next_month
-            if total_h > args.max_monthly_hours:
-                total_h -= args.max_monthly_hours
+            month_max_hours = get_max_monthly_hours_override(
+                next_year, next_month
+            ) or get_max_monthly_hours(next_month_start_day)
+            if total_h > month_max_hours:
+                total_h -= month_max_hours
                 report_total_hours_on_month(
-                    next_month_end_day, args.max_monthly_hours, args.dry_run
+                    next_month_end_day, month_max_hours, args.dry_run
                 )
             else:
                 report_total_hours_on_month(next_month_end_day, total_h, args.dry_run)
