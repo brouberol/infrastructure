@@ -40,7 +40,7 @@ git clone -o pelican https://github.com/getpelican/pelican-plugins plugins/pelic
 source {{ git_home }}/.blog.venv/bin/activate
 poetry install
 make html
-pagefind --source output
+pagefind --site output
 cp -r output/* $BLOG_DIR
 
 # Cleanup

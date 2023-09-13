@@ -57,7 +57,7 @@
 
 - name: "Install pagefind"
   unarchive:
-    src: "https://github.com/CloudCannon/pagefind/releases/download/v0.12.0/pagefind-v0.12.0-x86_64-unknown-linux-musl.tar.gz"
+    src: "https://github.com/CloudCannon/pagefind/releases/download/v1.0.0/pagefind-v1.0.0-x86_64-unknown-linux-musl.tar.gz"
     dest: "/usr/local/bin"
     remote_src: yes
     creates: /usr/local/bin/pagefind"
