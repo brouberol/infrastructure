@@ -37,4 +37,4 @@ pihole_tag: "2023.05.2"
 cloudflared_port: 5053
 
 # homer
-homer_version: v23.05.1
+homer_version: v23.09.1
