@@ -17,7 +17,6 @@ from requests.packages.urllib3.util.retry import Retry
 MAX_MONTHLY_HOURS = 50
 NEW_MAX_MONTHLY_HOURS = 60
 NEW_MAX_MONTHLY_HOURS_DATE = date(2023, 10, 1)
-RAISE_START_DATE = date(2023, 9, 1)
 
 
 logging.basicConfig(
@@ -168,8 +167,6 @@ def month_total_work_hours(month_start, month_end):
         worked_h += work_h
         logging.info(f"{work_h}h of work were reported on {row.start_date}")
         extra_h["car rides"] += 1
-        if month_start >= RAISE_START_DATE:
-            extra_h["raise"] += 1
     logging.info(f"Total of {worked_h} worked hours")
     for reason, hours in extra_h.items():
         logging.info(f"Adding {hours} extra hours to account for {reason}")
