@@ -31,6 +31,7 @@
   - { role: sophro-www, tags: ['sophro-www'] }
   - { role: 5esheets, tags: ['5esheets'] }
   - { role: lounge, tags: ['lounge'] }
+  - { role: silverbullet, tags: ["silverbullet"] }
 
   post_tasks:
   - name: "Send datadog event"

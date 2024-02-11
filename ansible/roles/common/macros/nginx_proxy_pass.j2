@@ -1,4 +1,4 @@
-{% macro nginx_proxy_pass(domain, port, hsts=False, extra_opts={}) %}
+{% macro nginx_proxy_pass(domain, port, hsts=False, htpasswd_filename=None, extra_opts={}) %}
 server {
     listen 80;
     server_name {{ domain }};
@@ -20,6 +20,11 @@ server {
 
     {% if hsts %}
     add_header Strict-Transport-Security "max-age=63072000;" always;
+    {% endif %}
+
+    {% if htpasswd_filename %}
+    auth_basic "Administrator's Area";
+    auth_basic_user_file /etc/nginx/{{ htpasswd_filename }}.htpasswd;
     {% endif %}
 
     # Letsencrypt challenge

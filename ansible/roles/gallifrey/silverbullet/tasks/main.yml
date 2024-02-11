@@ -1,0 +1,43 @@
+- name: "Create the silverbullet directory"
+  file:
+    path: "{{ silverbullet_home }}"
+    state: directory
+    owner: 1000
+    group: 1000
+
+- name: "Start the silverbullet container"
+  docker_container:
+    name: silverbullet
+    image: "zefhemel/silverbullet:latest"
+    state: started
+    pull: yes
+    user: "{{ user_uid }}:{{ user_gid }}"
+    published_ports:
+      - "{{ silverbullet_host }}:{{ silverbullet_port }}:3000"
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ silverbullet_home }}:/space"
+
+- name: Add a user to a password file and ensure permissions are set
+  community.general.htpasswd:
+    path: /etc/nginx/silverbullet.htpasswd
+    name: "{{ silverbullet_username }}"
+    password: "{{ silverbullet_password }}"
+    owner: root
+    group: www-data
+    mode: 0640
+
+- name: "Copy silverbullet sites-available nginx conf"
+  template:
+    src: silverbullet.conf.j2
+    dest: /etc/nginx/sites-available/silverbullet.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link silverbullet sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/silverbullet.conf
+    dest: /etc/nginx/sites-enabled/silverbullet.conf
+    state: link
+  notify: "reload nginx"

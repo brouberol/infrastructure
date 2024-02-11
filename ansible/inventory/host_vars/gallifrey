@@ -19,6 +19,7 @@ certbot_certs:
   - domains: ["{{ paperless_domain }}"]
   - domains: ["{{ _5esheets_domain }}"]
   - domains: ["{{ lounge_domain }}"]
+  - domains: ["{{ silverbullet_domain }}"]
 
 # Datadog
 datadog_agent6: true
@@ -73,6 +74,7 @@ datadog_checks:
      - nginx_status_url: "https://{{ calibre_domain }}/basic_status"
      - nginx_status_url: "https://{{ paperless_domain }}/basic_status"
      - nginx_status_url: "https://{{ lounge_domain }}/basic_status"
+     - nginx_status_url: "https://{{ silverbullet_domain }}/basic_status"
 
   http_check:
     init_config:
@@ -241,10 +243,15 @@ sophro_www_home: /var/www/sophrologie-chalon
 _5esheets_home: "{{ user_home }}/5esheets"
 _5esheets_port: 8012
 
-
 # lounge
 lounge_home: "{{ user_home }}/lounge"
 lounge_version: 4.4.1
 lounge_host: 127.0.0.1
 lounge_port: 8013
 lounge_domain: "lounge.{{ main_domain }}"
+
+# silverbullet
+silverbullet_home: "{{ user_home }}/silverbullet"
+silverbullet_host: 127.0.0.1
+silverbullet_port: 8014
+silverbullet_domain: "notes.{{ main_domain }}"

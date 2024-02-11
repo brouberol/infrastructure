@@ -13,6 +13,7 @@ _5e_tools_domain: "5e.{{ main_domain }}"
 blog_domain: "blog.{{ main_domain }}"
 page_domain: "{{ main_domain }}"
 _5esheets_domain: "5esheets.{{ main_domain }}"
+silverbullet_domain: "notes.{{ main_domain }}"
 
 # misc
 opt_dir: /opt
