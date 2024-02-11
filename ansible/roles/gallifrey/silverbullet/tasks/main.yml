@@ -2,8 +2,8 @@
   file:
     path: "{{ silverbullet_home }}"
     state: directory
-    owner: 1000
-    group: 1000
+    owner: "{{ user }}"
+    group: "{{ group  }}"
 
 - name: "Start the silverbullet container"
   docker_container:
@@ -11,7 +11,6 @@
     image: "zefhemel/silverbullet:latest"
     state: started
     pull: yes
-    user: "{{ user_uid }}:{{ user_gid }}"
     published_ports:
       - "{{ silverbullet_host }}:{{ silverbullet_port }}:3000"
     restart_policy: unless-stopped
