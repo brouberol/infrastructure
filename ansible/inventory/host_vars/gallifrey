@@ -1,8 +1,8 @@
 # misc
 hostname: gallifrey
 user_ssh_authorized:
-- "{{ user }}"
-- "{{ git_user }}"
+  - "{{ user }}"
+  - "{{ git_user }}"
 
 # certbot
 certbot_create_if_missing: True
@@ -43,128 +43,128 @@ datadog_config:
 datadog_checks:
   journald:
     logs:
-    - type: journald
-      path: /run/log/journal
-      exclude_units:
-      - datadog-agent.service
-      - datadog-agent-process.service
-      - datadog-agent-trace.service
+      - type: journald
+        path: /run/log/journal
+        exclude_units:
+          - datadog-agent.service
+          - datadog-agent-process.service
+          - datadog-agent-trace.service
   process:
     init_config:
     instances:
       - name: ssh
-        search_string: ['ssh', 'sshd']
+        search_string: ["ssh", "sshd"]
       - name: nginx
-        search_string: ['nginx']
+        search_string: ["nginx"]
       - name: fathom
-        search_string: ['fathom']
+        search_string: ["fathom"]
       - name: radicale
-        search_string: ['python3 -m radicale']
+        search_string: ["python3 -m radicale"]
         exact_match: false
   nginx:
     init_config:
     instances:
-     - nginx_status_url: "https://{{ page_domain }}/basic_status"
-     - nginx_status_url: "https://{{ blog_domain }}/basic_status"
-     - nginx_status_url: "https://{{ fathom_domain }}/basic_status"
-     - nginx_status_url: "https://{{ wallabag_domain }}/basic_status"
-     - nginx_status_url: "https://{{ radicale_domain }}/basic_status"
-     - nginx_status_url: "https://{{ pastebin_domain }}/basic_status"
-     - nginx_status_url: "https://{{ isso_domain }}/basic_status"
-     - nginx_status_url: "https://{{ calibre_domain }}/basic_status"
-     - nginx_status_url: "https://{{ paperless_domain }}/basic_status"
-     - nginx_status_url: "https://{{ lounge_domain }}/basic_status"
-     - nginx_status_url: "https://{{ silverbullet_domain }}/basic_status"
+      - nginx_status_url: "https://{{ page_domain }}/basic_status"
+      - nginx_status_url: "https://{{ blog_domain }}/basic_status"
+      - nginx_status_url: "https://{{ fathom_domain }}/basic_status"
+      - nginx_status_url: "https://{{ wallabag_domain }}/basic_status"
+      - nginx_status_url: "https://{{ radicale_domain }}/basic_status"
+      - nginx_status_url: "https://{{ pastebin_domain }}/basic_status"
+      - nginx_status_url: "https://{{ isso_domain }}/basic_status"
+      - nginx_status_url: "https://{{ calibre_domain }}/basic_status"
+      - nginx_status_url: "https://{{ paperless_domain }}/basic_status"
+      - nginx_status_url: "https://{{ lounge_domain }}/basic_status"
+      - nginx_status_url: "https://{{ silverbullet_domain }}/basic_status"
 
   http_check:
     init_config:
     instances:
-    - url: "https://{{ page_domain }}"
-      name: "{{ page_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ page_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-    - url: "https://{{ blog_domain }}"
-      name: "{{ blog_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ blog_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-    - url: "https://{{ fathom_domain }}"
-      name: "{{ fathom_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ fathom_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-    - url: "https://{{ wallabag_domain }}"
-      name: "{{ wallabag_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ wallabag_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-    - url: "https://{{ radicale_domain }}"
-      name: "{{ radicale_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ radicale_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-    - url: "https://{{ pastebin_domain }}"
-      name: "{{ pastebin_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ pastebin_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-    - url: "http://{{ myip_domain }}"
-      name: "{{ myip_domain }}"
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-    - url: "https://{{ isso_domain }}"
-      name: "{{ isso_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ isso_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-      http_response_status_code: "(1|2|3|4)\\d\\d"
-    - url: "https://{{ calibre_domain }}"
-      name: "{{ calibre_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ calibre_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-      timeout: 5
-    - url: "https://{{ paperless_domain }}"
-      name: "{{ paperless_domain }}"
-      check_certificate_expiration: true
-      days_warning: "{{ datadog_http_check_days_warning }}"
-      days_critical: "{{ datadog_http_check_days_critical }}"
-      check_hostname: true
-      ssl_server_name: "{{ paperless_domain }}"
-      disable_ssl_validation: false
-      min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      - url: "https://{{ page_domain }}"
+        name: "{{ page_domain }}"
+        check_certificate_expiration: true
+        days_warning: "{{ datadog_http_check_days_warning }}"
+        days_critical: "{{ datadog_http_check_days_critical }}"
+        check_hostname: true
+        ssl_server_name: "{{ page_domain }}"
+        disable_ssl_validation: false
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      - url: "https://{{ blog_domain }}"
+        name: "{{ blog_domain }}"
+        check_certificate_expiration: true
+        days_warning: "{{ datadog_http_check_days_warning }}"
+        days_critical: "{{ datadog_http_check_days_critical }}"
+        check_hostname: true
+        ssl_server_name: "{{ blog_domain }}"
+        disable_ssl_validation: false
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      - url: "https://{{ fathom_domain }}"
+        name: "{{ fathom_domain }}"
+        check_certificate_expiration: true
+        days_warning: "{{ datadog_http_check_days_warning }}"
+        days_critical: "{{ datadog_http_check_days_critical }}"
+        check_hostname: true
+        ssl_server_name: "{{ fathom_domain }}"
+        disable_ssl_validation: false
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      - url: "https://{{ wallabag_domain }}"
+        name: "{{ wallabag_domain }}"
+        check_certificate_expiration: true
+        days_warning: "{{ datadog_http_check_days_warning }}"
+        days_critical: "{{ datadog_http_check_days_critical }}"
+        check_hostname: true
+        ssl_server_name: "{{ wallabag_domain }}"
+        disable_ssl_validation: false
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      - url: "https://{{ radicale_domain }}"
+        name: "{{ radicale_domain }}"
+        check_certificate_expiration: true
+        days_warning: "{{ datadog_http_check_days_warning }}"
+        days_critical: "{{ datadog_http_check_days_critical }}"
+        check_hostname: true
+        ssl_server_name: "{{ radicale_domain }}"
+        disable_ssl_validation: false
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      - url: "https://{{ pastebin_domain }}"
+        name: "{{ pastebin_domain }}"
+        check_certificate_expiration: true
+        days_warning: "{{ datadog_http_check_days_warning }}"
+        days_critical: "{{ datadog_http_check_days_critical }}"
+        check_hostname: true
+        ssl_server_name: "{{ pastebin_domain }}"
+        disable_ssl_validation: false
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      - url: "http://{{ myip_domain }}"
+        name: "{{ myip_domain }}"
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      - url: "https://{{ isso_domain }}"
+        name: "{{ isso_domain }}"
+        check_certificate_expiration: true
+        days_warning: "{{ datadog_http_check_days_warning }}"
+        days_critical: "{{ datadog_http_check_days_critical }}"
+        check_hostname: true
+        ssl_server_name: "{{ isso_domain }}"
+        disable_ssl_validation: false
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+        http_response_status_code: "(1|2|3|4)\\d\\d"
+      - url: "https://{{ calibre_domain }}"
+        name: "{{ calibre_domain }}"
+        check_certificate_expiration: true
+        days_warning: "{{ datadog_http_check_days_warning }}"
+        days_critical: "{{ datadog_http_check_days_critical }}"
+        check_hostname: true
+        ssl_server_name: "{{ calibre_domain }}"
+        disable_ssl_validation: false
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+        timeout: 5
+      - url: "https://{{ paperless_domain }}"
+        name: "{{ paperless_domain }}"
+        check_certificate_expiration: true
+        days_warning: "{{ datadog_http_check_days_warning }}"
+        days_critical: "{{ datadog_http_check_days_critical }}"
+        check_hostname: true
+        ssl_server_name: "{{ paperless_domain }}"
+        disable_ssl_validation: false
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
 
 # Git
 git_home: "/home/{{ git_user }}"

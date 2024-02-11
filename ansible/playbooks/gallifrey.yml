@@ -5,58 +5,58 @@
   become_method: sudo
 
   roles:
-  - { role: setup, tags: ['setup'] }
-  - { role: inputrc, tags: ['setup', 'inputrc'] }
-  - { role: docker, tags: ['docker'] }
-  - { role: setup-user-systemd, tags: ['setup-user-systemd'] }
-  - { role: security, tags: ['security'] }
-  - { role: duo, tags: ['duo'] }
-  - { role: git, tags: ['git'] }
-  - { role: datadog.datadog, tags: ['datadog-agent', 'datadog'] }
-  - { role: datadogpy, tags: ['datadogpy', 'datadog'] }
-  - { role: nginx, tags: ['nginx', 'web'] }
-  - { role: geerlingguy.certbot, tags: ['certbot', 'web'] }
-  - { role: page, tags: ['page', 'web'] }
-  - { role: blog, tags: ['blog', 'web'] }
-  - { role: myip, tags: ['myip', 'services'] }
-  - { role: fathom, tags: ['fathom', 'services'] }
-  - { role: wallabag, tags: ['wallabag', 'web', 'services'] }
-  - { role: radicale, tags: ['radicale', 'web', 'services'] }
-  - { role: backups, tags: ['backups'] }
-  - { role: pastebin, tags: ['pastebin'] }
-  - { role: isso, tags: ['isso'] }
-  - { role: calibre, tags: ['calibre'] }
-  - { role: monitoring, tags: ['monitoring'] }
-  - { role: paperless-ng, tags: ['paperless-ng'] }
-  - { role: sophro-www, tags: ['sophro-www'] }
-  - { role: 5esheets, tags: ['5esheets'] }
-  - { role: lounge, tags: ['lounge'] }
-  - { role: silverbullet, tags: ["silverbullet"] }
+    - { role: setup, tags: ["setup"] }
+    - { role: inputrc, tags: ["setup", "inputrc"] }
+    - { role: docker, tags: ["docker"] }
+    - { role: setup-user-systemd, tags: ["setup-user-systemd"] }
+    - { role: security, tags: ["security"] }
+    - { role: duo, tags: ["duo"] }
+    - { role: git, tags: ["git"] }
+    - { role: datadog.datadog, tags: ["datadog-agent", "datadog"] }
+    - { role: datadogpy, tags: ["datadogpy", "datadog"] }
+    - { role: nginx, tags: ["nginx", "web"] }
+    - { role: geerlingguy.certbot, tags: ["certbot", "web"] }
+    - { role: page, tags: ["page", "web"] }
+    - { role: blog, tags: ["blog", "web"] }
+    - { role: myip, tags: ["myip", "services"] }
+    - { role: fathom, tags: ["fathom", "services"] }
+    - { role: wallabag, tags: ["wallabag", "web", "services"] }
+    - { role: radicale, tags: ["radicale", "web", "services"] }
+    - { role: backups, tags: ["backups"] }
+    - { role: pastebin, tags: ["pastebin"] }
+    - { role: isso, tags: ["isso"] }
+    - { role: calibre, tags: ["calibre"] }
+    - { role: monitoring, tags: ["monitoring"] }
+    - { role: paperless-ng, tags: ["paperless-ng"] }
+    - { role: sophro-www, tags: ["sophro-www"] }
+    - { role: 5esheets, tags: ["5esheets"] }
+    - { role: lounge, tags: ["lounge"] }
+    - { role: silverbullet, tags: ["silverbullet"] }
 
   post_tasks:
-  - name: "Send datadog event"
-    datadog_event:
-      api_key: "{{ datadog_api_key }}"
-      app_key: "{{ datadog_app_key }}"
-      alert_type: success
-      aggregation_key: ansible-deploy
-      title: "Successful deployment"
-      text: "The deployment playbook ran successfully"
-    delegate_to: localhost
-    become: no
+    - name: "Send datadog event"
+      datadog_event:
+        api_key: "{{ datadog_api_key }}"
+        app_key: "{{ datadog_app_key }}"
+        alert_type: success
+        aggregation_key: ansible-deploy
+        title: "Successful deployment"
+        text: "The deployment playbook ran successfully"
+      delegate_to: localhost
+      become: no
 
   handlers:
-  - name: restart ssh
-    ansible.builtin.service:
-      name: ssh
-      state: restarted
+    - name: restart ssh
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
 
-  - name: reload nginx
-    ansible.builtin.service:
-      name: nginx
-      state: reloaded
+    - name: reload nginx
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
 
-  - name: restart datadog-agent
-    ansible.builtin.service:
-      name: datadog-agent
-      state: restarted
+    - name: restart datadog-agent
+      ansible.builtin.service:
+        name: datadog-agent
+        state: restarted
