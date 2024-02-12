@@ -5,6 +5,13 @@
     owner: "{{ user }}"
     group: "{{ group  }}"
 
+- name: "Create the silverbullet space directory"
+  file:
+    path: "{{ silverbullet_space }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group  }}"
+
 - name: "Start the silverbullet container"
   docker_container:
     name: silverbullet
@@ -15,7 +22,7 @@
       - "{{ silverbullet_host }}:{{ silverbullet_port }}:3000"
     restart_policy: unless-stopped
     volumes:
-      - "{{ silverbullet_home }}:/space"
+      - "{{ silverbullet_space }}:/space"
 
 - name: Add a user to a password file and ensure permissions are set
   community.general.htpasswd:

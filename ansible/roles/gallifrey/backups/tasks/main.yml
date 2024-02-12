@@ -110,5 +110,5 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup silverbullet files"
-      "{{ syno_rsync }} -r --delete {{ silverbullet_home }}/ syno:{{ syno_user_home }}/backups/silverbullet"
+      "{{ syno_rsync }} -r --delete {{ silverbullet_space }} syno:{{ syno_user_home }}/backups/silverbullet/"
     user: "{{ user }}"
