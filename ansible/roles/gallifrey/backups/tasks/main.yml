@@ -112,3 +112,14 @@
       "Backup silverbullet files"
       "{{ syno_rsync }} -r --delete {{ silverbullet_space }} syno:{{ syno_user_home }}/backups/silverbullet/"
     user: "{{ user }}"
+
+- name: "Schedule the backup of the yarr database"
+  cron:
+    name: "backup yarr db"
+    minute: "0"
+    hour: "0"
+    job: >
+      /usr/local/bin/dd-cron-event
+      "Backup yarr db"
+      "{{ syno_rsync }} -r {{ yarr_home }}/yarr.db syno:{{ syno_user_home }}/backups/yarr/yarr.db"
+    user: "{{ user }}"
