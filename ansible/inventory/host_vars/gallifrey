@@ -20,6 +20,7 @@ certbot_certs:
   - domains: ["{{ _5esheets_domain }}"]
   - domains: ["{{ lounge_domain }}"]
   - domains: ["{{ silverbullet_domain }}"]
+  - domains: ["{{ yarr_domain }}"]
 
 # Datadog
 datadog_agent6: true
@@ -256,3 +257,9 @@ silverbullet_space: "{{ silverbullet_home }}/space"
 silverbullet_host: 127.0.0.1
 silverbullet_port: 8014
 silverbullet_domain: "notes.{{ main_domain }}"
+
+# yarr
+yarr_home: "{{ user_home }}/yarr"
+yarr_host: 127.0.0.1
+yarr_port: 8015
+yarr_domain: "rss.{{ main_domain }}"

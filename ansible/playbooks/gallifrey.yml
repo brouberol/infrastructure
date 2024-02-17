@@ -32,6 +32,7 @@
     - { role: 5esheets, tags: ["5esheets"] }
     - { role: lounge, tags: ["lounge"] }
     - { role: silverbullet, tags: ["silverbullet"] }
+    - { role: yarr, tags: ["yarr"] }
 
   post_tasks:
     - name: "Send datadog event"

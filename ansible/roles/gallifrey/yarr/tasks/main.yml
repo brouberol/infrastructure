@@ -1,0 +1,33 @@
+- name: "Create the yarr directory"
+  file:
+    path: "{{ yarr_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group  }}"
+
+- name: "Start the yarr container"
+  docker_container:
+    name: yarr
+    image: "maskalicz/yarr:latest"
+    state: started
+    pull: yes
+    published_ports:
+      - "{{ yarr_host }}:{{ yarr_port }}:7070"
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ yarr_home }}:/data"
+
+- name: "Copy yarr sites-available nginx conf"
+  template:
+    src: yarr.conf.j2
+    dest: /etc/nginx/sites-available/yarr.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link yarr sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/yarr.conf
+    dest: /etc/nginx/sites-enabled/yarr.conf
+    state: link
+  notify: "reload nginx"
