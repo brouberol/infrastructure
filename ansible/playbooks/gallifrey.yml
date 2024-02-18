@@ -33,6 +33,7 @@
     - { role: lounge, tags: ["lounge"] }
     - { role: silverbullet, tags: ["silverbullet"] }
     - { role: yarr, tags: ["yarr"] }
+    - { role: authelia, tags: ["authelia"] }
 
   post_tasks:
     - name: "Send datadog event"

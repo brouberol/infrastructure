@@ -1,0 +1,56 @@
+- name: "Create the authelia directory"
+  file:
+    path: "{{ authelia_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group  }}"
+
+- name: Render the authelia configuration files
+  template:
+    src: "{{ item }}.j2"
+    dest: "{{ authelia_home }}/{{ item }}"
+    owner: "{{ user }}"
+    group: "{{ group  }}"
+  loop:
+    - configuration.yml
+    - users_database.yml
+
+- name: "Start the authelia container"
+  docker_container:
+    name: authelia
+    image: "authelia/authelia:latest"
+    state: started
+    pull: yes
+    published_ports:
+      - "{{ authelia_host }}:{{ authelia_port }}:9091"
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ authelia_home }}:/config"
+    env:
+      PUID: "{{ user_uid | quote }}"
+      PGID: "{{ user_gid | quote }}"
+
+- name: "Copy authelia sites-available nginx conf"
+  template:
+    src: authelia.conf.j2
+    dest: /etc/nginx/sites-available/authelia.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link authelia sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/authelia.conf
+    dest: /etc/nginx/sites-enabled/authelia.conf
+    state: link
+  notify: "reload nginx"
+
+# I followed https://matwick.ca/authelia-nginx-sso/
+- name: "Render authelia nginx snippets"
+  template:
+    src: "{{ item }}-snippet.conf.j2"
+    dest: "/etc/nginx/snippets/{{ item }}.conf"
+  loop:
+    - authelia-location
+    - authelia-auth
+  notify: "reload nginx"

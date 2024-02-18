@@ -1,4 +1,4 @@
-{% macro nginx_proxy_pass(domain, port, hsts=False, htpasswd_filename=None, extra_opts={}) %}
+{% macro nginx_proxy_pass(domain, port, hsts=False, htpasswd_filename=None, extra_opts={}, authelia=False) %}
 server {
     listen 80;
     server_name {{ domain }};
@@ -13,6 +13,10 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/{{ domain }}/privkey.pem;
     ssl_session_cache shared:SSL:10m;
     ssl_prefer_server_ciphers on;
+
+    {% if authelia %}
+    include snippets/authelia-location.conf;
+    {% endif %}
 
     {% for opt_name, opt_value in extra_opts.items() %}
     {{ opt_name }} {{ opt_value }};
@@ -47,6 +51,9 @@ server {
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
+        {% if authelia %}
+        include snippets/authelia-auth.conf;
+        {% endif %}
     }
 }
 {% endmacro %}

@@ -21,6 +21,7 @@ certbot_certs:
   - domains: ["{{ lounge_domain }}"]
   - domains: ["{{ silverbullet_domain }}"]
   - domains: ["{{ yarr_domain }}"]
+  - domains: ["{{ authelia_domain }}"]
 
 # Datadog
 datadog_agent6: true
@@ -263,3 +264,8 @@ yarr_home: "{{ user_home }}/yarr"
 yarr_host: 127.0.0.1
 yarr_port: 8015
 yarr_domain: "rss.{{ main_domain }}"
+
+# authelia
+authelia_home: "{{ user_home }}/authelia"
+authelia_host: 127.0.0.1
+authelia_port: 9091

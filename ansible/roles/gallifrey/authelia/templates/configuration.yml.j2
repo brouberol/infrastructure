@@ -1,0 +1,25 @@
+jwt_secret: {{ authelia_jwt_secret }}
+default_redirection_url: https://{{ authelia_domain }}
+
+authentication_backend:
+  file:
+    path: /config/users_database.yml
+
+access_control:
+  rules:
+    - domain:
+        - "{{ yarr_domain }}"
+      policy: two_factor
+
+session:
+  secret: {{ authelia_session_secret }}
+  domain: {{ main_domain }}
+
+storage:
+  encryption_key: {{ authelia_storage_encryption_key }}
+  local:
+    path: /config/authelia.db
+
+notifier:
+  filesystem:
+    filename: /config/notification.txt
