@@ -123,3 +123,14 @@
       "Backup yarr db"
       "{{ syno_rsync }} -r {{ yarr_home }}/yarr.db syno:{{ syno_user_home }}/backups/yarr/yarr.db"
     user: "{{ user }}"
+
+- name: "Schedule the backup of the authelia database"
+  cron:
+    name: "backup authelia db"
+    minute: "0"
+    hour: "0"
+    job: >
+      /usr/local/bin/dd-cron-event
+      "Backup yarr db"
+      "{{ syno_rsync }} -r {{ authelia_home }}/authelia.db syno:{{ syno_user_home }}/backups/authelia/authelia.db"
+    user: "{{ user }}"
