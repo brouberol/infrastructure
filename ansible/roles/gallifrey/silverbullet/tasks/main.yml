@@ -24,15 +24,6 @@
     volumes:
       - "{{ silverbullet_space }}:/space"
 
-- name: Add a user to a password file and ensure permissions are set
-  community.general.htpasswd:
-    path: /etc/nginx/silverbullet.htpasswd
-    name: "{{ silverbullet_username }}"
-    password: "{{ silverbullet_password }}"
-    owner: root
-    group: www-data
-    mode: 0640
-
 - name: "Copy silverbullet sites-available nginx conf"
   template:
     src: silverbullet.conf.j2
