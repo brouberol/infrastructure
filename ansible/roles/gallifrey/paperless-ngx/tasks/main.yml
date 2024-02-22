@@ -5,14 +5,14 @@
     owner: "{{ user }}"
     group: "{{ group }}"
   loop:
-  - data
-  - media
-  - export
-  - consume
+    - data
+    - media
+    - export
+    - consume
 
 - name: "Run the paperless-ng-sqlite services via docker-compose"
   docker_compose:
-    project_name: paperless-ng
+    project_name: paperless-ngx
     definition:
       version: "3.4"
       services:
@@ -21,7 +21,7 @@
           restart: always
 
         webserver:
-          image: "jonaswinkler/paperless-ng:{{ paperless_version }}"
+          image: "ghcr.io/paperless-ngx/paperless-ngx:{{ paperless_version }}"
           restart: always
           depends_on:
             - broker
@@ -41,10 +41,12 @@
             PAPERLESS_REDIS: redis://broker:6379
             USERMAP_UID: "{{ user_uid }}"
             USERMAP_GID: "{{ user_gid }}"
+            PAPERLESS_URL: "https://{{ paperless_domain }}"
+            PAPERLESS_CSRF_TRUSTED_ORIGINS: "https://{{ paperless_domain }},http://localhost" # localhost needed for the healthchecks
+            PAPERLESS_ALLOWED_HOSTS: "https://{{ paperless_domain }},http://localhost" # localhost needed for the healthchecks
             PAPERLESS_SECRET_KEY: "{{ paperless_secret_key }}"
             PAPERLESS_TIME_ZONE: Europe/Paris
             PAPERLESS_OCR_LANGUAGE: fra
-            PAPERLESS_ALLOWED_HOSTS: "{{ paperless_domain }},localhost"  # localhost needed for the healthchecks
             PAPERLESS_TASK_WORKERS: "1"
             PAPERLESS_THREADS_PER_WORKER: "1"
             PAPERLESS_CONSUMER_POLLING: "120"

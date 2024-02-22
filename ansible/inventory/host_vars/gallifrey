@@ -236,7 +236,7 @@ paperless_domain: "papers.{{ main_domain }}"
 paperless_home: "{{ user_home }}/paperless"
 paperless_host: 127.0.0.1
 paperless_port: 8011
-paperless_version: "1.5.0"
+paperless_version: "2.5.3"
 
 # Sophro
 sophro_www_home: /var/www/sophrologie-chalon
