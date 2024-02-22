@@ -10,7 +10,8 @@
     - { role: docker, tags: ["docker"] }
     - { role: setup-user-systemd, tags: ["setup-user-systemd"] }
     - { role: security, tags: ["security"] }
-    - { role: duo, tags: ["duo"] }
+    - { role: duo, tags: ["duo", "security"] }
+    - { role: fail2ban, tags: ["fail2ban", "security"] }
     - { role: git, tags: ["git"] }
     - { role: datadog.datadog, tags: ["datadog-agent", "datadog"] }
     - { role: datadogpy, tags: ["datadogpy", "datadog"] }

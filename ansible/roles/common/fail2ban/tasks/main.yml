@@ -1,0 +1,13 @@
+- name: "Install fail2ban"
+  apt:
+    name:
+      - fail2ban
+    state: present
+
+- name: "Deploy custom fail2ban configuration"
+  template:
+    src: custom.conf.j2
+    dest: /etc/fail2ban/jail.d/custom.conf
+    owner: root
+    group: root
+  notify: reload fail2ban
