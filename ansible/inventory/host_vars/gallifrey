@@ -257,6 +257,7 @@ silverbullet_home: "{{ user_home }}/silverbullet"
 silverbullet_space: "{{ silverbullet_home }}/space"
 silverbullet_host: 127.0.0.1
 silverbullet_port: 8014
+silverbullet_version: 0.7.3
 silverbullet_domain: "notes.{{ main_domain }}"
 
 # yarr

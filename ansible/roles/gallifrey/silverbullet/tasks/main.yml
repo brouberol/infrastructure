@@ -15,7 +15,7 @@
 - name: "Start the silverbullet container"
   docker_container:
     name: silverbullet
-    image: "zefhemel/silverbullet:latest"
+    image: "zefhemel/silverbullet:{{ silverbullet_version }}"
     state: started
     pull: yes
     published_ports:
