@@ -1,0 +1,32 @@
+- name: "Create martial user"
+  user:
+    name: "{{ martial_user }}"
+    uid: "{{ martial_uid }}"
+    groups: "users"
+    append: yes
+    state: present
+    shell: /bin/bash
+    createhome: yes
+    home: "{{ martial_home }}"
+
+- name: "Create martial web directory"
+  file:
+    path: "{{ martial_web_dir }}"
+    state: directory
+    owner: "{{ martial_uid }}"
+    group: www-data
+
+- name: "Copy martial sites-available nginx conf"
+  template:
+    src: martial.conf.j2
+    dest: /etc/nginx/sites-available/martial.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link martial sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/martial.conf
+    dest: /etc/nginx/sites-enabled/martial.conf
+    state: link
+  notify: "reload nginx"

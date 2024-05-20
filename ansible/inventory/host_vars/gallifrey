@@ -22,6 +22,7 @@ certbot_certs:
   - domains: ["{{ silverbullet_domain }}"]
   - domains: ["{{ yarr_domain }}"]
   - domains: ["{{ authelia_domain }}"]
+  - domains: ["{{ martial_domain }}"]
 
 # Datadog
 datadog_agent6: true
@@ -270,3 +271,9 @@ yarr_domain: "rss.{{ main_domain }}"
 authelia_home: "{{ user_home }}/authelia"
 authelia_host: 127.0.0.1
 authelia_port: 9091
+
+# Martial
+martial_user: martial
+martial_uid: 1003
+martial_home: /home/martial
+martial_web_dir: /var/www/martial

@@ -16,6 +16,7 @@ _5esheets_domain: "5esheets.{{ main_domain }}"
 silverbullet_domain: "notes.{{ main_domain }}"
 yarr_domain: "rss.{{ main_domain }}"
 authelia_domain: "auth.{{ main_domain }}"
+martial_domain: martialbourdis.com
 
 # misc
 opt_dir: /opt

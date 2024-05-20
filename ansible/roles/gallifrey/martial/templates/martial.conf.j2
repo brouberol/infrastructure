@@ -1,0 +1,2 @@
+{% from "macros/nginx_static.j2" import nginx_static_serve with context %}
+{{ nginx_static_serve(martial_domain, martial_web_dir, hsts=True) }}
