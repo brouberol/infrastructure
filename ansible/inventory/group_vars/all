@@ -24,7 +24,7 @@ opt_dir: /opt
 user: br
 group: br
 user_uid: 1001
-user_gid: 1002
+user_gid: 1001
 user_home: "/home/{{ user }}"
 syno_user_home: "/var/services/homes/{{ user }}"
 syno_ssh_port: 2222
