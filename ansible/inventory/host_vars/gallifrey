@@ -226,7 +226,7 @@ isso_version: "0.13.0"
 # calibre
 calibre_home: "{{ user_home }}/calibre"
 calibre_image: linuxserver/calibre-web
-calibre_version: latest
+calibre_version: 0.6.20-ls235
 calibre_host: 127.0.0.1
 calibre_port: 8007
 calibre_domain: "library.{{ main_domain }}"
