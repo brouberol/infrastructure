@@ -18,7 +18,7 @@
     env:
       PUID: "{{ user_uid | string }}"
       PGID: "{{ user_gid | string }}"
-      DOCKER_MODS: linuxserver/calibre-web:calibre
+      DOCKER_MODS: linuxserver/mods:universal-calibre
       TZ: "Europe/Paris"
     published_ports:
       - "{{ calibre_host }}:{{ calibre_port }}:8083"
