@@ -30,3 +30,11 @@
     dest: /etc/nginx/sites-enabled/martial.conf
     state: link
   notify: "reload nginx"
+
+- name: "Copy martial's SSH public key"
+  copy:
+    src: authorized_keys
+    dest: "/home/{{ martial_user }}/.ssh/authorized_keys"
+    owner: "{{ martial_user }}"
+    group: users
+    mode: "0644"
