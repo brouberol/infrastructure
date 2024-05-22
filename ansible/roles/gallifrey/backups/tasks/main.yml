@@ -131,7 +131,7 @@
     hour: "0"
     job: >
       /usr/local/bin/dd-cron-event
-      "Backup yarr db"
+      "Backup authelia db"
       "{{ syno_rsync }} -r {{ authelia_home }}/authelia.db syno:{{ syno_user_home }}/backups/authelia/authelia.db"
     user: "{{ user }}"
 
