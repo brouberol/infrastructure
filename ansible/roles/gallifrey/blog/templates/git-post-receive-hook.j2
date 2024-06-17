@@ -43,6 +43,12 @@ make html
 pagefind --site output
 cp -r output/* $BLOG_DIR
 
+curl -s -X POST "https://api.darkvisitors.com/robots-txts" \
+    -H "Authorization: Bearer {{ darkvisitors_api_token }}" \
+    -H "Content-Type: application/json" \
+    -d '{"agent_types": ["AI Data Scraper", "AI Assistant", "Undocumented AI Agent", "AI Search Crawler"], "disallow": "/"}' \
+    --output $BLOG_DIR/robots.txt
+
 # Cleanup
 cd ..
 cleanup
