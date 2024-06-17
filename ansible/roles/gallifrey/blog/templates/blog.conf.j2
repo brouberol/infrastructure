@@ -1,2 +1,2 @@
 {% from "macros/nginx_static.j2" import nginx_static_serve with context %}
-{{ nginx_static_serve(blog_domain, blog_web_dir, hsts=True) }}
+{{ nginx_static_serve(blog_domain, blog_web_dir, hsts=True, extra_opts={"add_header": 'X-Robots-Tag "noai, noimageai, GPC"'}) }}
