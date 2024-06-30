@@ -258,7 +258,9 @@ def main():
             total_h += already_reported_hours_for_next_month
             month_max_hours = get_max_monthly_hours_override(
                 next_year, next_month
-            ) or get_max_monthly_hours(next_month_start_day)
+            )
+            if month_max_hours is None:
+                month_max_hours = get_max_monthly_hours(next_month_start_day)
             if total_h > month_max_hours:
                 total_h -= month_max_hours
                 report_total_hours_on_month(
