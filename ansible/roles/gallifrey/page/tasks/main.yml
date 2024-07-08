@@ -72,3 +72,27 @@
       "Redeploy personal page after each birthday"
       "{{ page_repo }}/hooks/post-receive"
     user: "{{ git_user }}"
+
+- name: "Install htmlq"
+  unarchive:
+    src: https://github.com/mgdm/htmlq/releases/download/v0.4.0/htmlq-x86_64-linux.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: "Install rssgen"
+  copy:
+    src: rssgen.py
+    dest: /usr/local/bin/rssgen
+    group: git
+    mode: 0775
+
+- name: "Schedule WMF jobs rss export"
+  cron:
+    name: "wmf jobs rss"
+    minute: "0"
+    hour: "4"
+    job: >
+      curl -s https://boards.greenhouse.io/wikimedia/ |
+      htmlq 'div.opening[data-department-91046=true] > a' |
+      rssgen --title 'WMF Jobs' --link 'https://boards.greenhouse.io/wikimedia' --description 'P/T jobs at the WMF' > {{ page_web_dir }}/public/wmfjobs.rss
+    user: git
