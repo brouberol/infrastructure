@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import datetime
 import sys
 
 from bs4 import BeautifulSoup
@@ -22,6 +23,7 @@ RSS_TPL = """
   <title>{title}</title>
   <link>{link}</link>
   <description>{description}</description>
+  <pubDate>{pub_date}</pubDate>
   {items}
 </channel>
 
@@ -53,6 +55,7 @@ def main():
             title=args.title,
             link=args.link,
             description=args.description,
+            pub_date=datetime.datetime.now().strftime("%a, %d %b %Y %H:%M:%S"),
             items='\n'.join(items)
         )
     )
