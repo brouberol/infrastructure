@@ -7,18 +7,14 @@ from bs4 import BeautifulSoup
 
 """Generate an RSS feed from arguments and a set of links from stdin"""
 
-ITEM_TPL = """
-<item>
+ITEM_TPL = """<item>
   <title>{title}</title>
   <link>https://boards.greenhouse.io/{link}</link>
   <description>{description}</description>
-</item>
-"""
+</item>"""
 
-RSS_TPL = """
-<?xml version="1.0" encoding="UTF-8" ?>
+RSS_TPL = """<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
-
 <channel>
   <title>{title}</title>
   <link>{link}</link>
@@ -26,9 +22,7 @@ RSS_TPL = """
   <pubDate>{pub_date}</pubDate>
   {items}
 </channel>
-
-</rss>
-"""
+</rss>"""
 
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
