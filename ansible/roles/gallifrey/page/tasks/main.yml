@@ -86,10 +86,10 @@
     group: git
     mode: 0775
 
-- name: "Install filter_wmf_jobs"
+- name: "Install rss_scrape_wmfjobs"
   copy:
-    src: filter_wmf_jobs.py
-    dest: /usr/local/bin/filter_wmf_jobs
+    src: rss_scrape_wmfjobs.py
+    dest: /usr/local/bin/rss_scrape_wmfjobs
     group: git
     mode: 0775
 
@@ -100,6 +100,6 @@
     hour: "4"
     job: >
       curl -s "https://job-boards.greenhouse.io/wikimedia\?departments%5B%5D\=91046" |
-      /usr/local/bin/filter_wmf_jobs |
+      /usr/local/bin/rss_scrape_wmfjobs |
       rssgen --title 'WMF Jobs' --link '' --description 'P/T jobs at the WMF' > {{ page_web_dir }}/public/wmfjobs.rss
     user: git
