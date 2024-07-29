@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 ITEM_TPL = """<item>
   <title>{title}</title>
-  <link>{link}</link>
+  <link>{site_base}{link}</link>
   <description>{description}</description>
 </item>"""
 
@@ -40,6 +40,7 @@ def main():
         items.append(
             ITEM_TPL.format(
                 title=link.text,
+                site_base=args.link,
                 link=link.attrs['href'],
                 description=link.text
             )
