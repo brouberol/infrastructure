@@ -31,3 +31,52 @@
     dest: /etc/nginx/sites-enabled/yarr.conf
     state: link
   notify: "reload nginx"
+
+- name: "Install htmlq"
+  unarchive:
+    src: https://github.com/mgdm/htmlq/releases/download/v0.4.0/htmlq-x86_64-linux.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+
+- name: "Install rssgen"
+  copy:
+    src: rssgen.py
+    dest: /usr/local/bin/rssgen
+    group: git
+    mode: 0775
+
+- name: "Install rss_scrape_wmfjobs"
+  copy:
+    src: rss_scrape_wmfjobs.py
+    dest: /usr/local/bin/rss_scrape_wmfjobs
+    group: git
+    mode: 0775
+
+- name: "Install rss_scrape_sharpmaps"
+  copy:
+    src: rss_scrape_sharpmaps.py
+    dest: /usr/local/bin/rss_scrape_sharpmaps
+    group: git
+    mode: 0775
+
+- name: "Schedule WMF jobs rss export"
+  cron:
+    name: "wmf jobs rss"
+    minute: "0"
+    hour: "4"
+    job: >
+      curl -s "https://job-boards.greenhouse.io/wikimedia\?departments%5B%5D\=91046" |
+      /usr/local/bin/rss_scrape_wmfjobs |
+      rssgen --title 'WMF Jobs' --link '' --description 'P/T jobs at the WMF' > {{ page_web_dir }}/public/wmfjobs.rss
+    user: git
+
+- name: "Schedule sharpamps rss export"
+  cron:
+    name: "sharpmaps jobs rss"
+    minute: "0"
+    hour: "4"
+    job: >
+      curl -s "https://sharpmaps.com/" |
+      /usr/local/bin/rss_scrape_sharpmaps |
+      rssgen --title 'Sharpmaps' --link 'https://sharpmaps.com' --description 'Generate beautiful maps' > {{ page_web_dir }}/public/sharpmaps.rss
+    user: git
