@@ -86,13 +86,20 @@
     group: git
     mode: 0775
 
+- name: "Install filter_wmf_jobs"
+  copy:
+    src: filter_wmf_jobs.py
+    dest: /usr/local/bin/filter_wmf_jobs
+    group: git
+    mode: 0775
+
 - name: "Schedule WMF jobs rss export"
   cron:
     name: "wmf jobs rss"
     minute: "0"
     hour: "4"
     job: >
-      curl -s https://boards.greenhouse.io/wikimedia/ |
-      htmlq 'div.opening[data-department-91046=true] > a' |
-      rssgen --title 'WMF Jobs' --link 'https://boards.greenhouse.io/wikimedia' --description 'P/T jobs at the WMF' > {{ page_web_dir }}/public/wmfjobs.rss
+      curl -s "https://job-boards.greenhouse.io/wikimedia\?departments%5B%5D\=91046" |
+      /usr/local/bin/filter_wmf_jobs |
+      rssgen --title 'WMF Jobs' --link '' --description 'P/T jobs at the WMF' > {{ page_web_dir }}/public/wmfjobs.rss
     user: git

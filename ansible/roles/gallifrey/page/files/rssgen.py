@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 ITEM_TPL = """<item>
   <title>{title}</title>
-  <link>https://boards.greenhouse.io/{link}</link>
+  <link>{link}</link>
   <description>{description}</description>
 </item>"""
 
