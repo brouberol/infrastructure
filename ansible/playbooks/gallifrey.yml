@@ -36,6 +36,7 @@
     - { role: yarr, tags: ["yarr"] }
     - { role: authelia, tags: ["authelia"] }
     - { role: martial, tags: ["martial"] }
+    - { role: foundry, tags: ["foundry"] }
 
   post_tasks:
     - name: "Send datadog event"

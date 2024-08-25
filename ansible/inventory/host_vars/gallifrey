@@ -23,6 +23,7 @@ certbot_certs:
   - domains: ["{{ yarr_domain }}"]
   - domains: ["{{ authelia_domain }}"]
   - domains: ["{{ martial_domain }}"]
+  - domains: ["{{ foundry_domain }}"]
 
 # Datadog
 datadog_agent6: true
@@ -168,6 +169,15 @@ datadog_checks:
         ssl_server_name: "{{ paperless_domain }}"
         disable_ssl_validation: false
         min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
+      - url: "https://{{ foundry_domain }}"
+        name: "{{ foundry_domain }}"
+        check_certificate_expiration: true
+        days_warning: "{{ datadog_http_check_days_warning }}"
+        days_critical: "{{ datadog_http_check_days_critical }}"
+        check_hostname: true
+        ssl_server_name: "{{ foundry_domain }}"
+        disable_ssl_validation: false
+        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
 
 # Git
 git_home: "/home/{{ git_user }}"
@@ -277,3 +287,10 @@ martial_user: martial
 martial_uid: 1003
 martial_home: /home/martial
 martial_web_dir: /var/www/martial
+
+# foundry
+foundry_home: "{{ user_home }}/foundry"
+foundry_host: 127.0.0.1
+foundry_port: 8016
+foundry_domain: "foundry.{{ main_domain }}"
+foundry_version: "12.331"

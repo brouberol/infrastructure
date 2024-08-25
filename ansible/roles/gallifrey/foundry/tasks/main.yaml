@@ -1,0 +1,44 @@
+- name: "Create the foundry directory"
+  file:
+    path: "{{ foundry_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group  }}"
+
+- name: "Create the foundry data directory"
+  file:
+    path: "{{ foundry_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group  }}"
+
+- name: "Start the foundry container"
+  docker_container:
+    name: foundry
+    image: "felddy/foundryvtt:{{ foundry_version }}"
+    state: started
+    pull: yes
+    published_ports:
+      - "{{ foundry_host }}:{{ foundry_port }}:30000"
+    env:
+      FOUNDRY_USERNAME: "{{ foundry_username }}"
+      FOUNDRY_PASSWORD: "{{ foundry_password }}"
+      CONTAINER_PRESERVE_CONFIG: "true"
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ foundry_home }}:/data"
+
+- name: "Copy foundry sites-available nginx conf"
+  template:
+    src: foundry.conf.j2
+    dest: /etc/nginx/sites-available/foundry.conf
+    owner: root
+    group: root
+  notify: "reload nginx"
+
+- name: "Link foundry sites-enabled nginx conf"
+  file:
+    src: /etc/nginx/sites-available/foundry.conf
+    dest: /etc/nginx/sites-enabled/foundry.conf
+    state: link
+  notify: "reload nginx"

@@ -145,3 +145,14 @@
       "Backup martial's website"
       "{{ syno_rsync }} -r {{ martial_web_dir }}/ syno:{{ syno_user_home }}/backups/martial/"
     user: "{{ user }}"
+
+- name: "Schedule foundry data backup"
+  cron:
+    name: "backup martial's website"
+    minute: "0"
+    hour: "4"
+    job: >
+      /usr/local/bin/dd-cron-event
+      "Foundry data backup"
+      "{{ syno_rsync }} -r {{ foundry_home }}/ --excluede container_cache syno:{{ syno_user_home }}/backups/foundry/"
+    user: "{{ user }}"
