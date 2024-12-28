@@ -24,3 +24,10 @@ storage:
 notifier:
   filesystem:
     filename: /config/notification.txt
+
+duo_api:
+  disable: false
+  hostname: {{ duo_api_hostname }}
+  integration_key: {{ duo_api_integration_key }}
+  secret_key: {{ duo_api_secret_key }}
+  enable_self_enrollment: false
