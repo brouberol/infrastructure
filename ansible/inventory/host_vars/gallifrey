@@ -281,6 +281,9 @@ yarr_domain: "rss.{{ main_domain }}"
 authelia_home: "{{ user_home }}/authelia"
 authelia_host: 127.0.0.1
 authelia_port: 9091
+authelia_protected_domains:
+- "{{ yarr_domain }}"
+- "{{ silverbullet_domain }}"
 
 # Martial
 martial_user: martial

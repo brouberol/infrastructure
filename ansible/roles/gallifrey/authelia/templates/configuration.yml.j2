@@ -8,8 +8,9 @@ authentication_backend:
 access_control:
   rules:
     - domain:
-        - "{{ yarr_domain }}"
-        - "{{ silverbullet_domain }}"
+      {% for domain in authelia_protected_domains -%}
+        - "{{ domain }}
+      {% endfor -%}
       policy: two_factor
 
 session:
