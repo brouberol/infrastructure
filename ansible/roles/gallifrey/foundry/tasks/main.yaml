@@ -2,15 +2,15 @@
   file:
     path: "{{ foundry_home }}"
     state: directory
-    owner: "{{ user }}"
-    group: "{{ group  }}"
+    owner: "{{ foundry_user }}"
+    group: "{{ foundry_group  }}"
 
 - name: "Create the foundry data directory"
   file:
     path: "{{ foundry_home }}"
     state: directory
-    owner: "{{ user }}"
-    group: "{{ group  }}"
+    owner: "{{ foundry_user }}"
+    group: "{{ foundry_group  }}"
 
 - name: "Start the foundry container"
   docker_container:
