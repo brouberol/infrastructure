@@ -154,5 +154,5 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Foundry data backup"
-      "{{ syno_rsync }} -r {{ foundry_home }}/ --excluede container_cache syno:{{ syno_user_home }}/backups/foundry/"
+      "sudo cp -r {{ foundry_home }} /tmp/foundry && sudo chown -R {{ user }}:{{ group }} /tmp/foundry && rsync --rsync-path=/usr/bin/rsync -r /tmp/foundry/ --exclude container_cache syno:/var/services/homes/br/backups/foundry/ && rm -r /tmp/foundry"
     user: "{{ user }}"
