@@ -24,7 +24,6 @@
     - { role: wallabag, tags: ["wallabag", "web", "services"] }
     - { role: radicale, tags: ["radicale", "web", "services"] }
     - { role: backups, tags: ["backups"] }
-    - { role: pastebin, tags: ["pastebin"] }
     - { role: isso, tags: ["isso"] }
     - { role: calibre, tags: ["calibre"] }
     - { role: monitoring, tags: ["monitoring"] }
