@@ -5,6 +5,13 @@
     owner: 1000
     group: 1000
 
+- name: "Copy the lounge configuration"
+  template:
+    src: config.js.j2
+    dest: "{{ lounge_home }}/config.js"
+    owner: 1000
+    group: 1000
+
 - name: "Start the lounge container"
   docker_container:
     name: lounge
