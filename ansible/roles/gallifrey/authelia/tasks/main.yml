@@ -18,7 +18,7 @@
 - name: "Start the authelia container"
   docker_container:
     name: authelia
-    image: "authelia/authelia:latest"
+    image: "authelia/authelia:{{ authelia_version }}"
     state: started
     pull: yes
     published_ports:
