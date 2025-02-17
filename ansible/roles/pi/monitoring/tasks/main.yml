@@ -8,6 +8,7 @@
     name: datadog
     state: latest
     executable: /usr/bin/pip3
+    extra_args: --break-system-packages
 
 - name: "copy OTB monitoring script"
   template:

@@ -35,14 +35,14 @@
       "echo y | docker system prune"
     user: "{{ user }}"
 
-- name: Install the python docker-compose library
-  pip:
-    name:
-    - docker-compose
-    state: present
-
 - name: "Install the ssl backports library"
   apt:
     name: python-backports.ssl-match-hostname
     state: present
   when: ansible_os_family == "Debian" and ansible_lsb['id'] == 'Raspbian'
+
+- name: Install the docker-compose-v2 package
+  apt:
+    name: docker-compose-v2
+    state: present
+  when: ansible_os_family == "Debian" and ansible_lsb['id'] != 'Raspbian'

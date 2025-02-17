@@ -7,6 +7,7 @@ user_ssh_authorized:
 # certbot
 certbot_create_if_missing: True
 certbot_create_method: standalone
+certbot_admin_email: brouberol@imap.cc
 certbot_certs:
   - domains: ["{{ page_domain }}"]
   - domains: ["{{ blog_domain }}"]

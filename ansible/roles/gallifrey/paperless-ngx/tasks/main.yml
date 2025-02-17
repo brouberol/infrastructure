@@ -11,7 +11,7 @@
     - consume
 
 - name: "Run the paperless-ng-sqlite services via docker-compose"
-  docker_compose:
+  community.docker.docker_compose_v2:
     project_name: paperless-ngx
     definition:
       version: "3.4"

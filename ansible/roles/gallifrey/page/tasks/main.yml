@@ -3,6 +3,7 @@
   pip:
     name: cssmin
     state: present
+    extra_args: --break-system-packages
 
 - name: "Create page git bare repo"
   command: "git init --bare {{ page_repo }}"

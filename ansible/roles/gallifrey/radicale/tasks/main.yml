@@ -11,6 +11,7 @@
     version: "3.1.8"
     state: present
     executable: pip3
+    extra_args: --break-system-packages
 
 - name: "Create radicale config directory"
   file:

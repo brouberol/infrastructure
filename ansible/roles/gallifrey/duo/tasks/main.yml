@@ -6,9 +6,7 @@
 
 - name: "Add duo apt repository"
   apt_repository:
-    # repo: "deb [arch=amd64] https://pkg.duosecurity.com/Ubuntu {{ ansible_distribution_release }} main"
-    # At the time, no repository was found for ubuntu lunar
-    repo: "deb [arch=amd64] https://pkg.duosecurity.com/Ubuntu jammy main"
+    repo: "deb [arch=amd64] https://pkg.duosecurity.com/Ubuntu {{ ansible_distribution_release }} main"
     state: present
     filename: duosecurity
   become: yes

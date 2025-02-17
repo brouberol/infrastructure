@@ -3,10 +3,11 @@ name = "infrastructure"
 version = "0.1.0"
 description = "Personal infrastructure management project"
 authors = ["Balthazar Rouberol <br@imap.cc>"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.9"
-ansible = "^6.0.0"
+ansible = "^8.0.0"
 ansible-core = "^2.13"
 datadog = "^0.44.0"
 ovhcli = "^0.0.1"

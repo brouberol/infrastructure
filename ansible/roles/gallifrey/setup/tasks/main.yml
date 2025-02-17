@@ -28,11 +28,6 @@
     path: /usr/lib/python3.11/EXTERNALLY-MANAGED
     state: absent
 
-- name: "Upgrade pip"
-  pip:
-    name: pip
-    state: latest
-
 - name: "Install python packages"
   pip:
     name:
@@ -40,6 +35,7 @@
     - passlib
     - pyyaml>=6.0.0
     state: present
+    extra_args: --break-system-packages
 
 - name: "Setup motd"
   copy:

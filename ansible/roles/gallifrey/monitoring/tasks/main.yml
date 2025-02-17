@@ -14,6 +14,7 @@
     - datadog
     state: present
     executable: pip3
+    extra_args: --break-system-packages
 
 - name: render monitoring scripts
   template:
