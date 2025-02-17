@@ -276,6 +276,11 @@ module.exports = {
     //
     // This value is set to `["sqlite", "text"]` by default.
     messageStorage: ["sqlite", "text"],
+    storagePolicy: {
+        enabled: true,
+        maxAgeDays: 365,
+        deletionPolicy: "everything"
+    },
     // ### `useHexIp`
     //
     // When set to `true`, users' IP addresses will be encoded as hex.
