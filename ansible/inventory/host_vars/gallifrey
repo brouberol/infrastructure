@@ -18,13 +18,13 @@ certbot_certs:
   - domains: ["{{ isso_domain }}"]
   - domains: ["{{ calibre_domain }}"]
   - domains: ["{{ paperless_domain }}"]
-  - domains: ["{{ _5esheets_domain }}"]
   - domains: ["{{ lounge_domain }}"]
   - domains: ["{{ silverbullet_domain }}"]
   - domains: ["{{ yarr_domain }}"]
   - domains: ["{{ authelia_domain }}"]
   - domains: ["{{ martial_domain }}"]
   - domains: ["{{ foundry_domain }}"]
+  - domains: ["{{ sophro_domain }}"]
 
 # Datadog
 datadog_agent6: true
