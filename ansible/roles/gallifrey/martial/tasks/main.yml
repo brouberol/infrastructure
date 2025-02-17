@@ -9,12 +9,36 @@
     createhome: yes
     home: "{{ martial_home }}"
 
+- name: "Create martial ssh directory"
+  file:
+    dest: "{{ martial_home }}/.ssh"
+    state: directory
+    owner: "{{ martial_user }}"
+
+- name: "Create martial volume"
+  command: "fallocate -l {{ martial_volume_size }} {{ martial_volume }}"
+  args:
+    creates: "{{ martial_volume }}"
+
+- name: "Create martial loop device"
+  command: "losetup {{ martial_loop_device }} {{ martial_volume }}"
+  args:
+    creates: "{{ martial_loop_device }}"
+
 - name: "Create martial web directory"
   file:
     path: "{{ martial_web_dir }}"
     state: directory
     owner: "{{ martial_uid }}"
     group: www-data
+
+- name: Auto mount the martial data file
+  ansible.posix.mount:
+    path: "{{ martial_web_dir }}"
+    src: "{{ martial_loop_device }}"
+    fstype: ext4
+    opts: defaults
+    state: present
 
 - name: "Copy martial sites-available nginx conf"
   template:

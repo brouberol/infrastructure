@@ -292,6 +292,9 @@ martial_user: martial
 martial_uid: 1003
 martial_home: /home/martial
 martial_web_dir: /var/www/martial
+martial_volume: /media/martialvol
+martial_volume_size: 2G
+martial_loop_device: /dev/loop667
 
 # foundry
 foundry_home: "{{ user_home }}/foundry"
