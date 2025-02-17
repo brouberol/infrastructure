@@ -148,7 +148,7 @@
 
 - name: "Schedule foundry data backup"
   cron:
-    name: "backup martial's website"
+    name: "backup foundry data"
     minute: "0"
     hour: "4"
     job: >
