@@ -15,7 +15,7 @@
 - name: "Copy the php-fpm config files"
   copy:
     src: "{{ item }}"
-    dest: "/etc/php/8.1/fpm/{{ item }}"
+    dest: "/etc/php/8.3/fpm/{{ item }}"
     owner: root
     group: root
     mode: 0644
