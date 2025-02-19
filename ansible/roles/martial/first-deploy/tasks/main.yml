@@ -1,0 +1,30 @@
+- name: "Create user group"
+  group:
+    name: "{{ group }}"
+    state: present
+
+- name: "Create user"
+  user:
+    name: "{{ user }}"
+    uid: "{{ user_uid }}"
+    groups: "{{ group }},sudo"
+    append: yes
+    state: present
+    shell: /bin/bash
+    createhome: yes
+    home: "{{ user_home }}"
+    generate_ssh_key: no
+    ssh_key_bits: 4096
+    ssh_key_file: .ssh/id_rsa
+
+- name: "Add the user to the sudoers"
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%{{ user }} ALL=\(ALL\) NOPASSWD: ALL$'
+    line: "%{{ user }} ALL=(ALL) NOPASSWD: ALL"
+
+- name: "Delete ubuntu user"
+  user:
+    name: ubuntu
+    state: absent

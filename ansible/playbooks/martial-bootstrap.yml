@@ -1,0 +1,7 @@
+---
+- hosts: martial
+  user: ubuntu
+  become: yes
+  become_method: sudo
+  roles:
+  - first-deploy
