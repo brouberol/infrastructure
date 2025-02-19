@@ -4,9 +4,5 @@
   become: yes
   become_method: sudo
   tasks:
-  - name: "Delete ubuntu user"
-    user:
-      name: ubuntu
-      state: absent
   roles:
   - {role: security, tags: [security]}

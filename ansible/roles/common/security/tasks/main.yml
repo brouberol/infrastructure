@@ -98,3 +98,8 @@
     state: present
   notify:
     - restart ssh
+
+- name: "Delete ubuntu user"
+  user:
+    name: ubuntu
+    state: absent

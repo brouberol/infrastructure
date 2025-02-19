@@ -23,8 +23,3 @@
     state: present
     regexp: '^%{{ user }} ALL=\(ALL\) NOPASSWD: ALL$'
     line: "%{{ user }} ALL=(ALL) NOPASSWD: ALL"
-
-- name: "Delete ubuntu user"
-  user:
-    name: ubuntu
-    state: absent
