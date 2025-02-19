@@ -1,4 +1,4 @@
 user: martial
 group: martial
 user_home: /home/martial
-user_ssh_authorized: martial
+user_ssh_authorized: [martial]
