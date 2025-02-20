@@ -77,6 +77,7 @@
   lineinfile:
     regexp: "^auth  [success=1 default=ignore]      pam_unix.so nullok"
     line: |
+      # auth  [success=1 default=ignore]      pam_unix.so nullok
       auth  requisite pam_unix.so nullok_secure
       auth  [success=1 default=ignore] pam_duo.so
     dest: /etc/pam.d/common-auth
