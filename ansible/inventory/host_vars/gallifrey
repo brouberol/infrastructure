@@ -74,7 +74,6 @@ datadog_checks:
       - nginx_status_url: "https://{{ fathom_domain }}/basic_status"
       - nginx_status_url: "https://{{ wallabag_domain }}/basic_status"
       - nginx_status_url: "https://{{ radicale_domain }}/basic_status"
-      - nginx_status_url: "https://{{ pastebin_domain }}/basic_status"
       - nginx_status_url: "https://{{ isso_domain }}/basic_status"
       - nginx_status_url: "https://{{ calibre_domain }}/basic_status"
       - nginx_status_url: "https://{{ paperless_domain }}/basic_status"
@@ -127,15 +126,6 @@ datadog_checks:
         days_critical: "{{ datadog_http_check_days_critical }}"
         check_hostname: true
         ssl_server_name: "{{ radicale_domain }}"
-        disable_ssl_validation: false
-        min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
-      - url: "https://{{ pastebin_domain }}"
-        name: "{{ pastebin_domain }}"
-        check_certificate_expiration: true
-        days_warning: "{{ datadog_http_check_days_warning }}"
-        days_critical: "{{ datadog_http_check_days_critical }}"
-        check_hostname: true
-        ssl_server_name: "{{ pastebin_domain }}"
         disable_ssl_validation: false
         min_collection_interval: "{{ datadog_http_check_min_collection_interval }}"
       - url: "http://{{ myip_domain }}"
