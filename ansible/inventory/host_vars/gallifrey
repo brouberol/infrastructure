@@ -211,13 +211,6 @@ radicale_port: 8004
 radicale_domain: "caldav.{{ main_domain }}"
 radicale_home: "{{ user_home }}/radicale"
 
-# pastebin
-pastebin_host: 127.0.0.1
-pastebin_port: 8005
-pastebin_version: 1.0.2
-pastebin_home: "{{ user_home }}/pastebin"
-pastebin_domain: "bin.{{ main_domain }}"
-
 # isso
 isso_host: 127.0.0.1
 isso_docker_port: 8080

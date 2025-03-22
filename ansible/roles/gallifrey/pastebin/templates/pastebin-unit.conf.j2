@@ -1,5 +1,0 @@
-{% from "macros/systemd_user_service.j2" import systemd_user_service with context %}
-{{ systemd_user_service("Pastebin server") }}
-WorkingDirectory={{ pastebin_home }}
-Environment=ROCKET_PORT={{ pastebin_port }}
-ExecStart={{ pastebin_home }}/bin

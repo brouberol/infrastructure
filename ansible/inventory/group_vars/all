@@ -5,7 +5,6 @@ sophro_domain: sophrologie-chalon.com
 fathom_domain: "stats.{{ main_domain }}"
 wallabag_domain: "wallabag.{{ main_domain }}"
 radicale_domain: "caldav.{{ main_domain }}"
-pastebin_domain: "bin.{{ main_domain }}"
 isso_domain: "comments.{{ main_domain }}"
 calibre_domain: "library.{{ main_domain }}"
 paperless_domain: "papers.{{ main_domain }}"
