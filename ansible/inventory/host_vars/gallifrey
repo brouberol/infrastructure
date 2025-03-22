@@ -3,6 +3,7 @@ hostname: gallifrey
 user_ssh_authorized:
   - "{{ user }}"
   - "{{ git_user }}"
+  - "{{ martial_user}}"
 
 # certbot
 certbot_create_if_missing: True
