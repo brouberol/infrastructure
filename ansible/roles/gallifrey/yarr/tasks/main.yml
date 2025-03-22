@@ -32,32 +32,17 @@
     state: link
   notify: "reload nginx"
 
-- name: "Install htmlq"
-  unarchive:
-    src: https://github.com/mgdm/htmlq/releases/download/v0.4.0/htmlq-x86_64-linux.tar.gz
-    dest: /usr/local/bin
-    remote_src: yes
-
-- name: "Install rssgen"
+- name: "Install rss parsing scripts"
   copy:
-    src: rssgen.py
-    dest: /usr/local/bin/rssgen
+    src: "{{ item }}.py"
+    dest: "/usr/local/bin/{{ item }}"
     group: git
     mode: 0775
-
-- name: "Install rss_scrape_wmfjobs"
-  copy:
-    src: rss_scrape_wmfjobs.py
-    dest: /usr/local/bin/rss_scrape_wmfjobs
-    group: git
-    mode: 0775
-
-- name: "Install rss_scrape_sharpmaps"
-  copy:
-    src: rss_scrape_sharpmaps.py
-    dest: /usr/local/bin/rss_scrape_sharpmaps
-    group: git
-    mode: 0775
+  loop:
+  - rssgen
+  - rss_scrape_sharpmaps
+  - rss_scrape_wmf_signpost
+  - rss_scrape_wmfjobs
 
 - name: "Schedule WMF jobs rss export"
   cron:
@@ -79,4 +64,15 @@
       curl -s "https://sharpmaps.com/" |
       /usr/local/bin/rss_scrape_sharpmaps |
       rssgen --title 'Sharpmaps' --link 'https://sharpmaps.com' --description 'Generate beautiful maps' > {{ page_web_dir }}/public/sharpmaps.rss
+    user: git
+
+- name: "Schedule wmg signpost rss export"
+  cron:
+    name: "wmf signpost rss"
+    minute: "0"
+    hour: "4"
+    job: >
+      curl -L -s "https://tools.wmflabs.org/mediawiki-feeds/feed.php?url=https%3A%2F%2Fen.wikipedia.org%2Fw%2F&category=Category%3AWikipedia+Signpost+single+page+RSS+feed&title=The+Signpost+(single-page)" |
+      /usr/local/bin/rss_scrape_wmf_signpost |
+      rssgen --title 'Wikimedia Signpost' --link 'https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_Signpost' --description 'Wikimedia Signpost'> {{ page_web_dir }}/public/wmfsignpost.rss
     user: git
