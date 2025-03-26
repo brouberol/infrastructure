@@ -29,7 +29,6 @@
     - { role: monitoring, tags: ["monitoring"] }
     - { role: paperless-ngx, tags: ["paperless"] }
     - { role: sophro-www, tags: ["sophro-www"] }
-    - { role: 5esheets, tags: ["5esheets"] }
     - { role: lounge, tags: ["lounge"] }
     - { role: silverbullet, tags: ["silverbullet"] }
     - { role: yarr, tags: ["yarr"] }
