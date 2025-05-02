@@ -30,19 +30,3 @@
   - rain
   - enedis
 
-- name: "Copy the river level monitoring script to a bindir"
-  template:
-    src: "monitor_{{ item }}"
-    dest: "/usr/local/bin/monitor_{{ item }}"
-    mode: 0755
-    owner: root
-    group: root
-  loop:
-  - rivers
-
-- name: "Monitor river level at different stations"
-  cron:
-    name: "monitor rivers"
-    minute: "*/5"
-    job: /usr/local/bin/monitor_rivers
-    user: "{{ user }}"
