@@ -32,6 +32,15 @@
     state: link
   notify: "reload nginx"
 
+- name: "Install rss python libraries"
+  pip:
+    name:
+    - feedgen
+    - feedparser
+    state: present
+    executable: pip3
+    extra_args: --break-system-packages
+
 - name: "Install rss parsing scripts"
   copy:
     src: "{{ item }}.py"
@@ -43,6 +52,7 @@
   - rss_scrape_sharpmaps
   - rss_scrape_wmf_signpost
   - rss_scrape_wmfjobs
+  - rss_filter
 
 - name: "Schedule WMF jobs rss export"
   cron:
@@ -75,4 +85,43 @@
       curl -L -s "https://tools.wmflabs.org/mediawiki-feeds/feed.php?url=https%3A%2F%2Fen.wikipedia.org%2Fw%2F&category=Category%3AWikipedia+Signpost+single+page+RSS+feed&title=The+Signpost+(single-page)" |
       /usr/local/bin/rss_scrape_wmf_signpost |
       rssgen --title 'Wikimedia Signpost' --link 'https://en.wikipedia.org/wiki/Wikipedia:Wikipedia_Signpost' --description 'Wikimedia Signpost'> {{ page_web_dir }}/public/wmfsignpost.rss
+    user: git
+
+- name: "Schedule Backseat youtube channel rss export"
+  cron:
+    name: "backseat rss"
+    minute: "0"
+    hour: "3"
+    job: >
+      /usr/local/bin/rss_filter
+      --url 'https://www.youtube.com/feeds/videos.xml?channel_id=UC2ijB3_Fg2pIW1g6FeIiYKA'
+      --feed-name Backseat
+      --filter 'S0'
+      --output  {{ page_web_dir }}/public/yt-backseat.rss
+    user: git
+
+- name: "Schedule KEXP youtube channel rss export"
+  cron:
+    name: "kexp rss"
+    minute: "0"
+    hour: "3"
+    job: >
+      /usr/local/bin/rss_filter
+      --url 'https://www.youtube.com/feeds/videos.xml?channel_id=UC3I2GFN_F8WudD_2jUZbojA'
+      --feed-name KEXP
+      --filter 'Full Performance'
+      --output  {{ page_web_dir }}/public/yt-kexp.rss
+    user: git
+
+- name: "Schedule Roll for Combat youtube channel rss export"
+  cron:
+    name: "roc rss"
+    minute: "0"
+    hour: "3"
+    job: >
+      /usr/local/bin/rss_filter
+      --url 'https://www.youtube.com/feeds/videos.xml?channel_id=UCU4p5Dgq5G8cA2OMU1SLpXw'
+      --feed-name 'Roll for Combat'
+      --negative-filter 'Edgewatch'
+      --output  {{ page_web_dir }}/public/yt-rollforcombat.rss
     user: git
