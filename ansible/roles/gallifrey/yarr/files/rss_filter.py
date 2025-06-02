@@ -10,7 +10,7 @@ def add_entry_to_feed(feed, entry):
     fe.title(entry.get('title'))
     fe.link(href=entry.get('link'))
     fe.description(entry.get('description'))
-    fe.pubdate(entry.get('published'))
+    fe.pubDate(entry.get('published'))
 
 
 def filter_feed(input_url, feed_name, search_string, negative_filter, output_filename):
