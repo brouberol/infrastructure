@@ -95,7 +95,6 @@
     job: >
       /usr/local/bin/rss_filter
       --url 'https://www.youtube.com/feeds/videos.xml?channel_id=UC2ijB3_Fg2pIW1g6FeIiYKA'
-      --feed-name Backseat
       --filter 'S0'
       --output  {{ page_web_dir }}/public/yt-backseat.rss
     user: git
@@ -108,7 +107,6 @@
     job: >
       /usr/local/bin/rss_filter
       --url 'https://www.youtube.com/feeds/videos.xml?channel_id=UC3I2GFN_F8WudD_2jUZbojA'
-      --feed-name KEXP
       --filter 'Full Performance'
       --output  {{ page_web_dir }}/public/yt-kexp.rss
     user: git
@@ -121,7 +119,6 @@
     job: >
       /usr/local/bin/rss_filter
       --url 'https://www.youtube.com/feeds/videos.xml?channel_id=UCU4p5Dgq5G8cA2OMU1SLpXw'
-      --feed-name 'Roll for Combat'
       --negative-filter 'Edgewatch'
       --output  {{ page_web_dir }}/public/yt-rollforcombat.rss
     user: git
@@ -134,7 +131,6 @@
     job: >
       /usr/local/bin/rss_filter
       --url 'https://www.youtube.com/feeds/videos.xml?channel_id=UCIVOFu4geQx5KrTTQwtIyMg'
-      --feed-name 'Knights of Last Call'
       --negative-filter 'Torchbearer'
       --output  {{ page_web_dir }}/public/yt-kolc.rss
     user: git

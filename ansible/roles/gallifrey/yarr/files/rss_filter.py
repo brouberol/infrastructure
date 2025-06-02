@@ -13,7 +13,7 @@ def add_entry_to_feed(feed, entry):
     fe.pubDate(entry.get('published'))
 
 
-def filter_feed(input_url, feed_name, search_string, negative_filter, output_filename):
+def filter_feed(input_url, search_string, negative_filter, output_filename):
     """
     Filter an RSS feed to include only entries whose titles contain the specified substring.
 
@@ -24,15 +24,17 @@ def filter_feed(input_url, feed_name, search_string, negative_filter, output_fil
     Returns:
         str: Path to the filtered RSS feed file
     """
+    # Get the source feed
+    source_feed = feedparser.parse(input_url)
+
     # Parse the input feed
     fg = FeedGenerator()
     fg.id(input_url)
-    fg.title(feed_name)
     fg.link(href=input_url)
-    fg.description(f"Feed filtered to show only entries containing '{search_string}'")
+    fg.description(f"Filtered feed from {input_url}")
+    fg.title(source_feed.feed.title)
 
-    # Get the source feed
-    source_feed = feedparser.parse(input_url)
+
 
     # Add entries that match our criteria
     for entry in source_feed.entries:
@@ -48,13 +50,12 @@ def filter_feed(input_url, feed_name, search_string, negative_filter, output_fil
 def main():
     parser = argparse.ArgumentParser(description='Filter an RSS feed based on title substring')
     parser.add_argument('--url', help='URL of the RSS feed to filter')
-    parser.add_argument('--feed-name', help='RSS feed name')
     parser.add_argument('--filter', help='Substring to search for in entry titles/descriptions')
     parser.add_argument('--negative-filter', help='Substring to exclude from entry titles')
     parser.add_argument('--output', help='Output filename')
     args = parser.parse_args()
 
-    filter_feed(args.url, args.feed_name, args.filter, args.negative_filter, args.output)
+    filter_feed(args.url, args.filter, args.negative_filter, args.output)
 
 
 if __name__ == "__main__":
