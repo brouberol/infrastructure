@@ -125,3 +125,16 @@
       --negative-filter 'Edgewatch'
       --output  {{ page_web_dir }}/public/yt-rollforcombat.rss
     user: git
+
+- name: "Schedule Knights of Last Call youtube channel rss export"
+  cron:
+    name: "roc rss"
+    minute: "0"
+    hour: "3"
+    job: >
+      /usr/local/bin/rss_filter
+      --url 'https://www.youtube.com/feeds/videos.xml?channel_id=UCIVOFu4geQx5KrTTQwtIyMg'
+      --feed-name 'Knights of Last Call'
+      --negative-filter 'Torchbearer'
+      --output  {{ page_web_dir }}/public/yt-kolc.rss
+    user: git
