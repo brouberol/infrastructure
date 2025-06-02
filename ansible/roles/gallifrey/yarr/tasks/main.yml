@@ -134,3 +134,15 @@
       --negative-filter 'Torchbearer'
       --output  {{ page_web_dir }}/public/yt-kolc.rss
     user: git
+
+- name: "Schedule The Haunting of Hanashira youtube playlist rss export"
+  cron:
+    name: "hanashira rss"
+    minute: "0"
+    hour: "3"
+    job: >
+      /usr/local/bin/rss_filter
+      --url 'https://www.youtube.com/feeds/videos.xml?playlist_id=PL7m14mvokus1obSEHJSug55NPzMjvheha'
+      --negative-filter '🔴'
+      --output  {{ page_web_dir }}/public/yt-hanashira.rss
+    user: git
