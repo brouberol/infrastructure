@@ -19,6 +19,5 @@
   - { role: wireguard, tags: ['wireguard'] }
   - { role: samba, tags: ['samba'] }
   - { role: transmission, tags: ['transmission'] }
-  - { role: notion, tags: ['notion'] }
   - { role: monitoring, tags: ['monitoring'] }
   - { role: homer, tags: ['homer'] }
