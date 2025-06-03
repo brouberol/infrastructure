@@ -281,7 +281,7 @@ foundry_home: "{{ user_home }}/foundry"
 foundry_host: 127.0.0.1
 foundry_port: 8016
 foundry_domain: "foundry.{{ main_domain }}"
-foundry_version: "12.331"
+foundry_version: "12.343"
 foundry_user: 421 # uid in the container
 foundry_group: 421 # gid in the container
 
