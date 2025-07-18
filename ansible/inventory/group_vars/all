@@ -71,10 +71,7 @@ datadog_config:
   dogstatsd_socket: /var/run/datadog/datadog-agent.socket
 
 # IPs
-sosh_router_internal_ip: "192.168.1.1"
-ovh_router_internal_ip: "192.168.0.1"
-otb_internal_ip: "192.168.100.1"
-syno_internal_ip: "192.168.100.131"
+syno_internal_ip: "192.168.1.15"
 syno_http_port: "5000"
 syno_rsync: "rsync --rsync-path=/usr/bin/rsync"
 

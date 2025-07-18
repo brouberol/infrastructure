@@ -4,13 +4,6 @@
   become: yes
   become_method: sudo
 
-  pre_tasks:
-  - name: "Resolve the pi IP"
-    set_fact:
-      pi_ip: "{{ lookup('community.general.dig', pi_domain)}}"
-    tags:
-    - always  # always run it, even when fitering tags
-
   roles:
   - { role: pi-setup, tags: ['setup'] }
   - { role: layereight.wifi, tags: ['wifi'] }

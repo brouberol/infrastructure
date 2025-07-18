@@ -17,7 +17,7 @@
       PUID: "{{ transmission_uid | quote }}"
       PGID: "{{ transmission_gid | quote }}"
       TZ: "Europe/Paris"
-    container_args: "--dns {{ pi_ip }} --cpus 1 --memory 150m" # use pi-hole to circumvent blocked domains
+    container_args: "--dns {{ pi_domain }} --cpus 1 --memory 150m" # use pi-hole to circumvent blocked domains
     container_volumes:
       - "{{ jackett_home }}:/config"
       - "{{ transmission_download_dir }}:/downloads"
