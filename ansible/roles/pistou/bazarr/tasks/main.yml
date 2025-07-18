@@ -11,6 +11,7 @@
   vars:
     container_name: bazarr
     container_image: lscr.io/linuxserver/bazarr:arm32v7-development
+    container_docker_pull: no
     container_ports:
       - "{{ ansible_default_ipv4.address }}:{{ bazarr_port }}:{{ bazarr_port }}/tcp"
     container_env:
