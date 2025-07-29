@@ -9,6 +9,7 @@
   - { role: layereight.wifi, tags: ['wifi'] }
   - { role: inputrc, tags: ['setup', 'inputrc'] }
   - { role: docker, tags: ['docker'] }
+  - { role: wireguard, tags: ['wireguard'] }
   - { role: samba, tags: ['samba'] }
   - { role: radarr, tags: ['radarr', 'rr'] }
   - { role: sonarr, tags: ['sonarr', 'rr'] }

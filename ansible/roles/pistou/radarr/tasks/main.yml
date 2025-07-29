@@ -13,7 +13,7 @@
     container_image: lscr.io/linuxserver/radarr:arm32v7-develop
     container_docker_pull: no
     container_ports:
-      - "{{ ansible_default_ipv4.address }}:{{ radarr_port }}:{{ radarr_port }}/tcp"
+      - "0.0.0.0:{{ radarr_port }}:{{ radarr_port }}/tcp"
     container_env:
       PUID: "{{ transmission_uid | quote }}"
       PGID: "{{ transmission_gid | quote }}"

@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+
+[Interface]
+Address = {{ wireguard['chambonas']['ip']}}/32
+ListenPort = {{ wireguard['chambonas']['peer']['port'] }}
+PrivateKey = {{ wireguard['chambonas']['privkey'] }}
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o eth0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o eth0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+{% for peer_name, peer_data in wireguard.items() %}
+{% if peer_name != 'chambonas' %}
+[Peer]
+# {{ peer_name }}
+PublicKey = {{ peer_data['pubkey'] }}
+AllowedIps = {{ peer_data['ip'] }}/32
+
+{% endif %}
+{% endfor %}

@@ -1,5 +1,5 @@
 ---
-- hosts: syno
+- hosts: chambonas
   user: "{{ user }}"
   become: yes
 
@@ -8,3 +8,4 @@
   - { role: backups, tags: ['backups'] }
   - { role: motd, tags: ['motd'] }
   - { role: webhooks, tags: ['webhooks'] }
+  - { role: wireguard, tags: ['wireguard'] }

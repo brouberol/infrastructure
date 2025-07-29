@@ -1,0 +1,12 @@
+{% macro wireguard_peer() %}
+# {{ ansible_managed }}
+
+[Interface]
+Address = {{ wireguard[ansible_facts['nodename']]['ip'] }}/32
+PrivateKey = {{ wireguard[ansible_facts['nodename']]['privkey'] }}
+
+[Peer]
+Endpoint = {{ wireguard['chambonas']['peer']['private'] -}}:{{ wireguard['chambonas']['peer']['port'] }}
+PublicKey = {{ wireguard['chambonas']['pubkey'] }}
+AllowedIPs = 192.168.0.0/16
+{% endmacro %}

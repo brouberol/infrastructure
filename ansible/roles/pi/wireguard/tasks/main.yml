@@ -1,27 +1,3 @@
-# Instructions adapting https://wireguard.how/server/raspbian/
-
-- name: import the wireguard deb repo apt key
-  apt_key:
-    keyserver: hkp://p80.pool.sks-keyservers.net:80
-    id: "{{ item }}"
-  loop:
-    - 04EE7237B7D453EC
-    - 648ACFD622F3D138
-
-- name: Add the Debian unstable release, and pin the Debian unstable priority behind Raspbian stable.
-  apt_repository:
-    repo: deb http://deb.debian.org/debian/ unstable main
-    state: present
-    filename: unstable
-
-- name: Keep the stable version for anything in stable and unstable
-  template:
-    src: limit-unstable.j2
-    dest: /etc/apt/preferences.d/limit-unstable
-    mode: '0644'
-    owner: root
-    group: root
-
 - name: Install wireguard
   apt:
     update_cache: yes
@@ -35,17 +11,15 @@
     mode: '0600'
     owner: root
     group: root
+  notify: "restart wg-quick@w0"
 
-- name: Copy the postup/down iptables rules for wg1
-  copy:
-    src: "{{ item }}"
-    dest: "/etc/wireguard/{{ item }}"
-    owner: root
-    group: root
-    mode: 0744
-  loop:
-  - wg1-postup.sh
-  - wg1-postdown.sh
+- name: "Enable wg-quick@wg0"
+  service:
+    name: wg-quick@wg0
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  ignore_errors: yes  # if the interface is already up
 
 - name: Configure the wg1 wireguard interface
   template:
@@ -55,3 +29,11 @@
     owner: root
     group: root
   notify: "restart wg-quick@w1"
+
+- name: "Enable wg-quick@wg1"
+  service:
+    name: wg-quick@wg1
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  ignore_errors: yes  # if the interface is already up

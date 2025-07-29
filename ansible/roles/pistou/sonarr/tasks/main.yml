@@ -13,7 +13,7 @@
     # we're blocked on that tag, cf https://info.linuxserver.io/issues/2022-08-02-sonarr/
     container_image: lscr.io/linuxserver/sonarr:develop-3.0.8.1540-ls294
     container_ports:
-      - "{{ ansible_default_ipv4.address }}:{{ sonarr_port }}:{{ sonarr_port }}/tcp"
+      - "0.0.0.0:{{ sonarr_port }}:{{ sonarr_port }}/tcp"
     container_env:
       PUID: "{{ transmission_uid | quote }}"
       PGID: "{{ transmission_gid | quote }}"

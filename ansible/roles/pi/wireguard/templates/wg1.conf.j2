@@ -1,16 +1,11 @@
 # {{ ansible_managed }}
 
 [Interface]
-PrivateKey = {{ wg1_server_interface_private_key }}
-Address = {{ wg1_server_interface_address }}
-ListenPort = {{ wg1_server_interface_port }}
-PostUp = /etc/wireguard/wg1-postup.sh
-PostDown = /etc/wireguard/wg1-postdown.sh
+Address = {{ wg1_ip }}/32
+PrivateKey = {{ wg1_private_key }}
+Table = {{ vpn_routing_table_id }}
 
-{% for peer in wg1_peers %}
-# {{ peer.comment }}
 [Peer]
-PublicKey = {{ peer.public_key }}
-AllowedIPs = {{ peer.allowed_ips }}
-
-{% endfor %}
+Endpoint = {{ wg1_server_peer_endpoint }}
+PublicKey = {{ wg1_server_peer_public_key }}
+AllowedIPs = 0.0.0.0/0

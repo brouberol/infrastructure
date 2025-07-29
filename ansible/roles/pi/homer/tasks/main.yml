@@ -20,7 +20,7 @@
     container_image: "b4bz/homer:{{ homer_version }}"
     pull: yes
     container_ports:
-      - "{{ ansible_default_ipv4.address }}:80:8080/tcp"
+      - "0.0.0.0:80:8080/tcp"
     container_volumes:
       - "{{ homer_home }}:/www/assets"
     container_args: "--log-driver none"

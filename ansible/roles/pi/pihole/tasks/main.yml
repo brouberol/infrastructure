@@ -16,8 +16,7 @@
     container_image: pihole/pihole:{{ pihole_tag }}
     pull: yes
     container_ports:
-      - 127.0.0.1:53:53/udp
-      - "{{ ansible_default_ipv4.address }}:53:53/udp"
+      - 0.0.0.0:53:53/udp
       - 0.0.0.0:67:67/udp
       - "0.0.0.0:{{ pihole_admin_port }}:80/tcp"
       - 0.0.0.0:443:443/tcp

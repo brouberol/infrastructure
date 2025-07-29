@@ -13,7 +13,7 @@
     container_image: lscr.io/linuxserver/jackett:arm32v7-latest
     container_docker_pull: no
     container_ports:
-      - "{{ ansible_default_ipv4.address }}:{{ jackett_port }}:{{ jackett_port }}/tcp"
+      - "0.0.0.0:{{ jackett_port }}:{{ jackett_port }}/tcp"
     container_env:
       PUID: "{{ transmission_uid | quote }}"
       PGID: "{{ transmission_gid | quote }}"
