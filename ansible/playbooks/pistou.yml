@@ -13,7 +13,6 @@
   - { role: samba, tags: ['samba'] }
   - { role: radarr, tags: ['radarr', 'rr'] }
   - { role: sonarr, tags: ['sonarr', 'rr'] }
-  - { role: jackett, tags: ['jackett', 'rr'] }
   - { role: bazarr, tags: ['bazarr', 'rr'] }
   - { role: tuya, tags: ['tuya'] }
 

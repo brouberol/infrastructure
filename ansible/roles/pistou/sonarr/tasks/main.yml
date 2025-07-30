@@ -24,8 +24,8 @@
       - "{{ transmission_download_dir }}:/downloads"
     container_args: "--cpus 1 --memory 150m"
     service_systemd_unit_options:
-      After: "docker.service mnt-nas-series.mount mnt-nas-transmission.mount jackett_container.service"
-      Requires: "docker.service mnt-nas-series.mount mnt-nas-transmission.mount jackett_container.service"
+      After: "docker.service mnt-nas-series.mount mnt-nas-transmission.mount"
+      Requires: "docker.service mnt-nas-series.mount mnt-nas-transmission.mount"
 
 - name: "Backup the sonarr database"
   cron:
