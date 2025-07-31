@@ -33,5 +33,5 @@
     name: "Backup the bazarr database"
     minute: "0"
     hour: "1"
-    job: "{{ syno_rsync }} {{ bazarr_home }}/db/bazarr.db {{ user }}@{{ syno_internal_ip }}:~/backups/bazarr/bazarr.db"
+    job: "{{ syno_rsync }} {{ bazarr_home }}/db/bazarr.db {{ user }}@{{ peers['chambonas']['internal_ip'] }}:~/backups/bazarr/bazarr.db"
     user: "{{ user }}"

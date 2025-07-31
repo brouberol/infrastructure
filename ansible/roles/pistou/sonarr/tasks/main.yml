@@ -32,5 +32,5 @@
     name: "Backup the sonarr database"
     minute: "0"
     hour: "1"
-    job: "{{ syno_rsync }} {{ sonarr_home }}/sonarr.db {{ user }}@{{ syno_internal_ip }}:~/backups/sonarr/sonarr.db"
+    job: "{{ syno_rsync }} {{ sonarr_home }}/sonarr.db {{ user }}@{{ peers['chambonas']['internal_ip'] }}:~/backups/sonarr/sonarr.db"
     user: "{{ user }}"

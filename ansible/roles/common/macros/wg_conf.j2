@@ -2,11 +2,11 @@
 # {{ ansible_managed }}
 
 [Interface]
-Address = {{ wireguard[ansible_facts['nodename']]['ip'] }}/32
-PrivateKey = {{ wireguard[ansible_facts['nodename']]['privkey'] }}
+Address = {{ peers[ansible_facts['nodename']]['wireguard']['ip'] }}/32
+PrivateKey = {{ peers[ansible_facts['nodename']]['wireguard']['privkey'] }}
 
 [Peer]
-Endpoint = {{ wireguard['chambonas']['peer']['private'] -}}:{{ wireguard['chambonas']['peer']['port'] }}
-PublicKey = {{ wireguard['chambonas']['pubkey'] }}
+Endpoint = {{ peers['chambonas']['wireguard']['peer']['private'] -}}:{{ peers['chambonas']['wireguard']['peer']['port'] }}
+PublicKey = {{ peers['chambonas']['wireguard']['pubkey'] }}
 AllowedIPs = 192.168.0.0/16
 {% endmacro %}

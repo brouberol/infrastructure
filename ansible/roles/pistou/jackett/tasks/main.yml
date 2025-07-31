@@ -18,7 +18,7 @@
       PUID: "{{ transmission_uid | quote }}"
       PGID: "{{ transmission_gid | quote }}"
       TZ: "Europe/Paris"
-    container_args: "--dns {{ pi_internal_ip }} --cpus 1 --memory 150m" # use pi-hole to circumvent blocked domains
+    container_args: "--dns {{ peers['pi']['internal_ip'] }} --cpus 1 --memory 150m" # use pi-hole to circumvent blocked domains
     container_volumes:
       - "{{ jackett_home }}:/config"
       - "{{ transmission_download_dir }}:/downloads"
@@ -31,5 +31,5 @@
     name: "Backup the jackett config"
     minute: "0"
     hour: "1"
-    job: "{{ syno_rsync }} {{ jackett_home }}/Jackett/ServerConfig.json {{ user }}@{{ syno_internal_ip }}:~/backups/jackett/ServerConfig.json"
+    job: "{{ syno_rsync }} {{ jackett_home }}/Jackett/ServerConfig.json {{ user }}@{{ peers['chambonas']['internal_ip'] }}:~/backups/jackett/ServerConfig.json"
     user: "{{ user }}"

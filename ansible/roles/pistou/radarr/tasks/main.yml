@@ -32,7 +32,7 @@
     name: "Backup the radarr database"
     minute: "0"
     hour: "1"
-    job: "{{ syno_rsync }} {{ radarr_home }}/radarr.db {{ user }}@{{ syno_internal_ip }}:~/backups/radarr/radarr.db"
+    job: "{{ syno_rsync }} {{ radarr_home }}/radarr.db {{ user }}@{{ peers['chambonas']['internal_ip'] }}:~/backups/radarr/radarr.db"
     user: "{{ user }}"
 
 - name: "Copy script ensuring the NAS dirs are mounted"

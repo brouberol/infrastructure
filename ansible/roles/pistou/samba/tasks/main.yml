@@ -35,19 +35,19 @@
   lineinfile:
     path: /etc/fstab
     state: present
-    regexp: '^//{{ syno_internal_ip }}/downloads/transmission'
-    line: "//{{ syno_internal_ip }}/downloads/transmission\t{{ download_directory }}\tcifs\tuid={{ transmission_uid }},gid={{ transmission_gid }},credentials={{ user_home }}/.smb-transmission,iocharset=utf8,vers=3.0,noperm 0 0"
+    regexp: '^//{{ peers["chambonas"]["internal_ip"] }}/downloads/transmission'
+    line: "//{{ peers['chambonas']['internal_ip'] }}/downloads/transmission\t{{ download_directory }}\tcifs\tuid={{ transmission_uid }},gid={{ transmission_gid }},credentials={{ user_home }}/.smb-transmission,iocharset=utf8,vers=3.0,noperm 0 0"
 
 - name: Auto mount the films samba volume
   lineinfile:
     path: /etc/fstab
     state: present
-    regexp: '^//{{ syno_internal_ip }}/video/Films'
-    line: "//{{ syno_internal_ip }}/video/Films\t{{ radarr_films_dir }}\tcifs\tuid={{ transmission_uid }},gid={{ transmission_gid }},credentials={{ user_home }}/.smb-radarr,iocharset=utf8,vers=3.0,noperm 0 0"
+    regexp: '^//{{ peers["chambonas"]["internal_ip"] }}/video/Films'
+    line: "//{{ peers['chambonas']['internal_ip'] }}/video/Films\t{{ radarr_films_dir }}\tcifs\tuid={{ transmission_uid }},gid={{ transmission_gid }},credentials={{ user_home }}/.smb-radarr,iocharset=utf8,vers=3.0,noperm 0 0"
 
 - name: Auto mount the series samba volume
   lineinfile:
     path: /etc/fstab
     state: present
-    regexp: '^//{{ syno_internal_ip }}/video/Series'
-    line: "//{{ syno_internal_ip }}/video/Series\t{{ sonarr_series_dir }}\tcifs\tuid={{ transmission_uid }},gid={{ transmission_gid }},credentials={{ user_home }}/.smb-sonarr,iocharset=utf8,vers=3.0,noperm 0 0"
+    regexp: '^//{{ peers["chambonas"]["internal_ip"] }}/video/Series'
+    line: "//{{ peers['chambonas']['internal_ip'] }}/video/Series\t{{ sonarr_series_dir }}\tcifs\tuid={{ transmission_uid }},gid={{ transmission_gid }},credentials={{ user_home }}/.smb-sonarr,iocharset=utf8,vers=3.0,noperm 0 0"
