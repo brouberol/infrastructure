@@ -14,7 +14,6 @@
   - { role: radarr, tags: ['radarr', 'rr'] }
   - { role: sonarr, tags: ['sonarr', 'rr'] }
   - { role: bazarr, tags: ['bazarr', 'rr'] }
-  - { role: tuya, tags: ['tuya'] }
 
   handlers:
   - name: restart ssh
