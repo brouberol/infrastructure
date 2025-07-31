@@ -72,6 +72,8 @@ datadog_config:
 
 # IPs
 syno_internal_ip: "192.168.1.15"
+pistou_internal_ip: 192.168.1.16
+pi_internal_ip: 192.168.1.17
 syno_http_port: "5000"
 syno_rsync: "rsync --rsync-path=/usr/bin/rsync"
 
