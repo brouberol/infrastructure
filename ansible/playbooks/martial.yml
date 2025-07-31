@@ -1,8 +1,0 @@
----
-- hosts: martial
-  user: martial
-  become: yes
-  become_method: sudo
-  tasks:
-  roles:
-  - {role: security, tags: [security]}
