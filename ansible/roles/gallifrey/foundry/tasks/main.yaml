@@ -24,6 +24,7 @@
       FOUNDRY_USERNAME: "{{ foundry_username }}"
       FOUNDRY_PASSWORD: "{{ foundry_password }}"
       CONTAINER_PRESERVE_CONFIG: "true"
+    user: "{{ foundry_user }}:{{ foundry_group }}"
     restart_policy: unless-stopped
     volumes:
       - "{{ foundry_home }}:/data"
