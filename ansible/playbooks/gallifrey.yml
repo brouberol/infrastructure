@@ -21,7 +21,6 @@
     - { role: blog, tags: ["blog", "web"] }
     - { role: myip, tags: ["myip", "services"] }
     - { role: fathom, tags: ["fathom", "services"] }
-    - { role: wallabag, tags: ["wallabag", "web", "services"] }
     - { role: radicale, tags: ["radicale", "web", "services"] }
     - { role: backups, tags: ["backups"] }
     - { role: isso, tags: ["isso"] }
