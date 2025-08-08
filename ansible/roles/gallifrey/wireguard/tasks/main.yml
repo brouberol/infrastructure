@@ -1,0 +1,22 @@
+- name: Install wireguard
+  apt:
+    update_cache: yes
+    name: wireguard
+    state: present
+
+- name: Configure the wg0 wireguard interface
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+    mode: '0600'
+    owner: root
+    group: root
+  notify: "restart wg-quick@w0"
+
+- name: "Enable wg-quick@wg0"
+  service:
+    name: wg-quick@wg0
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  ignore_errors: yes  # if the interface is already up

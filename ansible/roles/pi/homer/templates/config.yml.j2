@@ -71,7 +71,7 @@ services:
       - name: "Sonarr"
         icon: "fas fa-broadcast-tower"
         subtitle: "Automatic series downloader"
-        url: "http://{{ peers['pistou']['internal_ip'] }}:{{ sonarr_port }}"
+        url: "http://{{ peers['gallifrey']['wireguard']['ip'] }}:{{ sonarr_port }}"
         tag: "pistou"
         type: Sonarr
         apikey: "{{ sonarr_api_key }}"
