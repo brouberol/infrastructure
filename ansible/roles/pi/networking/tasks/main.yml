@@ -1,0 +1,20 @@
+- name: disable dhcp
+  systemd:
+    name: "{{ item }}.service"
+    enabled: no
+    masked: no
+  ignore_errors: yes
+  loop:
+  - dhcpcd
+  - dhcpcd5
+  notify:
+  - systemctl daemon reload
+
+- name: "Assign a static ip to the eth0 interface"
+  template:
+    src: eth0.j2
+    dest: /etc/network/interfaces.d/eth0
+    owner: root
+    group: root
+  notify:
+  - restart networking

@@ -6,6 +6,7 @@
 
   roles:
   - { role: pi-setup, tags: ['setup'] }
+  - { role: networking, tags: ['networking'] }
   - { role: layereight.wifi, tags: ['wifi'] }
   - { role: inputrc, tags: ['setup', 'inputrc'] }
   - { role: docker, tags: ['docker'] }

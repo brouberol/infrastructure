@@ -1,0 +1,10 @@
+- name: restart networking
+  service:
+    name: networking
+    state: restarted
+  listen: "restart networking"
+
+- name: systemctl daemon reload
+  systemd:
+    daemon_reload: yes
+  listen: "systemctl daemon reload"
