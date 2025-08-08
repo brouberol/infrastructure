@@ -34,6 +34,12 @@
     - { role: authelia, tags: ["authelia"] }
     - { role: martial, tags: ["martial"] }
     - { role: foundry, tags: ["foundry"] }
+    - { role: wireguard, tags: ["wireguard"] }
+    - { role: samba, tags: ["samba"] }
+    - { role: jackett, tags: ["jackett", "rr"] }
+    - { role: radarr, tags: ["radarr", "rr"] }
+    - { role: sonarr, tags: ["sonarr", "rr"] }
+    - { role: bazarr, tags: ["bazarr", "rr"] }
 
   post_tasks:
     - name: "Send datadog event"

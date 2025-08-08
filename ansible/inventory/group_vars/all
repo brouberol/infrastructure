@@ -164,3 +164,14 @@ peers:
         3134613365353461380a643239373361333235363331636666666561663130653736383461373437
         36663833323035396464376534376239653131653062653066613135656230623933346137353232
         6664653764643964616536313765383464613732663964373431
+
+# NAS / rr
+nas_mount_point: /mnt/nas
+download_directory: "{{ nas_mount_point }}/transmission"
+transmission_uid: 109
+transmission_gid: 115
+transmission_download_dir: "{{ download_directory }}"
+radarr_port: 7878
+sonarr_port: 8989
+bazarr_port: 6767
+jackett_port: 9117

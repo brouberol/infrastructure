@@ -1,0 +1,34 @@
+- name: "Create the radarr home directory"
+  file:
+    path: "{{ radarr_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Run the radarr container"
+  include_role:
+    name: mhutter.docker-systemd-service
+  vars:
+    container_name: radarr
+    container_image: "linuxserver/radarr:{{ radarr_version }}"
+    container_ports:
+      - "0.0.0.0:{{ radarr_port }}:{{ radarr_port }}/tcp"
+    container_env:
+      PUID: "{{ user_uid | quote }}"
+      PGID: "{{ user_gid | quote }}"
+      TZ: "Europe/Paris"
+    container_volumes:
+      - "{{ radarr_home }}:/config"
+      - "{{ radarr_films_dir }}:/tv"
+      - "{{ transmission_download_dir }}:/downloads"
+    service_systemd_unit_options:
+      After: "docker.service mnt-nas-films.mount mnt-nas-transmission.mount"
+      Requires: "docker.service mnt-nas-films.mount mnt-nas-transmission.mount"
+
+- name: "Backup the radarr database"
+  cron:
+    name: "Backup the radarr database"
+    minute: "0"
+    hour: "1"
+    job: "{{ syno_rsync }} {{ radarr_home }}/radarr.db {{ user }}@{{ peers['chambonas']['wireguard']['ip'] }}:~/backups/radarr/radarr.db"
+    user: "{{ user }}"

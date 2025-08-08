@@ -1,0 +1,35 @@
+- name: "Create the bazarr home directory"
+  file:
+    path: "{{ bazarr_home }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Run the bazarr container"
+  include_role:
+    name: mhutter.docker-systemd-service
+  vars:
+    container_name: bazarr
+    container_image: "linuxserver/bazarr:{{ bazarr_version }}"
+    container_ports:
+      - "0.0.0.0:{{ bazarr_port }}:{{ bazarr_port }}/tcp"
+    container_env:
+      PUID: "{{ user_uid | quote }}"
+      PGID: "{{ user_gid | quote }}"
+      TZ: "Europe/Paris"
+    container_volumes:
+      - "{{ bazarr_home }}:/config"
+      - "{{ sonarr_series_dir }}:/tv/series"
+      - "{{ radarr_films_dir }}:/tv/films"
+      - "{{ transmission_download_dir }}:/downloads"
+    service_systemd_unit_options:
+      After: "docker.service mnt-nas-series.mount mnt-nas-films.mount mnt-nas-transmission.mount"
+      Requires: "docker.service mnt-nas-series.mount mnt-nas-films.mount mnt-nas-transmission.mount"
+
+- name: "Backup the bazarr database"
+  cron:
+    name: "Backup the bazarr database"
+    minute: "0"
+    hour: "1"
+    job: "{{ syno_rsync }} {{ bazarr_home }}/db/bazarr.db {{ user }}@{{ peers['chambonas']['wireguard']['ip'] }}:~/backups/bazarr/bazarr.db"
+    user: "{{ user }}"

@@ -269,3 +269,23 @@ foundry_group: 421 # gid in the container
 
 # pagefind
 pagefind_version: 1.3.0
+
+# radarr
+radarr_home: "{{ user_home }}/radarr"
+radarr_version: 5.26.2
+radarr_films_dir: "{{ nas_mount_point }}/films"
+
+# sonarr
+sonarr_home: "{{ user_home }}/sonarr"
+sonarr_version: 4.0.15
+sonarr_series_dir: "{{ nas_mount_point }}/series"
+
+# jackett
+jackett_home: "{{ user_home }}/jackett"
+jackett_version: 0.22.2238
+jackett_port: 9117
+
+# bazarr
+bazarr_home: "{{ user_home }}/bazarr"
+bazarr_version: 1.5.2
+bazarr_port: 6767

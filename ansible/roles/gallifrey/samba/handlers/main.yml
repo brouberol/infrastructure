@@ -1,0 +1,21 @@
+---
+- name: "mount transmission mountpoint"
+  service:
+    name: "mnt-nas-transmission.mount"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- name: "mount films mountpoint"
+  service:
+    name: "mnt-nas-films.mount"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- name: "mount series mountpoint"
+  service:
+    name: "mnt-nas-series.mount"
+    state: started
+    enabled: yes
+    daemon_reload: yes
