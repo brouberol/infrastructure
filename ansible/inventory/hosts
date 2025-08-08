@@ -1,15 +1,10 @@
 chambonas
 gallifrey
 pi
-pistou
 
 [mac]
 mac-perso
 mac-pro
-
-[rpi]
-pi
-pistou
 
 [mac:vars]
 ansible_remote_tmp=/private/tmp/
