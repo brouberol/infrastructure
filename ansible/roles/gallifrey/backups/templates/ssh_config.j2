@@ -1,4 +1,4 @@
 Host syno
     User {{ user }}
-    port {{ syno_ssh_port }}
-    HostName {{ home_domain }}
+    port 22
+    HostName {{ peers['chambonas']['wireguard']['ip'] }}
