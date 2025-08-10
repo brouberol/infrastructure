@@ -221,7 +221,7 @@ sophro_www_home: /var/www/sophrologie-chalon
 
 # lounge
 lounge_home: "{{ user_home }}/lounge"
-lounge_version: 4.4.1
+lounge_version: 4.4.3
 lounge_host: 127.0.0.1
 lounge_port: 8013
 lounge_domain: "lounge.{{ main_domain }}"

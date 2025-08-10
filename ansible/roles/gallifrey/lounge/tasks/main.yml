@@ -2,15 +2,15 @@
   file:
     path: "{{ lounge_home }}"
     state: directory
-    owner: 1000
-    group: 1000
+    owner: "{{ user }}"
+    group: "{{ group }}"
 
 - name: "Copy the lounge configuration"
   template:
     src: config.js.j2
     dest: "{{ lounge_home }}/config.js"
-    owner: 1000
-    group: 1000
+    owner: "{{ user }}"
+    group: "{{ group }}"
 
 - name: "Start the lounge container"
   docker_container:
@@ -19,6 +19,7 @@
     state: started
     published_ports:
       - "{{ lounge_host }}:{{ lounge_port }}:9000"
+    user: "{{ user_uid }}:{{ user_gid }}"
     restart_policy: unless-stopped
     volumes:
       - "{{ lounge_home }}:/var/opt/thelounge"
