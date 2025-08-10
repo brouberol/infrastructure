@@ -12,7 +12,7 @@
     container_name: sonarr
     container_image: "linuxserver/sonarr:{{ sonarr_version }}"
     container_ports:
-      - "0.0.0.0:{{ sonarr_port }}:{{ sonarr_port }}/tcp"
+      - "{{ peers['gallifrey']['wireguard']['ip'] }}:{{ sonarr_port }}:{{ sonarr_port }}/tcp"
     container_env:
       PUID: "{{ uid | quote }}"
       PGID: "{{ gid | quote }}"

@@ -12,7 +12,7 @@
     container_name: radarr
     container_image: "linuxserver/radarr:{{ radarr_version }}"
     container_ports:
-      - "0.0.0.0:{{ radarr_port }}:{{ radarr_port }}/tcp"
+      - "{{ peers['gallifrey']['wireguard']['ip'] }}:{{ radarr_port }}:{{ radarr_port }}/tcp"
     container_env:
       PUID: "{{ user_uid | quote }}"
       PGID: "{{ user_gid | quote }}"

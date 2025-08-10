@@ -12,7 +12,7 @@
     container_name: bazarr
     container_image: "linuxserver/bazarr:{{ bazarr_version }}"
     container_ports:
-      - "0.0.0.0:{{ bazarr_port }}:{{ bazarr_port }}/tcp"
+      - "{{ peers['gallifrey']['wireguard']['ip'] }}:{{ bazarr_port }}:{{ bazarr_port }}/tcp"
     container_env:
       PUID: "{{ user_uid | quote }}"
       PGID: "{{ user_gid | quote }}"
