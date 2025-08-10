@@ -20,3 +20,10 @@
     enabled: yes
     daemon_reload: yes
   ignore_errors: yes  # if the interface is already up
+
+- name: "Ensure wg0 link is established"
+  cron:
+    name: "ping on wg0"
+    minute: "0"
+    job: "ping -c 1 {{ peers['chambonas']['wireguard']['ip'] }}"
+    user: "{{ user }}"
