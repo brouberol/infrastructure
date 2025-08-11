@@ -6,7 +6,6 @@ roles:
     version: 5.0.1
   - name: mhutter.docker-systemd-service
     version: v2.8.0
-  - name: layereight.wifi
     version: 1.2.1
 
 collections:
