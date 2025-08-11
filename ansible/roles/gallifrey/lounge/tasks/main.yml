@@ -38,3 +38,11 @@
     dest: /etc/nginx/sites-enabled/lounge.conf
     state: link
   notify: "reload nginx"
+
+- name: "Backup the lounge files"
+  cron:
+    name: "Backup the lounge files"
+    minute: "0"
+    hour: "2"
+    job: "{{ syno_rsync }} -r {{ lounge_home }} {{ user }}@{{ peers['chambonas']['wireguard']['ip'] }}:~/backups/"
+    user: "{{ user }}"
