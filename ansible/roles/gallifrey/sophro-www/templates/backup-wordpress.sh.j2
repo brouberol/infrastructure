@@ -9,7 +9,7 @@ _WWW_DIR="{{ sophro_www_home }}"
 _NGINX_DIR=etc/nginx
 _PHP_FPM_DIR=etc/php/8.3/fpm
 _SCRIPTS_DIR=root/scripts
-KEEP_LAST=30
+KEEP_LAST=20
 
 DB_USER="{{ sophro_www_mysql_user }}"
 DB_PASS="{{ sophro_www_mysql_password }}"
@@ -22,7 +22,7 @@ if [ ! -d $BACKUP_DIR ];then
 fi
 
 # Create the base archive containing the wordpress files
-tar -cvf $BACKUP_DIR/$FILE --transform "s,^$_WWW_DIR,www," --exclude="*.mp3" /$_WWW_DIR
+tar -cvf $BACKUP_DIR/$FILE --transform "s,^$_WWW_DIR,www," /$_WWW_DIR
 
 # Add the MySQL dump to the archive
 mysqldump --no-tablespaces -u$DB_USER -p$DB_PASS $DB_NAME > $BACKUP_DIR/$DB_FILE
