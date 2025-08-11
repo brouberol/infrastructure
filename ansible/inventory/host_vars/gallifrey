@@ -14,7 +14,6 @@ certbot_certs:
   - domains: ["{{ blog_domain }}"]
   - domains: ["{{ fathom_domain }}"]
   - domains: ["{{ radicale_domain }}"]
-  - domains: ["{{ pastebin_domain }}"]
   - domains: ["{{ isso_domain }}"]
   - domains: ["{{ calibre_domain }}"]
   - domains: ["{{ paperless_domain }}"]
