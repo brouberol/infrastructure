@@ -1,7 +1,7 @@
 - name: "Setup user authorized keys"
   template:
     src: authorized_keys.j2
-    dest: "{{ user_home }}/.ssh/authorized_keys"
+    dest: /var/services/homes/{{ user }}/.ssh/authorized_keys"
     owner: "{{ user }}"
     group: "{{ group }}"
     mode: "0600"
