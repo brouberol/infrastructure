@@ -14,8 +14,8 @@
     container_ports:
       - "{{ peers['gallifrey']['wireguard']['ip'] }}:{{ sonarr_port }}:{{ sonarr_port }}/tcp"
     container_env:
-      PUID: "{{ uid | quote }}"
-      PGID: "{{ gid | quote }}"
+      PUID: "{{ user_uid | quote }}"
+      PGID: "{{ user_gid | quote }}"
       TZ: "Europe/Paris"
     container_volumes:
       - "{{ sonarr_home }}:/config"
