@@ -22,29 +22,18 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup sophro web files"
-      "rsync --rsync-path=/usr/bin/rsync -r --delete {{ user_home }}/backups/sophro syno:{{ syno_user_home }}/backups/"
+      "rsync --rsync-path=/usr/bin/rsync -r --delete {{ user_home }}/backups/sophro syno:~/backups/"
     user: "{{ user }}"
 
-- name: "Schedule the backup of the calibre metadata database"
+- name: "Schedule the backup of the calibre space"
   cron:
-    name: "backup calibre db"
+    name: "backup calibre"
     minute: "0"
     hour: "0"
     job: >
       /usr/local/bin/dd-cron-event
-      "Backup calibre metadata db"
-      "{{ syno_rsync }} -r {{ user_home }}/calibre/books/metadata.db syno:{{ syno_user_home }}/backups/calibre/metadata.db"
-    user: "{{ user }}"
-
-- name: "Schedule the backup of the calibre app database"
-  cron:
-    name: "backup calibre app db"
-    minute: "0"
-    hour: "0"
-    job: >
-      /usr/local/bin/dd-cron-event
-      "Backup calibre db"
-      "{{ syno_rsync }} -r {{ user_home }}/calibre/config/app.db syno:{{ syno_user_home }}/backups/calibre/app.db"
+      "Backup calibre"
+      "{{ syno_rsync }} -r {{ user_home }}/calibre syno:~/backups/"
     user: "{{ user }}"
 
 - name: "Schedule the backup of the isso database"
@@ -55,7 +44,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup isso db"
-      "{{ syno_rsync }} -r {{ isso_home }}/db/comments.db syno:{{ syno_user_home }}/backups/isso/comments.db"
+      "{{ syno_rsync }} -r {{ isso_home }} syno:~/backups/"
     user: "{{ user }}"
 
 - name: "Schedule the backup of radicale files"
@@ -66,7 +55,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup radicale files"
-      "{{ syno_rsync }} -r {{ user_home }}/radicale syno:{{ syno_user_home }}/backups/radicale"
+      "{{ syno_rsync }} -r {{ user_home }}/radicale syno:~/backups/"
     user: "{{ user }}"
 
 - name: "Schedule paperless backups"
@@ -77,7 +66,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup paperless"
-      "{{ syno_rsync }} -r {{ paperless_home }} syno:{{ syno_user_home }}/backups/paperless"
+      "{{ syno_rsync }} -r {{ paperless_home }} syno:~/backups/"
     user: "{{ user }}"
 
 - name: "Schedule fathom backups"
@@ -88,7 +77,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup fathom db"
-      "{{ syno_rsync }} {{ fathom_home }}/fathom.db syno:{{ syno_user_home }}/backups/fathom"
+      "{{ syno_rsync }} {{ fathom_home }}/fathom.db syno:~/backups/fathom"
     user: "{{ user }}"
 
 - name: "Schedule silverbullet backups"
@@ -99,7 +88,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup silverbullet files"
-      "{{ syno_rsync }} -r --delete {{ silverbullet_space }} syno:{{ syno_user_home }}/backups/silverbullet/"
+      "{{ syno_rsync }} -r --delete {{ silverbullet_home }} syno:~/backups/"
     user: "{{ user }}"
 
 - name: "Schedule the backup of the yarr database"
@@ -110,7 +99,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup yarr db"
-      "{{ syno_rsync }} -r {{ yarr_home }}/yarr.db syno:{{ syno_user_home }}/backups/yarr/yarr.db"
+      "{{ syno_rsync }} -r {{ yarr_home }} syno:~/backups"
     user: "{{ user }}"
 
 - name: "Schedule the backup of the authelia database"
@@ -121,7 +110,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup authelia db"
-      "{{ syno_rsync }} -r {{ authelia_home }}/authelia.db syno:{{ syno_user_home }}/backups/authelia/authelia.db"
+      "{{ syno_rsync }} -r {{ authelia_home }} syno:~/backups/"
     user: "{{ user }}"
 
 - name: "Schedule the backup of martial's website"
@@ -132,7 +121,7 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Backup martial's website"
-      "{{ syno_rsync }} -r {{ martial_web_dir }}/ syno:{{ syno_user_home }}/backups/martial/"
+      "{{ syno_rsync }} -r {{ martial_web_dir }}/ syno:~/backups/martial/"
     user: "{{ user }}"
 
 - name: "Schedule foundry data backup"
@@ -143,5 +132,37 @@
     job: >
       /usr/local/bin/dd-cron-event
       "Foundry data backup"
-      "sudo cp -r {{ foundry_home }} /tmp/foundry && sudo chown -R {{ user }}:{{ group }} /tmp/foundry && rsync --rsync-path=/usr/bin/rsync -r /tmp/foundry/ --exclude container_cache syno:/var/services/homes/br/backups/foundry/ && rm -r /tmp/foundry"
+      "{{ syno_rsync }} -r {{ foundry_home }} --exclude container_cache syno:~/backups/"
+    user: "{{ user }}"
+
+- name: "Backup sonarr"
+  cron:
+    name: "Backup sonarr"
+    minute: "0"
+    hour: "1"
+    job: "{{ syno_rsync }} -r {{ sonarr_home }} syno:~/backups/"
+    user: "{{ user }}"
+
+- name: "Backup bazarr"
+  cron:
+    name: "Backup bazarr"
+    minute: "0"
+    hour: "1"
+    job: "{{ syno_rsync }} -r {{ bazarr_home }} syno:~/backups/"
+    user: "{{ user }}"
+
+- name: "Backup radarr"
+  cron:
+    name: "Backup radarr"
+    minute: "0"
+    hour: "1"
+    job: "{{ syno_rsync }} -r {{ radarr_home }} syno:~/backups/"
+    user: "{{ user }}"
+
+- name: "Backup jackett"
+  cron:
+    name: "Backup jackett"
+    minute: "0"
+    hour: "1"
+    job: "{{ syno_rsync }} -r {{ jackett_home }} syno:~/backups/"
     user: "{{ user }}"

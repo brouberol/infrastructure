@@ -24,11 +24,3 @@
     service_systemd_unit_options:
       After: "docker.service wg-quick@wg0.service  mnt-nas-series.mount mnt-nas-transmission.mount"
       Requires: "docker.service wg-quick@wg0.service mnt-nas-series.mount mnt-nas-transmission.mount"
-
-- name: "Backup the sonarr database"
-  cron:
-    name: "Backup the sonarr database"
-    minute: "0"
-    hour: "1"
-    job: "{{ syno_rsync }} {{ sonarr_home }}/sonarr.db {{ user }}@{{ peers['chambonas']['internal_ip'] }}:~/backups/sonarr/sonarr.db"
-    user: "{{ user }}"

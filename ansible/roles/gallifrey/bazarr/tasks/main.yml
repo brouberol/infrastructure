@@ -24,12 +24,4 @@
       - "{{ transmission_download_dir }}:/downloads"
     service_systemd_unit_options:
       After: "docker.service wg-quick@wg0.service mnt-nas-series.mount mnt-nas-films.mount mnt-nas-transmission.mount"
-      Requires: "docker.service wg-quick@wg0.service mnt-nas-series.mount mnt-nas-films.mount mnt-nas-transmission.mount"
-
-- name: "Backup the bazarr database"
-  cron:
-    name: "Backup the bazarr database"
-    minute: "0"
-    hour: "1"
-    job: "{{ syno_rsync }} {{ bazarr_home }}/db/bazarr.db {{ user }}@{{ peers['chambonas']['wireguard']['ip'] }}:~/backups/bazarr/bazarr.db"
-    user: "{{ user }}"
+      Requires: "docker.service wg-quick@wg0.service  mnt-nas-series.mount mnt-nas-films.mount mnt-nas-transmission.mount"

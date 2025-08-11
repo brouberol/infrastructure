@@ -24,11 +24,3 @@
     service_systemd_unit_options:
       After: "docker.service wg-quick@wg0.service mnt-nas-films.mount mnt-nas-transmission.mount"
       Requires: "docker.service wg-quick@wg0.service mnt-nas-films.mount mnt-nas-transmission.mount"
-
-- name: "Backup the radarr database"
-  cron:
-    name: "Backup the radarr database"
-    minute: "0"
-    hour: "1"
-    job: "{{ syno_rsync }} {{ radarr_home }}/radarr.db {{ user }}@{{ peers['chambonas']['wireguard']['ip'] }}:~/backups/radarr/radarr.db"
-    user: "{{ user }}"
