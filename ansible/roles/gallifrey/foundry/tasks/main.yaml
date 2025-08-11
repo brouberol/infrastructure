@@ -2,15 +2,15 @@
   file:
     path: "{{ foundry_home }}"
     state: directory
-    owner: "{{ foundry_user }}"
-    group: "{{ foundry_group  }}"
+    owner: "{{ user }}"
+    group: "{{ group  }}"
 
 - name: "Create the foundry data directory"
   file:
     path: "{{ foundry_home }}"
     state: directory
-    owner: "{{ foundry_user }}"
-    group: "{{ foundry_group  }}"
+    owner: "{{ user }}"
+    group: "{{ group  }}"
 
 - name: "Start the foundry container"
   docker_container:
@@ -24,7 +24,7 @@
       FOUNDRY_USERNAME: "{{ foundry_username }}"
       FOUNDRY_PASSWORD: "{{ foundry_password }}"
       CONTAINER_PRESERVE_CONFIG: "true"
-    user: "{{ foundry_user }}:{{ foundry_group }}"
+    user: "{{ user_uid }}:{{ user_gid }}"
     restart_policy: unless-stopped
     volumes:
       - "{{ foundry_home }}:/data"
