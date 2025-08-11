@@ -13,7 +13,6 @@
   - { role: pi-datadog-agent, tags: ['datadog-agent', 'datadog'] }
   - { role: datadog.datadog, tags: ['datadog-agent', 'datadog'] }
   - { role: datadogpy, tags: ['datadogpy', 'datadog'] }
-  - { role: nginx, tags: ['nginx', 'web'] }
   - { role: cloudflared, tags: ['cloudflared', 'dns'] }
   - { role: pihole, tags: ['pihole', 'dns'] }
   - { role: wireguard, tags: ['wireguard'] }
