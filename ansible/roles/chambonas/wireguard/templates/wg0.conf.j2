@@ -9,10 +9,12 @@ PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o eth0 -j 
 
 {% for peer_name, peer_data in peers.items() %}
 {% if peer_name != 'chambonas' %}
+{% if peers[peer_name].get('wireguard') %}
 [Peer]
 # {{ peer_name }}
 PublicKey = {{ peer_data['wireguard']['pubkey'] }}
 AllowedIps = {{ peer_data['wireguard']['ip'] }}/32
 
+{% endif %}
 {% endif %}
 {% endfor %}
