@@ -172,5 +172,5 @@
     name: "Backup personal page space"
     minute: "0"
     hour: "5"
-    job: "{{ syno_rsync }} -r {{ page_web_dir }} syno:~/backups/"
+    job: "{{ syno_rsync }} -r --delete {{ page_web_dir }} syno:~/backups/"
     user: "{{ user }}"
