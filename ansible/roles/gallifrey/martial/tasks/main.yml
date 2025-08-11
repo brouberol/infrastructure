@@ -56,8 +56,8 @@
   notify: "reload nginx"
 
 - name: "Copy martial's SSH public key"
-  copy:
-    src: authorized_keys
+  template:
+    src: authorized_keys.j2
     dest: "/home/{{ martial_user }}/.ssh/authorized_keys"
     owner: "{{ martial_user }}"
     group: users
