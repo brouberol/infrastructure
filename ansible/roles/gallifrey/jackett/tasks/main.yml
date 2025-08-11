@@ -21,8 +21,8 @@
     container_volumes:
       - "{{ jackett_home }}:/config"
     service_systemd_unit_options:
-      After: "docker.service"
-      Requires: "docker.service"
+      After: "docker.service wg-quick@wg0.service"
+      Requires: "docker.service wg-quick@wg0.service"
 
 - name: "Backup the jackett config"
   cron:
