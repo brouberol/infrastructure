@@ -166,3 +166,11 @@
     hour: "1"
     job: "{{ syno_rsync }} -r {{ jackett_home }} syno:~/backups/"
     user: "{{ user }}"
+
+- name: "Backup personal page space"
+  cron:
+    name: "Backup personal page space"
+    minute: "0"
+    hour: "5"
+    job: "{{ syno_rsync }} -r {{ page_web_dir }} syno:~/backups/"
+    user: "{{ user }}"
