@@ -14,18 +14,15 @@
   vars:
     container_name: pihole
     container_image: pihole/pihole:{{ pihole_tag }}
-    pull: yes
-    container_ports:
-      - 0.0.0.0:53:53/udp
-      - 0.0.0.0:67:67/udp
-      - "0.0.0.0:{{ pihole_admin_port }}:80/tcp"
-      - 0.0.0.0:443:443/tcp
     container_volumes:
       - "/etc/pihole:/etc/pihole/"
     container_args: "--log-driver none"
     container_env:
       TZ: UTC
       WEBPASSWORD: "{{ pihole_web_password }}"
-      PIHOLE_DNS_: "172.17.0.1#{{ cloudflared_port }}" # docker bridge gateway IP from within the container
-      DNSSEC: "true"
-      ServerIP: "{{ ansible_default_ipv4.address }}"
+      PIHOLE_DNS_: "127.0.0.1#{{ cloudflared_port }}" # for when net=host
+      FTLCONF_LOCAL_IPV4: "{{ peers['pi']['internal_ip'] }}"
+      WEB_BIND_ADDR: "{{ peers['pi']['internal_ip'] }}"
+      PIHOLE_UID: "1000"
+      PIHOLE_GID: "1000"
+      MAXDBDAYS: "30" # number of days of data to keep in the sqlite DB
