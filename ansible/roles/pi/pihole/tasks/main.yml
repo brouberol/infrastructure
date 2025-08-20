@@ -1,5 +1,4 @@
 ---
-
 - name: "Create the /etc/pihole directory"
   file:
     state: directory
@@ -15,8 +14,12 @@
     container_name: pihole
     container_image: pihole/pihole:{{ pihole_tag }}
     container_volumes:
-      - "/etc/pihole:/etc/pihole/"
-    container_args: "--log-driver none"
+      - /etc/pihole:/etc/pihole/
+    container_host_network: true  # will require reassigning the homer port
+    container_cap_add:
+    - NET_ADMIN
+    - CAP_SYS_TIME
+    - CAP_SYS_NICE
     container_env:
       TZ: UTC
       FTLCONF_webserver_api_password: "{{ pihole_web_password }}"
@@ -24,5 +27,9 @@
       FTLCONF_dns_dnssec: "false"
       FTLCONF_webserver_port: "80"
       FTLCONF_database_maxDBdays: "30"
+      FTLCONF_misc_dnsmasq_lines: "dhcp-option=6,{{ peers['pi']['internal_ip'] }},1.1.1.1,1.0.0.1"
+      FTLCONF_dhcp_start: 192.168.1.10
+      FTLCONF_dhcp_end: 192.168.1.150
+      FTLCONF_dhcp_active: true
       PIHOLE_UID: "1000"
       PIHOLE_GID: "1000"
