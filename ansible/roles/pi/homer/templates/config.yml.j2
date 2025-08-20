@@ -115,7 +115,7 @@ services:
         target: "_blank"
         type: "PiHole"
         icon: "fas fa-stop-circle"
-        url: "http://{{ peers['pi']['internal_ip'] }}:{{ pihole_admin_port }}/admin"
+        url: "http://{{ peers['pi']['internal_ip'] }}/admin"
         tag: pi
   - name: "External"
     icon: "fas fa-cloud"
