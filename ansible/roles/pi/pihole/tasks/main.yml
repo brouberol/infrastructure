@@ -7,6 +7,18 @@
     group: root
   become: yes
 
+# Pihole runs as a DNS resolver AND a DHCP server for the whole LAN.
+# We do this because my ISP's provided router does not allow me to change the
+# advertised DNS server, thus completely bypassing pihole.
+# By shutting down the router's DHCP server and replacing it with pihole, we can
+# then transparently block tracking for all LAN peers, without having to confiure
+# their connection settings.
+# To do this, we insert a custom dnsmasq configuration that makes sure that the pi
+# is advertised to the DHCP clients as the primary DNS server, with additional
+# redundancy.
+# For this to work, pihole needs to run in the host network, as DHCP works with
+# sending broadcasts to the whole network.
+# See https://docs.pi-hole.net/docker/dhcp/
 - name: Run the pihole docker container
   include_role:
     name: mhutter.docker-systemd-service
@@ -14,7 +26,7 @@
     container_name: pihole
     container_image: pihole/pihole:{{ pihole_tag }}
     container_volumes:
-      - /etc/pihole:/etc/pihole/
+    - /etc/pihole:/etc/pihole/
     container_host_network: true
     container_cap_add:
     - NET_ADMIN
@@ -27,6 +39,7 @@
       FTLCONF_dns_dnssec: "false"
       FTLCONF_webserver_port: "80"
       FTLCONF_database_maxDBdays: "30"
+      # See https://serverfault.com/questions/163542/how-do-you-get-dnsmasq-to-specify-alternate-dns-servers
       FTLCONF_misc_dnsmasq_lines: "dhcp-option=6,{{ peers['pi']['internal_ip'] }},1.1.1.1,1.0.0.1"
       FTLCONF_dhcp_start: 192.168.1.10
       FTLCONF_dhcp_end: 192.168.1.150
