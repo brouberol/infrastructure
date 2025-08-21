@@ -41,7 +41,7 @@
       FTLCONF_webserver_port: "80"
       FTLCONF_database_maxDBdays: "30"
       # See https://serverfault.com/questions/163542/how-do-you-get-dnsmasq-to-specify-alternate-dns-servers
-      FTLCONF_misc_dnsmasq_lines: "dhcp-option=6,{{ peers['pi']['internal_ip'] }},1.1.1.1,1.0.0.1"
+      FTLCONF_misc_dnsmasq_lines: "dhcp-option=6,{{ peers['pi']['internal_ip'] }}"
       FTLCONF_dhcp_start: 192.168.1.10
       FTLCONF_dhcp_end: 192.168.1.150
       FTLCONF_dhcp_active: true
