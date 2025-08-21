@@ -19,10 +19,10 @@
     container_args: "--log-driver none"
     container_env:
       TZ: UTC
-      WEBPASSWORD: "{{ pihole_web_password }}"
-      PIHOLE_DNS_: "127.0.0.1#{{ cloudflared_port }}" # for when net=host
-      FTLCONF_LOCAL_IPV4: "{{ peers['pi']['internal_ip'] }}"
-      WEB_BIND_ADDR: "{{ peers['pi']['internal_ip'] }}"
+      FTLCONF_webserver_api_password: "{{ pihole_web_password }}"
+      FTLCONF_dns_upstreams: "127.0.0.1#{{ cloudflared_port }}"
+      FTLCONF_dns_dnssec: "false"
+      FTLCONF_webserver_port: "80"
+      FTLCONF_database_maxDBdays: "30"
       PIHOLE_UID: "1000"
       PIHOLE_GID: "1000"
-      MAXDBDAYS: "30" # number of days of data to keep in the sqlite DB
