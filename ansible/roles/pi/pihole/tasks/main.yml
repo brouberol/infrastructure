@@ -15,7 +15,7 @@
     container_image: pihole/pihole:{{ pihole_tag }}
     container_volumes:
       - /etc/pihole:/etc/pihole/
-    container_host_network: true  # will require reassigning the homer port
+    container_host_network: true
     container_cap_add:
     - NET_ADMIN
     - CAP_SYS_TIME
