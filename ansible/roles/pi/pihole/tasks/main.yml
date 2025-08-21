@@ -37,6 +37,7 @@
       FTLCONF_webserver_api_password: "{{ pihole_web_password }}"
       FTLCONF_dns_upstreams: "127.0.0.1#{{ cloudflared_port }}"
       FTLCONF_dns_dnssec: "false"
+      FTLCONF_dns_listeningMode: ALL
       FTLCONF_webserver_port: "80"
       FTLCONF_database_maxDBdays: "30"
       # See https://serverfault.com/questions/163542/how-do-you-get-dnsmasq-to-specify-alternate-dns-servers
