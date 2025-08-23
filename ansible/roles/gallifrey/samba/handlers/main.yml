@@ -19,3 +19,7 @@
     state: started
     enabled: yes
     daemon_reload: yes
+
+- name: daemon-reload
+  systemd_service:
+    daemon_reload: true

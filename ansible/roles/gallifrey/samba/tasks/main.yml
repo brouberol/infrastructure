@@ -36,24 +36,51 @@
     path: /etc/fstab
     state: present
     regexp: '^//{{ peers["chambonas"]["wireguard"]["ip"] }}/downloads/transmission'
-    line: "//{{ peers['chambonas']['wireguard']['ip'] }}/downloads/transmission\t{{ download_directory }}\tcifs\tuid={{ user_uid }},gid={{ user_gid }},credentials={{ user_home }}/.smb-transmission,iocharset=utf8,vers=3.0,noperm 0 0"
+    line: "//{{ peers['chambonas']['wireguard']['ip'] }}/downloads/transmission\t{{ download_directory }}\tcifs\tuid={{ user_uid }},gid={{ user_gid }},credentials={{ user_home }}/.smb-transmission,iocharset=utf8,vers=3.0,noperm,nofail 0 0"
   notify:
   - mount transmission mountpoint
+  - daemon-reload
 
 - name: Auto mount the films samba volume
   lineinfile:
     path: /etc/fstab
     state: present
     regexp: '^//{{ peers["chambonas"]["wireguard"]["ip"] }}/video/Films'
-    line: "//{{ peers['chambonas']['wireguard']['ip'] }}/video/Films\t{{ radarr_films_dir }}\tcifs\tuid={{ user_uid }},gid={{ user_gid }},credentials={{ user_home }}/.smb-rr,iocharset=utf8,vers=3.0,noperm 0 0"
+    line: "//{{ peers['chambonas']['wireguard']['ip'] }}/video/Films\t{{ radarr_films_dir }}\tcifs\tuid={{ user_uid }},gid={{ user_gid }},credentials={{ user_home }}/.smb-rr,iocharset=utf8,vers=3.0,noperm,nofail 0 0"
   notify:
   - mount films mountpoint
+  - daemon-reload
 
 - name: Auto mount the series samba volume
   lineinfile:
     path: /etc/fstab
     state: present
     regexp: '^//{{ peers["chambonas"]["wireguard"]["ip"] }}/video/Series'
-    line: "//{{ peers['chambonas']['wireguard']['ip'] }}/video/Series\t{{ sonarr_series_dir }}\tcifs\tuid={{ user_uid }},gid={{ user_gid }},credentials={{ user_home }}/.smb-rr,iocharset=utf8,vers=3.0,noperm 0 0"
+    line: "//{{ peers['chambonas']['wireguard']['ip'] }}/video/Series\t{{ sonarr_series_dir }}\tcifs\tuid={{ user_uid }},gid={{ user_gid }},credentials={{ user_home }}/.smb-rr,iocharset=utf8,vers=3.0,noperm,nofail 0 0"
   notify:
   - mount series mountpoint
+  - daemon-reload
+
+- name: Create a drop-in unit directory for each mount point systemd target
+  file:
+    state: directory
+    path: "/usr/lib/systemd/system/mnt-nas-{{ item }}.mount.d"
+    owner: root
+    group: root
+  loop:
+  - transmission
+  - films
+  - series
+
+- name: Ensure the samba mount points are mounted after wireguard is started
+  copy:
+    src: dependencies.conf
+    dest: "/usr/lib/systemd/system/mnt-nas-{{ item }}.mount.d/dependencies.conf"
+    owner: root
+    group: root
+  loop:
+  - transmission
+  - films
+  - series
+  notify:
+  - daemon-reload
