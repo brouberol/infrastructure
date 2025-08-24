@@ -35,3 +35,4 @@ pihole_tag: "2025.08.0"
 
 # cloudflared
 cloudflared_port: 5053
+cloudflared_resolver: 185.71.138.138  # See https://meta.wikimedia.org/wiki/Wikimedia_DNS
