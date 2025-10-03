@@ -20,7 +20,6 @@
     - { role: page, tags: ["page", "web"] }
     - { role: blog, tags: ["blog", "web"] }
     - { role: myip, tags: ["myip", "services"] }
-    - { role: fathom, tags: ["fathom", "services"] }
     - { role: radicale, tags: ["radicale", "web", "services"] }
     - { role: backups, tags: ["backups"] }
     - { role: isso, tags: ["isso"] }

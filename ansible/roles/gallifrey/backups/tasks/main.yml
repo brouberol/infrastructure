@@ -69,17 +69,6 @@
       "{{ syno_rsync }} -r {{ paperless_home }} syno:~/backups/"
     user: "{{ user }}"
 
-- name: "Schedule fathom backups"
-  cron:
-    name: "backup fathom DB"
-    minute: "0"
-    hour: "0"
-    job: >
-      /usr/local/bin/dd-cron-event
-      "Backup fathom db"
-      "{{ syno_rsync }} {{ fathom_home }}/fathom.db syno:~/backups/fathom"
-    user: "{{ user }}"
-
 - name: "Schedule silverbullet backups"
   cron:
     name: "backup silverbullet files"
