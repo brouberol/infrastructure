@@ -34,8 +34,6 @@ for file in $(ls -1 $CSS_DIR); do
     replace $file $minified_file ${THEME_DIR}/templates/base.html
 done
 
-git clone -o pelican https://github.com/getpelican/pelican-plugins plugins/pelican
-
 # Make and deploy
 source {{ git_home }}/.blog.venv/bin/activate
 poetry install
