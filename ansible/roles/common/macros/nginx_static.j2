@@ -1,4 +1,4 @@
-{% macro nginx_static_serve(domain, root_dir, hsts=False, htpasswd_filename=None, extra_opts={}, autoindex_locations=[]) %}
+{% macro nginx_static_serve(domain, root_dir, hsts=False, htpasswd_filename=None, extra_opts={}, autoindex_locations=[], locations_proxy_pass={}) %}
 # {{ ansible_managed }}
 server {
     listen 80;
@@ -33,6 +33,18 @@ server {
     root {{ root_dir }};
     index index.html;
 
+    {% for location, options in locations_proxy_pass.items() -%}
+    location {{ location }} {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect http:// https://;
+        proxy_pass http://127.0.0.1:{{ options['port'] }};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+    {%- endfor %}
+
     # Letsencrypt challenge
     location {{ web_acme_challenge_location }} {
         root {{ web_home }};
@@ -61,7 +73,7 @@ server {
     location {{ location }} {
         autoindex on;
     }
-
     {%- endfor %}
+
 }
 {% endmacro %}

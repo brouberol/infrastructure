@@ -73,3 +73,13 @@
       "Redeploy personal page after each birthday"
       "{{ page_repo }}/hooks/post-receive"
     user: "{{ git_user }}"
+
+- name: "Run the ypsilon14 docker container"
+  docker_container:
+    name: ypsilon14
+    image: ypsilon14
+    state: started
+    pull: no
+    published_ports:
+      - "127.0.0.1:{{ ypsilon14_port }}:80"
+    restart_policy: unless-stopped

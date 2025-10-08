@@ -1,2 +1,8 @@
 {% from "macros/nginx_static.j2" import nginx_static_serve with context %}
-{{ nginx_static_serve(page_domain, page_web_dir, hsts=True, autoindex_locations=['/slides', '/public']) }}
+{{ nginx_static_serve(
+    page_domain,
+    page_web_dir,
+    hsts=True,
+    autoindex_locations=['/slides', '/public'],
+    locations_proxy_pass={"/ypsilon14": {"port": 8017}}
+)}}

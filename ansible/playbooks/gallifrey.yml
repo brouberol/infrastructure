@@ -17,6 +17,7 @@
     - { role: datadogpy, tags: ["datadogpy", "datadog"] }
     - { role: nginx, tags: ["nginx", "web"] }
     - { role: geerlingguy.certbot, tags: ["certbot", "web"] }
+    - { role: ypsilon14, tags: ["ypsilon14", "page"] }
     - { role: page, tags: ["page", "web"] }
     - { role: blog, tags: ["blog", "web"] }
     - { role: myip, tags: ["myip", "services"] }

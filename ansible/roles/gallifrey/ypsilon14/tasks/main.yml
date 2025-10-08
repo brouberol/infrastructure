@@ -1,0 +1,11 @@
+- name: "Create the ypsilon14 directory"
+  file:
+    path: "{{ user_home }}/ypsilon14"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group  }}"
+
+- name: "Copy the ypsilon14 dockerfile"
+  copy:
+    src: Dockerfile
+    dest: "{{ user_home }}/ypsilon14/Dockerfile"

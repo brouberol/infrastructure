@@ -268,3 +268,6 @@ jackett_port: 9117
 bazarr_home: "{{ user_home }}/bazarr"
 bazarr_version: 1.5.2
 bazarr_port: 6767
+
+# ypsilon14
+ypsilon14_port: 8017
