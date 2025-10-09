@@ -19,16 +19,16 @@ server {
 
     {% for opt_name, opt_value in extra_opts.items() -%}
     {{ opt_name }} {{ opt_value }};
-    {%- endfor %}
+    {% endfor -%}
 
     {% if hsts -%}
     add_header Strict-Transport-Security "max-age=63072000;" always;
-    {%- endif %}
+    {% endif -%}
 
     {% if htpasswd_filename -%}
     auth_basic "Administrator's Area";
     auth_basic_user_file /etc/nginx/{{ htpasswd_filename }}.htpasswd;
-    {%- endif %}
+    {% endif -%}
 
     root {{ root_dir }};
     index index.html;
@@ -43,7 +43,7 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
     }
-    {%- endfor %}
+    {% endfor %}
 
     # Letsencrypt challenge
     location {{ web_acme_challenge_location }} {
@@ -73,7 +73,8 @@ server {
     location {{ location }} {
         autoindex on;
     }
-    {%- endfor %}
+
+    {% endfor %}
 
 }
 {% endmacro %}
