@@ -163,3 +163,11 @@
     hour: "5"
     job: "{{ syno_rsync }} -r --delete {{ page_web_dir }} syno:~/backups/"
     user: "{{ user }}"
+
+- name: "Backup yarr OPML"
+  cron:
+    name: "backup yarr opml"
+    minute: "0"
+    hour: "2"
+    job: "curl -s http://{{ yarr_host }}:{{ yarr_port }}/opml/export > {{ yarr_home }}/yarr.opml"
+    user: "{{ user }}"
