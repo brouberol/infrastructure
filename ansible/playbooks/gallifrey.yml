@@ -30,7 +30,8 @@
     - { role: sophro-www, tags: ["sophro-www"] }
     - { role: lounge, tags: ["lounge"] }
     - { role: silverbullet, tags: ["silverbullet"] }
-    - { role: yarr, tags: ["yarr"] }
+    - { role: yarr, tags: ["yarr", "rss"] }
+    - { role: feedzgerald, tags: ["feedzgerald", "rss"] }
     - { role: authelia, tags: ["authelia"] }
     - { role: martial, tags: ["martial"] }
     - { role: foundry, tags: ["foundry"] }

@@ -1,0 +1,34 @@
+- name: "Create the feedzgerald directory"
+  file:
+    path: "{{ user_home }}/feedzgerald"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group  }}"
+
+- name: "Copy feedzgerald config file"
+  copy:
+    src: "config.toml"
+    dest: "{{ user_home }}/feedzgerald/config.toml"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: "Create the feedzgerald public directory"
+  file:
+    path: "{{ page_web_dir }}/public/feedzgerald"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group  }}"
+
+- name: "Schedule RSS filtering and mirroring"
+  cron:
+    name: "feedzgerald rss"
+    minute: "0"
+    hour: "3"
+    job: >
+      docker run -it --rm
+      --name=feedzgerald
+      -v {{ user_home }}/feedzgerald/config.toml:/app/config.toml
+      -v {{ page_web_dir }}/public/feedzgerald:/feeds
+      brouberol/feedzgerald
+      --config /app/config.toml
+    user: "{{ user }}"
