@@ -9,14 +9,25 @@ title_filter = "Full Performance"
 [feeds.knights_of_last_call]
 name = "Knights of Last Call"
 url = "https://www.youtube.com/feeds/videos.xml?channel_id=UCIVOFu4geQx5KrTTQwtIyMg"
-title_negative_filter = "Torchbearer"
+negative_title_filter = "Torchbearer"
 
 [feeds.roll_for_combat]
 name = "Roll for Combat"
 url = "https://www.youtube.com/feeds/videos.xml?channel_id=UCU4p5Dgq5G8cA2OMU1SLpXw"
-title_negative_filter = "Jewel of the Indigo Isles"
+negative_title_filter = "Jewel of the Indigo Isles"
 
 [feeds.backseat]
 name = "Backseat"
 url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC2ijB3_Fg2pIW1g6FeIiYKA"
 title_filter = "BACKSEAT - S0"
+
+[feeds.dm_lair]
+name = "The DM Lair"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UCk9dtbM-wjpLk134r55OUbg"
+negative_url_filter = "youtube.com/shorts/"
+negative_title_filter = "Q&A"
+
+[feeds.tiny_desk_concerts]
+name = "Tiny Desk Concerts"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC4eYXhJI4-7wSWc8UNRwD4A"
+title_filter = "Tiny Desk Concert"
