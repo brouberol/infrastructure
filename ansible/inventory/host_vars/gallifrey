@@ -247,7 +247,7 @@ foundry_user: 421 # uid in the container
 foundry_group: 421 # gid in the container
 
 # pagefind
-pagefind_version: 1.3.0
+pagefind_version: 1.4.0
 
 # radarr
 radarr_home: "{{ user_home }}/radarr"
