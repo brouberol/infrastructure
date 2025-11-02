@@ -4,30 +4,43 @@ output_folder = "/feeds"
 [feeds.kexp_full_concerts]
 name = "KEXP - Full Performances"
 url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC3I2GFN_F8WudD_2jUZbojA"
+website = "https://www.youtube.com/@kexp"
 title_filter = "Full Performance"
 
 [feeds.knights_of_last_call]
 name = "Knights of Last Call"
 url = "https://www.youtube.com/feeds/videos.xml?channel_id=UCIVOFu4geQx5KrTTQwtIyMg"
+website = "https://www.youtube.com/@KnightsofLastCall"
 negative_title_filter = "Torchbearer"
 
 [feeds.roll_for_combat]
 name = "Roll for Combat"
 url = "https://www.youtube.com/feeds/videos.xml?channel_id=UCU4p5Dgq5G8cA2OMU1SLpXw"
+website = "https://www.youtube.com/@RollForCombat"
 negative_title_filter = "Jewel of the Indigo Isles"
 
 [feeds.backseat]
 name = "Backseat"
 url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC2ijB3_Fg2pIW1g6FeIiYKA"
+website = "https://www.youtube.com/@backseat_fr"
 title_filter = "BACKSEAT - S0"
 
 [feeds.dm_lair]
 name = "The DM Lair"
 url = "https://www.youtube.com/feeds/videos.xml?channel_id=UCk9dtbM-wjpLk134r55OUbg"
+website = "https://www.youtube.com/@theDMLair"
 negative_url_filter = "youtube.com/shorts/"
 negative_title_filter = "Q&A"
 
 [feeds.tiny_desk_concerts]
 name = "Tiny Desk Concerts"
 url = "https://www.youtube.com/feeds/videos.xml?channel_id=UC4eYXhJI4-7wSWc8UNRwD4A"
+website = "https://www.youtube.com/@nprmusic"
 title_filter = "Tiny Desk Concert"
+
+[feeds.mcdm]
+name = "MCDM"
+url = "https://www.youtube.com/feeds/videos.xml?channel_id=UCYUOOjT0j8__NMYHijAvNzg"
+website = "https://www.youtube.com/@helloMCDM"
+negative_url_filter = "youtube.com/shorts/"
+negative_title_filter = "Delian Tomb"
