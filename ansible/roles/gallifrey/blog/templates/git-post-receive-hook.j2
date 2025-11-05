@@ -28,6 +28,7 @@ cd $TMP_BLOG_CLONE
 
 # Minify all CSS files and replace plain CSS files by their
 # minify versions in the theme template
+echo "[+] Minifying CSS"
 for file in $(ls -1 $CSS_DIR); do
     minified_file="$(basename "$file" .css).min.css"
     cssmin <$TMP_BLOG_CLONE/$CSS_DIR/$file > $TMP_BLOG_CLONE/$CSS_DIR/$minified_file
@@ -39,12 +40,18 @@ for file in $(ls -1 $CSS_DIR); do
 done
 
 # Make and deploy
+echo "[+] Installing build dependencies"
 source {{ git_home }}/.blog.venv/bin/activate
 poetry install
+
+echo "[+] Rendering the site"
 make html
+
+echo "[+] Indexing the site"
 pagefind --site output
 cp -r output/* $BLOG_DIR
 
+echo "[+] Generating an anti-AI crawlers robots.txt"
 curl -s -X POST "https://api.darkvisitors.com/robots-txts" \
     -H "Authorization: Bearer {{ darkvisitors_api_token }}" \
     -H "Content-Type: application/json" \
