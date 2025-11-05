@@ -33,6 +33,10 @@ for file in $(ls -1 $CSS_DIR); do
     cssmin <$TMP_BLOG_CLONE/$CSS_DIR/$file > $TMP_BLOG_CLONE/$CSS_DIR/$minified_file
     replace $file $minified_file ${THEME_DIR}/templates/base.html
 done
+for file in $(ls -1 $CSS_DIR); do
+    minified_file="$(basename "$file" .css).min.css"
+    replace pygments.css pygments.min.css $TMP_BLOG_CLONE/$CSS_DIR/style.min.css
+done
 
 # Make and deploy
 source {{ git_home }}/.blog.venv/bin/activate
